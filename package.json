@@ -1,0 +1,16 @@
+{
+  "name": "teascript",
+  "version": "0.0.0",
+  "description": "The best programming language in the world",
+  "dependencies":{
+    "async": "latest",
+    "line-by-line": "latest",
+    "coffee-script": "latest"
+  },
+  "devDependencies": {
+    "mocha": "latest",
+    "sinon": "latest",
+    "chai": "latest",
+    "sinon-chai": "latest"
+  }
+}
