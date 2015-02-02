@@ -5,6 +5,11 @@ class LineScanner
     @start = 0
     @position = 0
     @lineTokens = []
+    # TODO: IMPLEMENT STRING LITERALS 
+    @currentState =
+      multiline:
+        comment: false,
+        string: false
 
   scan: ->
     return unless @line

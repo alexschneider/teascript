@@ -9,13 +9,47 @@ LineScanner = require './line_scanner'
 describe 'LineScanner', ->
 
   describe '#scan', ->
-    context 'when blah', ->
-      lineScanner = new LineScanner "abc"
-      lineScanner.extractWords = sinon.stub().returns false
+    context 'when the line is empty', ->
+      lineScanner = new LineScanner ""
+      lineScanner.extractTwoCharacterTokens = sinon.stub()
+      lineScanner.extractOneCharacterTokens = sinon.stub()
+      lineScanner.extractWords = sinon.stub()
+      lineScanner.extractNumericLiterals = sinon.stub()
+      lineScanner.scan()
 
-      it 'blah', ->
-        lineScanner.scan()
-        expect(lineScanner.extractWords).to.have.been.called
+      it 'returns without trying to extract any tokens', ->
+        expect(lineScanner.extractTwoCharacterTokens).to.not.have.been.called
+        expect(lineScanner.extractOneCharacterTokens).to.not.have.been.called
+        expect(lineScanner.extractWords).to.not.have.been.called
+        expect(lineScanner.extractNumericLiterals).to.not.have.been.called
+
+    context 'when the line is full of spaces', ->
+      lineScanner = new LineScanner "                    "
+      lineScanner.extractTwoCharacterTokens = sinon.stub()
+      lineScanner.extractOneCharacterTokens = sinon.stub()
+      lineScanner.extractWords = sinon.stub()
+      lineScanner.extractNumericLiterals = sinon.stub()
+      lineScanner.scan()
+
+      it 'returns without trying to extract any tokens', ->
+        expect(lineScanner.extractTwoCharacterTokens).to.not.have.been.called
+        expect(lineScanner.extractOneCharacterTokens).to.not.have.been.called
+        expect(lineScanner.extractWords).to.not.have.been.called
+        expect(lineScanner.extractNumericLiterals).to.not.have.been.called
+
+    context 'when the line is commented out', ->
+      lineScanner = new LineScanner "# example commented out line"
+      lineScanner.extractTwoCharacterTokens = sinon.stub()
+      lineScanner.extractOneCharacterTokens = sinon.stub()
+      lineScanner.extractWords = sinon.stub()
+      lineScanner.extractNumericLiterals = sinon.stub()
+      lineScanner.scan()
+
+      it 'returns without trying to extract any tokens', ->
+        expect(lineScanner.extractTwoCharacterTokens).to.not.have.been.called
+        expect(lineScanner.extractOneCharacterTokens).to.not.have.been.called
+        expect(lineScanner.extractWords).to.not.have.been.called
+        expect(lineScanner.extractNumericLiterals).to.not.have.been.called
 
 
 
