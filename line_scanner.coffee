@@ -70,5 +70,18 @@ class LineScanner
     else
       @addToken {kind: 'ID', lexeme: word}
 
+  extractNumericLiterals: ->
+    @start = @position
+    if /\d/.test @line[@position]
+      kind = 'INTLIT'
+      @position++ while /\d/.test(@line[@position]) and @position < @line.length
+      if @line[@position] is '.'
+        kind = 'FLOATLIT'
+        ++@position
+        @position++ while /\d/.test(@line[@position]) and @position < @line.length
+      @addToken {kind, lexeme: @line[@start...@position]}
+      return true
+    return false
+
 
 module.exports = LineScanner
