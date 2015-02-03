@@ -12,11 +12,12 @@
     "coveralls": "^2.11.2",
     "ibrik": "^2.0.0",
     "mocha": "latest",
+    "mocha-lcov-reporter": "0.0.1",
     "sinon": "latest",
     "sinon-chai": "latest"
   },
   "scripts": {
     "test": "mocha --compilers coffee:coffee-script/register ./test/*spec.coffee",
-    "coverage": "ibrik cover *.coffee && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "coverage": "ibrik cover ./node_modules/mocha/bin/_mocha --report lcovonly --compilers coffee:coffee-script/register ./test/*spec.coffee && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   }
 }
