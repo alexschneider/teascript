@@ -1,14 +1,14 @@
 tokens = require './tokens'
 
 class LineScanner
-  constructor: (@line) ->
+  constructor: (@line, @currentState) ->
+    @currentState ?=
+      multiline:
+        comment: false
+        string: false
     @start = 0
     @position = 0
     @lineTokens = []
-    @currentState =
-      multiline:
-        comment: false,
-        string: false
 
   scan: ->
     
@@ -24,7 +24,7 @@ class LineScanner
       # once we've been able to extract a token
       continue if @extractTwoCharacterTokens()
       continue if @extractOneCharacterTokens()
-      # continue if @extractStringLiterals()
+      continue if @extractStringLiterals()
       continue if @extractWords()
       continue if @extractNumericLiterals()
 
@@ -35,7 +35,7 @@ class LineScanner
     # add newline token after each line
     @addToken {kind: 'newline'}
     
-    return {@lineTokens}
+    return {@lineTokens, @currentState}
 
   addToken: ({kind, lexeme}) ->
     lexeme ?= kind
@@ -45,7 +45,9 @@ class LineScanner
     @position++ and @start++ while /\s/.test @line[@position]
 
   skipComments: ->
-    if @line[@position] is '#'
+    if @currentState.multiline.comment
+      @skipMultilineComment()
+    else if @line[@position] is '#'
       if @line[@position+1] is '#'
         @position += 2
         @currentState.multiline.comment = true
@@ -80,6 +82,31 @@ class LineScanner
       return true
     return false
 
+  extractStringLiterals: ->
+    if @currentState.multiline.string
+      @extractMultilineString()
+      return true
+    else if @line[@position] is ("'" or '"')
+      @position++
+      # strings multiline by default
+      @currentState.multiline.string = true
+      @extractMultilineString()
+      return true
+    else
+      return false
+
+  extractMultilineString: ->
+    # search for trailing quote for end of multiline string
+    @position++ while @line[@position] isnt ("'" or '"') and @position < @line.length
+    return unless @position < @line.length
+
+    # found trailing quote for end of multiline string (isn't an escaped quote)
+    # TODO: implement ability to escape quote characters?
+    if @line[@position] is ("'" or '"') and @line[@position-1]
+      @currentState.multiline.string = false
+      @position++
+      @addToken {kind: 'STRLIT', lexeme: @line[@start...@position]}
+
   extractWords: ->
     @start = @position
     if /[a-zA-Z]/.test @line[@position]
@@ -97,15 +124,18 @@ class LineScanner
   extractNumericLiterals: ->
     @start = @position
     if /\d/.test @line[@position]
-      kind = 'INTLIT'
-      @position++ while /\d/.test(@line[@position]) and @position < @line.length
+      @extractNumberSequence()
       if @line[@position] is '.'
-        kind = 'FLOATLIT'
-        ++@position
-        @position++ while /\d/.test(@line[@position]) and @position < @line.length
-      @addToken {kind, lexeme: @line[@start...@position]}
+        @position++
+        # get numbers after the decimal point
+        @extractNumberSequence()
+        @addToken {kind: 'FLOATLIT', lexeme: @line[@start...@position]}
+      else
+        @addToken {kind: 'INTLIT', lexeme: @line[@start...@position]}
       return true
     return false
 
+  extractNumberSequence: ->
+    @position++ while /\d/.test(@line[@position]) and @position < @line.length
 
 module.exports = LineScanner

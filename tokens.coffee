@@ -6,7 +6,6 @@ class Tokens
     '[', ']',                            # for list construction
     '<', '>',                            # for set construction
     '{', '}',                            # for map construction
-    '"', "'",                            # for string construction
     '=',                                 # mutation
     '.'                                  # member access for objects
   ]
