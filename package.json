@@ -2,19 +2,21 @@
   "name": "teascript",
   "version": "0.0.0",
   "description": "The best programming language in the world",
-  "dependencies":{
+  "dependencies": {
     "async": "latest",
     "line-by-line": "latest",
     "coffee-script": "latest"
   },
   "devDependencies": {
+    "chai": "latest",
+    "coveralls": "^2.11.2",
+    "ibrik": "^2.0.0",
     "mocha": "latest",
     "sinon": "latest",
-    "chai": "latest",
     "sinon-chai": "latest"
   },
-
   "scripts": {
-    "test": "mocha --compilers coffee:coffee-script/register ./test/*spec.coffee"
+    "test": "mocha --compilers coffee:coffee-script/register ./test/*spec.coffee",
+    "coverage": "ibrik cover *.coffee && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   }
 }
