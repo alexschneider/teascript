@@ -3,7 +3,7 @@ chai = require 'chai'
 sinonChai = require 'sinon-chai'
 expect = chai.expect
 chai.use(sinonChai)
-LineScanner = require '../line_scanner'
+LineScanner = require '../tools/line_scanner'
 
 
 describe 'LineScanner', ->
@@ -171,7 +171,7 @@ describe 'LineScanner', ->
               kind: 'STRLIT',
               lexeme: "'this is a multiline string with a defined ending '"
             }]
-              
+
   describe '#extractWords', ->
     
     context 'when a reserved word is the next token', ->

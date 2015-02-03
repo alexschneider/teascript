@@ -1,5 +1,5 @@
 LineByLineReader = require 'line-by-line'
-LineScanner = require './line_scanner'
+LineScanner = require './tools/line_scanner'
 
 module.exports = (filePath, callback) ->
   reader = new LineByLineReader filePath, {encoding: 'utf8'}
