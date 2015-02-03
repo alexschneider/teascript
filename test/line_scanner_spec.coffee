@@ -72,12 +72,33 @@ describe 'LineScanner', ->
 
   describe '#skipComments', ->
 
-    context 'when a line begins with a hash symbol (#)', ->
-      lineScanner = new LineScanner "# this is a comment "
+    context 'when there is a single line comment (single hash symbol)', ->
+      lineScanner = new LineScanner "# this is a single line comment "
       lineScanner.skipComments()
 
       it 'increments the scanner position to the end of the line', ->
-        expect(lineScanner.position).to.equal 20
+        expect(lineScanner.position).to.equal 32
+
+    context 'when there is a multiline comment without a defined ending', ->
+      lineScanner = new LineScanner "## this is a multiline comment without a defined ending"
+      lineScanner.skipComments()
+
+      it 'sets the current state of the mulitline comment of the scanner to be true', ->
+        expect(lineScanner.currentState.multiline.comment).to.be.true
+
+      it 'increments the scanner position to the end of the line', ->
+        expect(lineScanner.position).to.equal 55
+
+    context 'when there is a multiline comment with a defined ending', ->
+      lineScanner = new LineScanner "## this is a multiline comment with a defined ending ## f := 5"
+      lineScanner.skipComments()
+      
+      it 'toggles the current state of the multiline comment of the scanner back to false', ->
+        expect(lineScanner.currentState.multiline.comment).to.be.false
+
+      it 'increments the scanner position to just after the comment', ->
+        expect(lineScanner.position).to.equal 55
+    
 
     context 'when a line does not being with a hash symbol (#)', ->
       lineScanner = new LineScanner "x := 5"

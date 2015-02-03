@@ -5,17 +5,17 @@ class LineScanner
     @start = 0
     @position = 0
     @lineTokens = []
-    # TODO: IMPLEMENT STRING LITERALS 
     @currentState =
       multiline:
         comment: false,
         string: false
 
   scan: ->
+    
     return unless @line
-
+    
+    # iterate through all characters in the line
     while @position < @line.length
-
       @skipSpaces()
       @skipComments()
       break unless @position < @line.length
@@ -24,13 +24,17 @@ class LineScanner
       # once we've been able to extract a token
       continue if @extractTwoCharacterTokens()
       continue if @extractOneCharacterTokens()
+      # continue if @extractStringLiterals()
       continue if @extractWords()
       continue if @extractNumericLiterals()
 
       # return an error if we were not able to 
       # extract any tokens from the line
       return {errors: "invalid token bro"}
-
+    
+    # add newline token after each line
+    @addToken {kind: 'newline'}
+    
     return {@lineTokens}
 
   addToken: ({kind, lexeme}) ->
@@ -42,8 +46,23 @@ class LineScanner
 
   skipComments: ->
     if @line[@position] is '#'
-      # move scanner position to end of line
-      @position = @line.length
+      if @line[@position+1] is '#'
+        @position += 2
+        @currentState.multiline.comment = true
+        @skipMultilineComment() 
+      else
+        # skip rest of line for single line comment
+        @position = @line.length
+  
+  skipMultilineComment: ->
+    # search for trailing two hash symbols for end of multiline comment
+    @position++ while @line[@position] isnt '#' and @position < @line.length
+    return unless @position < @line.length
+
+    # found trailing two hash symbols for end of multiline comment
+    if @line[@position...@position+2] is '##'
+      @currentState.multiline.comment = false
+      @position += 2
 
   extractTwoCharacterTokens: ->
     @start = @position

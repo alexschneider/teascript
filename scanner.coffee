@@ -3,7 +3,6 @@ LineScanner = require './line_scanner'
 
 module.exports = (filePath, callback) ->
   reader = new LineByLineReader filePath, {encoding: 'utf8'}
-
   allTokens = []
   lineNumber = 0
   
@@ -21,7 +20,3 @@ module.exports = (filePath, callback) ->
     console.log JSON.stringify(tokens)
     # push some kind of an EOF token here? 
     callback tokens
-
-
-scan = require './scanner'
-scan(filename, function(error, tokens){ blah })
