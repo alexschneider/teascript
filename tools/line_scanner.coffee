@@ -34,7 +34,6 @@ class LineScanner
     
     # add newline token after each line
     @addToken {kind: 'newline'}
-    
     return {@lineTokens, @currentState}
 
   addToken: ({kind, lexeme}) ->

@@ -9,6 +9,25 @@ LineScanner = require '../tools/line_scanner'
 describe 'LineScanner', ->
 
   describe '#scan', ->
+    context 'when the line has valid teascript tokens', ->
+      lineScanner = new LineScanner "f :=  -> 'hello' a.move() bool # comment"
+      {lineTokens} = lineScanner.scan()
+
+      it 'returns the appropriate tokens', ->
+        expect(lineTokens).to.eql [
+          {kind: 'ID', lexeme: 'f', start: 0},
+          {kind: ':=', lexeme: ':=', start: 2},
+          {kind: '->', lexeme: '->', start: 6},
+          {kind: 'STRLIT', lexeme: "'hello'", start: 9},
+          {kind: 'ID', lexeme: 'a', start: 17},
+          {kind: '.', lexeme: '.', start: 18},
+          {kind: 'ID', lexeme: 'move', start: 19},
+          {kind: '(', lexeme: '(', start: 23},
+          {kind: ')', lexeme: ')', start: 24},
+          {kind: 'bool', lexeme: 'bool', start: 26},
+          {kind: 'newline', lexeme: 'newline', start: 27}
+        ]
+
     context 'when the line is empty', ->
       lineScanner = new LineScanner ""
       lineScanner.extractTwoCharacterTokens = sinon.stub()
@@ -50,6 +69,7 @@ describe 'LineScanner', ->
         expect(lineScanner.extractOneCharacterTokens).to.not.have.been.called
         expect(lineScanner.extractWords).to.not.have.been.called
         expect(lineScanner.extractNumericLiterals).to.not.have.been.called
+
 
 
 
