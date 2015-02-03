@@ -12,5 +12,9 @@
     "sinon": "latest",
     "chai": "latest",
     "sinon-chai": "latest"
+  },
+
+  "scripts": {
+    "test": "mocha --compilers coffee:coffee-script/register ./test/*spec.coffee"
   }
 }
