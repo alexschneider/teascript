@@ -23,6 +23,7 @@ class Tokens
     'class', 'trait',                    # reference types
     'for', 'in', 'by', 'while', 'end',   # loops/blocks/range keywords
     'and', 'or', 'is',                   # relational operators
+    'if','else',                         # if/then
     'not',                               # negation
     'true', 'false',                     # boolean literals
     'new',                               # instantiate a class/create an object
