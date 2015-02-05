@@ -3,6 +3,7 @@ node_js:
 - '0.10'
 after_script:
 - npm run-script coverage
+- find -path ./node_modules -prune -o -name "*.coffee" -exec $(npm bin)/coffeelint "{}" +
 notifications:
   slack:
     secure: FmFl6zbzPSY5eqs/IRJtVMkx6e87xXHpTyqrekHgr8fP6jS1KjHVkMOw5kUs7Q5NHJuvBUoLUZkRT4hgzMK7r/jaqOROrjIAF8PfYFBnt8IVAKAz3mco310KJ5pHEqNg4EWGbWj8p4d0vQ1DQCggZXILx2lMReISHuPldaXzUu0=
