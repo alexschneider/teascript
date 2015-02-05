@@ -22,7 +22,7 @@ class Tokens
     'int', 'double', 'bool', 'none',     # primitive types
     'class', 'trait',                    # reference types
     'for', 'in', 'by', 'while', 'end',   # loops/blocks/range keywords
-    'and', 'or', 'is',                   # relational operators
+    'and', 'or', 'is',                   # logical operators
     'if','else',                         # if/then
     'not',                               # negation
     'true', 'false',                     # boolean literals
