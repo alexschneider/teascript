@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "chai": "latest",
+    "coffeelint": "^1.8.1",
     "coveralls": "^2.11.2",
     "ibrik": "^2.0.0",
     "mocha": "latest",
