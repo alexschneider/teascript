@@ -3,12 +3,31 @@ chai = require 'chai'
 sinonChai = require 'sinon-chai'
 expect = chai.expect
 chai.use(sinonChai)
-LineScanner = require '../line_scanner'
+LineScanner = require '../tools/line_scanner'
 
 
 describe 'LineScanner', ->
 
   describe '#scan', ->
+    context 'when the line has valid teascript tokens', ->
+      lineScanner = new LineScanner "f :=  -> 'hello' a.move() bool # comment"
+      {lineTokens} = lineScanner.scan()
+
+      it 'returns the appropriate tokens', ->
+        expect(lineTokens).to.eql [
+          {kind: 'ID', lexeme: 'f', start: 0},
+          {kind: ':=', lexeme: ':=', start: 2},
+          {kind: '->', lexeme: '->', start: 6},
+          {kind: 'STRLIT', lexeme: "'hello'", start: 9},
+          {kind: 'ID', lexeme: 'a', start: 17},
+          {kind: '.', lexeme: '.', start: 18},
+          {kind: 'ID', lexeme: 'move', start: 19},
+          {kind: '(', lexeme: '(', start: 23},
+          {kind: ')', lexeme: ')', start: 24},
+          {kind: 'bool', lexeme: 'bool', start: 26},
+          {kind: 'newline', lexeme: 'newline', start: 27}
+        ]
+
     context 'when the line is empty', ->
       lineScanner = new LineScanner ""
       lineScanner.extractTwoCharacterTokens = sinon.stub()
@@ -53,6 +72,7 @@ describe 'LineScanner', ->
 
 
 
+
   describe '#skipSpaces', ->
 
     context 'when spaces are the next characters', ->
@@ -72,12 +92,45 @@ describe 'LineScanner', ->
 
   describe '#skipComments', ->
 
-    context 'when a line begins with a hash symbol (#)', ->
-      lineScanner = new LineScanner "# this is a comment "
+    context 'when there is a single line comment (single hash symbol)', ->
+      lineScanner = new LineScanner "# this is a single line comment "
       lineScanner.skipComments()
 
       it 'increments the scanner position to the end of the line', ->
-        expect(lineScanner.position).to.equal 20
+        expect(lineScanner.position).to.equal 32
+
+    context 'when there is a multiline comment without a defined ending', ->
+      lineScanner = new LineScanner "## this is a multiline comment without a defined ending"
+      lineScanner.skipComments()
+
+      it 'sets the current state of the mulitline comment of the scanner to be true', ->
+        expect(lineScanner.currentState.multiline.comment).to.be.true
+
+      it 'increments the scanner position to the end of the line', ->
+        expect(lineScanner.position).to.equal 55
+
+    context 'when the scanner is in the middle of a multiline comment', ->
+      currentScannerState = multiline: comment: true
+      lineScanner = new LineScanner "this is the continuation of a multiline comment begun elsewhere ##"
+                                    , currentScannerState
+      lineScanner.skipComments()
+
+      it 'toggles the current state of the multiline comment of the scanner back to false', ->
+        expect(lineScanner.currentState.multiline.comment).to.be.false
+
+      it 'increments the scanner position to just after the comment', ->
+        expect(lineScanner.position).to.equal 66
+
+    context 'when there is a multiline comment with a defined ending', ->
+      lineScanner = new LineScanner "## this is a multiline comment with a defined ending ## f := 5"
+      lineScanner.skipComments()
+      
+      it 'toggles the current state of the multiline comment of the scanner back to false', ->
+        expect(lineScanner.currentState.multiline.comment).to.be.false
+
+      it 'increments the scanner position to just after the comment', ->
+        expect(lineScanner.position).to.equal 55
+    
 
     context 'when a line does not being with a hash symbol (#)', ->
       lineScanner = new LineScanner "x := 5"
@@ -86,7 +139,59 @@ describe 'LineScanner', ->
       it 'does not increment the current position of the scanner', ->
         expect(lineScanner.position).to.equal 0
 
-  
+  describe '#extractStringLiterals', ->
+
+    context 'when the next token is a string without a defined ending', ->
+      lineScanner = new LineScanner "'this is a multiline string without a defined ending"
+      lineScanner.extractStringLiterals()
+
+      it 'sets the current state of the mulitline string of the scanner to be true', ->
+        expect(lineScanner.currentState.multiline.string).to.be.true
+
+      it 'increments the scanner position to the end of the line', ->
+        expect(lineScanner.position).to.equal 52
+
+      it 'does not add any tokens yet to the line tokens', ->
+        expect(lineScanner.lineTokens).to.eql []
+
+    context 'when the scanner is in the middle of a multiline string', ->
+      currentScannerState = multiline: string: true
+      lineScanner = new LineScanner "this is the continuation of a multiline string begun elsewhere '"
+                                    , currentScannerState
+      lineScanner.extractStringLiterals()
+
+      it 'toggles the current state of the multiline string of the scanner back to false', ->
+        expect(lineScanner.currentState.multiline.string).to.be.false
+
+      it 'increments the scanner position to the end of the string', ->
+        expect(lineScanner.position).to.equal 64
+
+      it 'adds the string token to the line tokens', ->
+        expect(lineScanner.lineTokens).to
+          .eql [{
+            start: 0,
+            kind: 'STRLIT',
+            lexeme: "this is the continuation of a multiline string begun elsewhere '"
+          }]
+
+    context 'when there is a multiline string with a defined ending', ->
+      lineScanner = new LineScanner "'this is a multiline string with a defined ending 'f := 5"
+      lineScanner.extractStringLiterals()
+      
+      it 'toggles the current state of the multiline string of the scanner back to false', ->
+        expect(lineScanner.currentState.multiline.string).to.be.false
+
+      it 'increments the scanner position to just after the string', ->
+        expect(lineScanner.position).to.equal 51
+
+      it 'adds the string literal to the line tokens', ->
+        expect(lineScanner.lineTokens).to
+          .eql [{
+              start: 0,
+              kind: 'STRLIT',
+              lexeme: "'this is a multiline string with a defined ending '"
+            }]
+
   describe '#extractWords', ->
     
     context 'when a reserved word is the next token', ->
