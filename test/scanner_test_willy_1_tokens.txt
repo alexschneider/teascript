@@ -5,25 +5,20 @@
     {kind: '*', lexeme:'*', start: 7},
     {kind: 'INTLIT', lexeme:'3', start: 9},
     {kind: 'newline', lexeme: 'newline', start: 10},
-    {kind: 'newline', lexeme: 'newline', start: 0},
 
     {kind: 'ID', lexeme: 'y', start: 0},
     {kind: ':=', lexeme: ':=', start: 2},
     {kind: 'INTLIT', lexeme: '8', start: 5},
     {kind: '/', lexeme: '/', start: 7},
     {kind: 'INTLIT', lexeme: '4', start: 9},
-
     {kind: 'newline', lexeme: 'newline', start: 10},
-    {kind: 'newline', lexeme: 'newline', start: 0},
 
     {kind: 'ID', lexeme: 'x', start: 0},
     {kind: '=', lexeme: '=', start: 2},
     {kind: 'ID', lexeme: 'x', start: 4},
     {kind: '*', lexeme: '*', start: 6},
     {kind: 'ID', lexeme: 'y', start: 8},
-
     {kind: 'newline', lexeme: 'newline', start: 9},
-    {kind: 'newline', lexeme: 'newline', start: 0},
 
     {kind: 'ID', lexeme: 'newFunc', start: 0},
     {kind: ':=', lexeme: ':=', start: 8},
@@ -44,6 +39,5 @@
     {kind: 'else', lexeme: 'else', start: 23},
     {kind: 'true', lexeme: 'true', start: 28},
     {kind: 'newline', lexeme: 'newline', start: 32},
-    {kind: 'end', lexeme: 'end', start: 0},
-    {kind: 'newline', lexeme: 'newline', start: 3}
+    {kind: 'end', lexeme: 'end', start: 0}
 ]
