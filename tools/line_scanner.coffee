@@ -1,4 +1,4 @@
-tokens = require('./tokens')
+tokens = require './tokens'
 
 class LineScanner
   constructor: (@line, @currentState) ->
@@ -30,18 +30,18 @@ class LineScanner
 
       # return an error if we were not able to
       # extract any tokens from the line
-      return({errors: 'invalid token bro'})
+      return {errors: 'invalid token bro'}
     
     # add newline token after each line
-    @addToken({kind: 'newline'})
+    @addToken {kind: 'newline'}
     return {@lineTokens, @currentState}
 
   addToken: ({kind, lexeme}) ->
     lexeme ?= kind
-    @lineTokens.push({lexeme, kind, @start})
+    @lineTokens.push {lexeme, kind, @start}
 
   skipSpaces: ->
-    @position++ and @start++ while /\s/.test(@line[@position])
+    @position++ and @start++ while /\s/.test @line[@position]
 
   skipComments: ->
     if @currentState.multiline.comment
@@ -68,7 +68,7 @@ class LineScanner
   extractTwoCharacterTokens: ->
     @start = @position
     if @line[@position...@position + 2] in tokens.twoCharacterTokens
-      @addToken({kind: @line[@position...@position + 2]})
+      @addToken {kind: @line[@position...@position + 2]}
       @position += 2
       return true
     return false
@@ -76,7 +76,7 @@ class LineScanner
   extractOneCharacterTokens: ->
     @start = @position
     if @line[@position] in tokens.oneCharacterTokens
-      @addToken({kind: @line[@position]})
+      @addToken {kind: @line[@position]}
       @position++
       return true
     return false
@@ -105,11 +105,11 @@ class LineScanner
     if @line[@position] is ("'" or '"') and @line[@position - 1]
       @currentState.multiline.string = false
       @position++
-      @addToken({kind: 'STRLIT', lexeme: @line[@start...@position]})
+      @addToken {kind: 'STRLIT', lexeme: @line[@start...@position]}
 
   extractWords: ->
     @start = @position
-    if /[a-zA-Z]/.test(@line[@position])
+    if /[a-zA-Z]/.test @line[@position]
       @position++ while /\w/.test(@line[@position]) and @position < @line.length
       @addWord(word = @line[@start...@position])
       return true
@@ -117,21 +117,21 @@ class LineScanner
 
   addWord: (word) ->
     if word in tokens.reservedWords
-      @addToken({kind: word})
+      @addToken {kind: word}
     else
-      @addToken({kind: 'ID', lexeme: word})
+      @addToken {kind: 'ID', lexeme: word}
 
   extractNumericLiterals: ->
     @start = @position
-    if /\d/.test(@line[@position])
+    if /\d/.test @line[@position]
       @extractNumberSequence()
       if @line[@position] is '.'
         @position++
         # get numbers after the decimal point
         @extractNumberSequence()
-        @addToken({kind: 'FLOATLIT', lexeme: @line[@start...@position]})
+        @addToken {kind: 'FLOATLIT', lexeme: @line[@start...@position]}
       else
-        @addToken({kind: 'INTLIT', lexeme: @line[@start...@position]})
+        @addToken {kind: 'INTLIT', lexeme: @line[@start...@position]}
       return true
     return false
 

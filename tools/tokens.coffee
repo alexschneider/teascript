@@ -1,7 +1,8 @@
 class Tokens
   
   @oneCharacterTokens = [
-    '+', '-', '*', '/',                  # arithmetic operators
+    '^', '&', '|',                       # bitwise operators
+    '+', '-', '*', '/', '%',             # arithmetic operators
     '(', ')',                            # for tuple construction
     '[', ']',                            # for list construction
     '<', '>',                            # for set construction
@@ -11,6 +12,7 @@ class Tokens
   ]
 
   @twoCharacterTokens = [
+    '+=', '-=', '*=', '/=', '++', '--',  # mutators
     '<=', '>=',                          # relational operators
     ':=',                                # assignment
     '->'                                 # function
@@ -20,10 +22,12 @@ class Tokens
     'int', 'double', 'bool', 'none',     # primitive types
     'class', 'trait',                    # reference types
     'for', 'in', 'by', 'while', 'end',   # loops/blocks/range keywords
-    'and', 'or', 'is',                   # relational operators
+    'and', 'or', 'is',                   # logical operators
+    'if', 'else',                        # if/then
     'not',                               # negation
     'true', 'false',                     # boolean literals
-    'new'                                # instantiate a class/create an object
+    'new',                               # instantiate a class/create an object
+    'return'                             # we need to return from functions
   ]
 
 module.exports = Tokens
