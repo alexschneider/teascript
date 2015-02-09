@@ -129,7 +129,7 @@ describe 'LineScanner', ->
     context 'when there is a multiline comment with a defined ending', ->
       lineScanner = new LineScanner "## this is a multiline comment with a defined ending ## f := 5"
       result = lineScanner.skippedMultiComments()
-      
+
       it 'toggles the current state of the multiline comment of the scanner back to false', ->
         expect(lineScanner.currentState.multiline.comment).to.be.false
 
@@ -143,14 +143,14 @@ describe 'LineScanner', ->
              is not in the middle of scanning a multiline comment', ->
       lineScanner = new LineScanner "This is just a regular line with no comments"
       result = lineScanner.skippedMultiComments()
-      
+
       it 'does not increment the scanner position', ->
         expect(lineScanner.position).to.equal 0
 
       it 'returns false since no comment or part of a comment was skipped', ->
         expect(result).to.be.false
 
-  
+
   describe '#skippedSingleComments', ->
 
     context 'when there is a single line comment (single hash symbol)', ->
@@ -173,7 +173,7 @@ describe 'LineScanner', ->
       it 'returns false since a single line comment was not skipped', ->
         expect(result).to.be.false
 
-  
+
   describe '#extractedStringLiterals', ->
 
     context 'when the next token is a string without a defined ending', ->
@@ -223,7 +223,7 @@ describe 'LineScanner', ->
     context 'when there is a multiline string with a defined ending', ->
       lineScanner = new LineScanner "'this is a multiline string with a defined ending 'f := 5"
       result = lineScanner.extractedStringLiterals()
-      
+
       it 'toggles the current state of the multiline string of the scanner back to false', ->
         expect(lineScanner.currentState.multiline.string).to.be.false
 
@@ -243,11 +243,11 @@ describe 'LineScanner', ->
 
 
   describe '#extractedWords', ->
-    
+
     context 'when a reserved word is the next token', ->
       lineScanner = new LineScanner "bool ="
       extractionResult = lineScanner.extractedWords()
-      
+
 
       it 'accurately increments the current position of the scanner', ->
         expect(lineScanner.position).to.equal 4

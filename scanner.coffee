@@ -9,7 +9,7 @@ module.exports = (filePath, callback) ->
       comment: false
       string: false
   lineNumber = 0
-  
+
   reader.on 'error', (error) ->
     # TODO handle error stuff
 
@@ -26,5 +26,5 @@ module.exports = (filePath, callback) ->
 
   reader.once 'end', ->
     console.log JSON.stringify(allTokens)
-    # push some kind of an EOF token here? 
+    # push some kind of an EOF token here?
     callback allTokens

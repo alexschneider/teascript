@@ -11,9 +11,9 @@ class LineScanner
     @lineTokens = []
 
   scan: ->
-    
+
     return unless @line
-    
+
     while @position < @line.length
 
       # continue iterating over the line of characters
@@ -28,12 +28,12 @@ class LineScanner
       continue if @extractedStringLiterals()
       continue if @extractedWords()
       continue if @extractedNumericLiterals()
-      
+
       # return an error if we were not able to either extract
       # something from or skip the current character
       # TODO: BETTER ERROR HANDLING
       return {errors: "INVALID TOKEN"}
-    
+
     # add newline token after each line
     @addToken {kind: 'newline'}
     return {@lineTokens, @currentState}
@@ -61,7 +61,7 @@ class LineScanner
     if @currentState.multiline.comment
       @lookForMultiCommentEnd()
       skippedMultiComments = true
-    else if @line[@position..@position+1] is '##'
+    else if @line[@position..@position + 1] is '##'
       @position += 2
       @currentState.multiline.comment = true
       @lookForMultiCommentEnd()
