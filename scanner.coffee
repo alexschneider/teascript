@@ -17,7 +17,7 @@ module.exports = (filePath, callback) ->
     lineNumber++
     lineScanner = new LineScanner line, currentScannerState
     {errors, lineTokens, currentState} = lineScanner.scan()
-    console.log "error happended on line #{lineNumber}: #{JSON.stringify errors}" if errors
+    console.log "error happended on line #{lineNumber}" if errors
     # return callback CustomErrorHandler(errors, lineNumber) if errors
     # add the tokens of the line to all the tokens
     allTokens.push lineTokens

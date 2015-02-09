@@ -9,10 +9,10 @@ MyTokens = require './MyTokens'
 describe 'FileScanner', ->
   describe '#test1', ->
     context 'when the file has correctly scanned tokens', ->
-      myTokens = MyTokens.tokens1()
-      scanned = Scanner 'scanner_test_willy_1.txt', (tokens) -> console.log tokens # But don't log
+      myTokens = MyTokens.tokens1
 
       it 'returns the appropriate tokens', ->
         console.log myTokens
-        console.log scanned
-        expect(scanned).to.eql myTokens
+        Scanner 'scanner_test_willy_1.txt', (tokens) ->
+          console.log tokens
+          expect(tokens).to.eql myTokens
