@@ -3,8 +3,8 @@ chai = require 'chai'
 sinonChai = require 'sinon-chai'
 expect = chai.expect
 chai.use(sinonChai)
-LineScanner = require '../../tools/line_scanner'
-scan = require '../../scanner.coffee'
+LineScanner = require '../tools/line_scanner'
+scan = require '../scanner.coffee'
 
 describe 'LineScanner', ->
   describe '#scan', ->
