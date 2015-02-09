@@ -15,7 +15,7 @@ class LineScanner
     return {errors: null, @lineTokens, @currentState} unless @line
 
     while @position < @line.length
-      console.log "LINE #{@line}"
+      extractedTokens = false
 
       # continue iterating over the line of characters
       # if we've been able to do one of the following:
@@ -23,30 +23,30 @@ class LineScanner
       # 2. extract a valid token
       continue if @skippedSpaces()
       continue if @skippedMultiComments()
+
+      extractedTokens = true
       continue if @skippedSingleComments()
+      continue if @extractedNumericLiterals()
       continue if @extractedTwoCharacterTokens()
       continue if @extractedOneCharacterTokens()
       continue if @extractedStringLiterals()
       continue if @extractedWords()
-      continue if @extractedNumericLiterals()
 
       # return an error if we were not able to either extract
       # something from or skip the current character
       # TODO: BETTER ERROR HANDLING
-      console.log "RETURNING AN ERROR"
       return {errors: "INVALID TOKEN"}
 
     # add newline token after each line
-    @addToken {kind: 'newline'}
+    @start = @position
+    @addToken {kind: 'newline'} if extractedTokens
     return {errors: null, @lineTokens, @currentState}
 
   addToken: ({kind, lexeme}) ->
-    console.log "addToken #{lexeme}"
     lexeme ?= kind
     @lineTokens.push {lexeme, kind, @start}
 
   skippedSpaces: ->
-    console.log "skipped spaces"
     skippedSpaces = false
     if /\s/.test @line[@position]
       @position++ and @start++ while /\s/.test @line[@position]
@@ -61,7 +61,6 @@ class LineScanner
     skippedSingleComments
 
   skippedMultiComments: ->
-    console.log "Skip multiline comment"
     skippedMultiComments = false
     if @currentState.multiline.comment
       @lookForMultiCommentEnd()
@@ -81,9 +80,7 @@ class LineScanner
       @currentState.multiline.comment = false
     # we have not yet found the trailing hashes
     else
-      console.log "didn't find shit"
       @position = @line.length
-    console.log "POSITION #{@position}"
 
   extractedTwoCharacterTokens: ->
     @start = @position
@@ -136,6 +133,7 @@ class LineScanner
     return false
 
   addWord: (word) ->
+    console.log "adding word?"
     if word in tokens.reservedWords
       @addToken {kind: word}
     else
@@ -144,7 +142,7 @@ class LineScanner
   extractedNumericLiterals: ->
     @start = @position
     if /\d/.test @line[@position]
-      numberGroups = /(\d*)\.?(\d*)/.exec @line[@position..]
+      numberGroups = /(\d*)(\.\d+)?/.exec @line[@position..]
       kind = if numberGroups[2] then 'FLOATLIT' else 'INTLIT'
       @addToken {kind, lexeme: numberGroups[0]}
       @position += numberGroups[0].length

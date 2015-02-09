@@ -19,19 +19,14 @@ module.exports = (filePath, callback) ->
     line = stream.read()
     lineScanner = new LineScanner line, currentScannerState
     {errors, lineTokens, currentState} = lineScanner.scan()
-    # console.log "lineResults #{JSON.stringify lineResults}"
-
-
     console.log "error happended on line #{lineNumber}" if errors
-    # return callback CustomErrorHandler(errors, lineNumber) if errors
-    # add the tokens of the line to all the tokens
-    console.log "LINE TOKENS: #{JSON.stringify lineTokens}"
-    allTokens = allTokens.concat(lineTokens)
-    console.log "ALL TOKENS #{JSON.stringify allTokens}"
+    # TODO better error handling
+
+    allTokens = allTokens.concat lineTokens
+
     # update the current state of the scanner
     currentScannerState = currentState
 
   stream.once 'end', ->
-    # console.log JSON.stringify(allTokens)
-    # push some kind of an EOF token here?
+    # TODO: consider pushing some kind of an EOF token here?
     callback allTokens
