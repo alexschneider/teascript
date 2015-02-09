@@ -28,9 +28,9 @@ class LineScanner
       continue if @extractWords()
       continue if @extractNumericLiterals()
 
-      # return an error if we were not able to 
+      # return an error if we were not able to
       # extract any tokens from the line
-      return {errors: "invalid token bro"}
+      return {errors: 'invalid token bro'}
     
     # add newline token after each line
     @addToken {kind: 'newline'}
@@ -47,10 +47,10 @@ class LineScanner
     if @currentState.multiline.comment
       @skipMultilineComment()
     else if @line[@position] is '#'
-      if @line[@position+1] is '#'
+      if @line[@position + 1] is '#'
         @position += 2
         @currentState.multiline.comment = true
-        @skipMultilineComment() 
+        @skipMultilineComment()
       else
         # skip rest of line for single line comment
         @position = @line.length
@@ -61,14 +61,14 @@ class LineScanner
     return unless @position < @line.length
 
     # found trailing two hash symbols for end of multiline comment
-    if @line[@position...@position+2] is '##'
+    if @line[@position...@position + 2] is '##'
       @currentState.multiline.comment = false
       @position += 2
 
   extractTwoCharacterTokens: ->
     @start = @position
-    if @line[@position...@position+2] in tokens.twoCharacterTokens
-      @addToken {kind: @line[@position...@position+2]}
+    if @line[@position...@position + 2] in tokens.twoCharacterTokens
+      @addToken {kind: @line[@position...@position + 2]}
       @position += 2
       return true
     return false
@@ -96,12 +96,13 @@ class LineScanner
 
   extractMultilineString: ->
     # search for trailing quote for end of multiline string
-    @position++ while @line[@position] isnt ("'" or '"') and @position < @line.length
+    @position++ while @line[@position] isnt ("'" or '"') and
+                      @position < @line.length
     return unless @position < @line.length
 
     # found trailing quote for end of multiline string (isn't an escaped quote)
     # TODO: implement ability to escape quote characters?
-    if @line[@position] is ("'" or '"') and @line[@position-1]
+    if @line[@position] is ("'" or '"') and @line[@position - 1]
       @currentState.multiline.string = false
       @position++
       @addToken {kind: 'STRLIT', lexeme: @line[@start...@position]}
