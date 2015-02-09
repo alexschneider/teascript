@@ -3,8 +3,8 @@ chai = require 'chai'
 sinonChai = require 'sinon-chai'
 expect = chai.expect
 chai.use(sinonChai)
-LineScanner = require '../tools/line_scanner'
-scan = require '../scanner.coffee'
+LineScanner = require '../../tools/line_scanner'
+scan = require '../../scanner.coffee'
 
 describe 'LineScanner', ->
   describe '#scan', ->
@@ -175,7 +175,7 @@ describe 'LineScanner', ->
 
     context 'when the next token is a string without a defined ending', ->
       lineScanner = new LineScanner "'this is a multiline string without a defined ending"
-      lineScanner.extractedStringLiterals()
+      result = lineScanner.extractedStringLiterals()
 
       it 'sets the current state of the mulitline string of the scanner to be true', ->
         expect(lineScanner.currentState.multiline.string).to.be.true
@@ -186,11 +186,14 @@ describe 'LineScanner', ->
       it 'does not add any tokens yet to the line tokens', ->
         expect(lineScanner.lineTokens).to.eql []
 
+      it 'returns true since part of a multiline string was extracted', ->
+        expect(result).to.be.true
+
     context 'when the scanner is in the middle of a multiline string', ->
       currentScannerState = multiline: string: true
       lineScanner = new LineScanner "this is the continuation of a multiline string begun elsewhere '"
                                     , currentScannerState
-      lineScanner.extractedStringLiterals()
+      result = lineScanner.extractedStringLiterals()
 
       it 'toggles the current state of the multiline string of the scanner back to false', ->
         expect(lineScanner.currentState.multiline.string).to.be.false
@@ -206,9 +209,12 @@ describe 'LineScanner', ->
             lexeme: "this is the continuation of a multiline string begun elsewhere '"
           }]
 
+      it 'returns true since part of a multiline string was extracted', ->
+        expect(result).to.be.true
+
     context 'when there is a multiline string with a defined ending', ->
       lineScanner = new LineScanner "'this is a multiline string with a defined ending 'f := 5"
-      lineScanner.extractedStringLiterals()
+      result = lineScanner.extractedStringLiterals()
       
       it 'toggles the current state of the multiline string of the scanner back to false', ->
         expect(lineScanner.currentState.multiline.string).to.be.false
@@ -223,6 +229,10 @@ describe 'LineScanner', ->
               kind: 'STRLIT',
               lexeme: "'this is a multiline string with a defined ending '"
             }]
+
+      it 'returns true since part of a multiline string was extracted', ->
+        expect(result).to.be.true
+
 
   describe '#extractedWords', ->
     
@@ -323,6 +333,7 @@ describe 'LineScanner', ->
       it 'returns false since a two-character token was not extracted', ->
         expect(extractionResult).to.be.false
 
+
   describe '#extractedNumericLiterals', ->
 
     context 'when a integer literal is the next token', ->
@@ -352,7 +363,7 @@ describe 'LineScanner', ->
         expect(extractionResult).to.be.true
 
     context 'when a numeric literal is not the next token', ->
-      lineScanner = new LineScanner "abc"
+      lineScanner = new LineScanner "abc.1234"
       extractionResult = lineScanner.extractedNumericLiterals()
 
       it 'does not increment the current position of the scanner', ->

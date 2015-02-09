@@ -108,22 +108,22 @@ class LineScanner
       return false
 
   extractMultilineString: ->
+    # TODO: IMPLEMENT SO THAT ESCAPED QUOTES AREN'T TREATED AS END OF STRING
+
     # search for trailing quote for end of multiline string
     @position++ while @line[@position] isnt ("'" or '"') and @position < @line.length
     return unless @position < @line.length
 
-    # found trailing quote for end of multiline string (isn't an escaped quote)
-    # TODO: implement ability to escape quote characters?
-    if @line[@position] is ("'" or '"') and @line[@position-1] isnt "\\"
-      @currentState.multiline.string = false
-      @position++
-      @addToken {kind: 'STRLIT', lexeme: @line[@start...@position]}
+    # found trailing quote
+    @currentState.multiline.string = false
+    @position++
+    @addToken {kind: 'STRLIT', lexeme: @line[@start...@position]}
 
   extractedWords: ->
     @start = @position
     if /[a-zA-Z]/.test @line[@position]
       @position++ while /\w/.test(@line[@position]) and @position < @line.length
-      @addWord(word = @line[@start...@position])
+      @addWord @line[@start...@position]
       return true
     return false
 
@@ -136,7 +136,7 @@ class LineScanner
   extractedNumericLiterals: ->
     @start = @position
     if /\d/.test @line[@position]
-      numberGroups = /(\w*).?(\w*)/.exec @line[@position..]
+      numberGroups = /(\d*).?(\d*)/.exec @line[@position..]
       kind = if numberGroups[2] then 'FLOATLIT' else 'INTLIT'
       @addToken {kind, lexeme: numberGroups[0]}
       @position += numberGroups[0].length
