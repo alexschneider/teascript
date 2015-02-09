@@ -15,6 +15,7 @@ class LineScanner
     return unless @line
 
     while @position < @line.length
+      console.log "LINE #{@line}"
 
       # continue iterating over the line of characters
       # if we've been able to do one of the following:
@@ -32,11 +33,12 @@ class LineScanner
       # return an error if we were not able to either extract
       # something from or skip the current character
       # TODO: BETTER ERROR HANDLING
+      console.log "RETURNING AN ERROR"
       return {errors: "INVALID TOKEN"}
 
     # add newline token after each line
     @addToken {kind: 'newline'}
-    return {@lineTokens, @currentState}
+    return {errors: null, @lineTokens, @currentState}
 
   addToken: ({kind, lexeme}) ->
     lexeme ?= kind

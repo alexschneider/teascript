@@ -1,5 +1,5 @@
 class MyTokens
-  @tokens1: ->
+  @tokens1 =
     [
       {kind: 'ID', lexeme:'x', start: 0},
       {kind: ':=', lexeme:':=',start: 2},
