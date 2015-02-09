@@ -17,13 +17,14 @@ module.exports = (filePath, callback) ->
     lineNumber++
     lineScanner = new LineScanner line, currentScannerState
     {errors, lineTokens, currentState} = lineScanner.scan()
-    return callback CustomErrorHandler(errors, lineNumber) if errors
+    console.log "error happended on line #{lineNumber}: #{JSON.stringify errors}" if errors
+    # return callback CustomErrorHandler(errors, lineNumber) if errors
     # add the tokens of the line to all the tokens
     allTokens.push lineTokens
     # update the current state of the scanner
     currentScannerState = currentState
 
   reader.once 'end', ->
-    console.log JSON.stringify(tokens)
+    console.log JSON.stringify(allTokens)
     # push some kind of an EOF token here? 
-    callback tokens
+    callback allTokens
