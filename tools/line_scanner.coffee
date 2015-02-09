@@ -136,18 +136,11 @@ class LineScanner
   extractedNumericLiterals: ->
     @start = @position
     if /\d/.test @line[@position]
-      @extractNumberSequence()
-      if @line[@position] is '.'
-        @position++
-        # get numbers after the decimal point
-        @extractNumberSequence()
-        @addToken {kind: 'FLOATLIT', lexeme: @line[@start...@position]}
-      else
-        @addToken {kind: 'INTLIT', lexeme: @line[@start...@position]}
+      numberGroups = /(\w*).?(\w*)/.exec @line[@position..]
+      kind = if numberGroups[2] then 'FLOATLIT' else 'INTLIT'
+      @addToken {kind, lexeme: numberGroups[0]}
+      @position += numberGroups[0].length
       return true
     return false
-
-  extractNumberSequence: ->
-    @position++ while /\d/.test(@line[@position]) and @position < @line.length
 
 module.exports = LineScanner
