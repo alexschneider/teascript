@@ -11,27 +11,29 @@ class LineScanner
     @lineTokens = []
 
   scan: ->
-    
+
     return unless @line
-    
-    # iterate through all characters in the line
+
     while @position < @line.length
-      @skipSpaces()
-      @skipComments()
-      break unless @position < @line.length
 
-      # continue to next iteration of while loop
-      # once we've been able to extract a token
-      continue if @extractTwoCharacterTokens()
-      continue if @extractOneCharacterTokens()
-      continue if @extractStringLiterals()
-      continue if @extractWords()
-      continue if @extractNumericLiterals()
+      # continue iterating over the line of characters
+      # if we've been able to do one of the following:
+      # 1. skip insignificant characters (white space, comments, etc.)
+      # 2. extract a valid token
+      continue if @skippedSpaces()
+      continue if @skippedMultiComments()
+      continue if @skippedSingleComments()
+      continue if @extractedTwoCharacterTokens()
+      continue if @extractedOneCharacterTokens()
+      continue if @extractedStringLiterals()
+      continue if @extractedWords()
+      continue if @extractedNumericLiterals()
 
-      # return an error if we were not able to
-      # extract any tokens from the line
-      return {errors: 'invalid token bro'}
-    
+      # return an error if we were not able to either extract
+      # something from or skip the current character
+      # TODO: BETTER ERROR HANDLING
+      return {errors: "INVALID TOKEN"}
+
     # add newline token after each line
     @addToken {kind: 'newline'}
     return {@lineTokens, @currentState}
@@ -40,32 +42,43 @@ class LineScanner
     lexeme ?= kind
     @lineTokens.push {lexeme, kind, @start}
 
-  skipSpaces: ->
-    @position++ and @start++ while /\s/.test @line[@position]
+  skippedSpaces: ->
+    skippedSpaces = false
+    if /\s/.test @line[@position]
+      @position++ and @start++ while /\s/.test @line[@position]
+      skippedSpaces = true
+    skippedSpaces
 
-  skipComments: ->
+  skippedSingleComments: ->
+    skippedSingleComments = false
+    if @line[@position] is '#'
+      @position = @line.length
+      skippedSingleComments = true
+    skippedSingleComments
+
+  skippedMultiComments: ->
+    skippedMultiComments = false
     if @currentState.multiline.comment
-      @skipMultilineComment()
-    else if @line[@position] is '#'
-      if @line[@position + 1] is '#'
-        @position += 2
-        @currentState.multiline.comment = true
-        @skipMultilineComment()
-      else
-        # skip rest of line for single line comment
-        @position = @line.length
-  
-  skipMultilineComment: ->
-    # search for trailing two hash symbols for end of multiline comment
-    @position++ while @line[@position] isnt '#' and @position < @line.length
-    return unless @position < @line.length
-
-    # found trailing two hash symbols for end of multiline comment
-    if @line[@position...@position + 2] is '##'
-      @currentState.multiline.comment = false
+      @lookForMultiCommentEnd()
+      skippedMultiComments = true
+    else if @line[@position..@position + 1] is '##'
       @position += 2
+      @currentState.multiline.comment = true
+      @lookForMultiCommentEnd()
+      skippedMultiComments = true
+    skippedMultiComments
 
-  extractTwoCharacterTokens: ->
+  lookForMultiCommentEnd: ->
+    relativePositionOfTrailingHashes = @line[@position..].indexOf "##"
+    # we have found the trailing hashes
+    if relativePositionOfTrailingHashes >= 0
+      @position += relativePositionOfTrailingHashes + 2
+      @currentState.multiline.comment = false
+    # we have not yet found the trailing hashes
+    else
+      @position = @line.length
+
+  extractedTwoCharacterTokens: ->
     @start = @position
     if @line[@position...@position + 2] in tokens.twoCharacterTokens
       @addToken {kind: @line[@position...@position + 2]}
@@ -73,7 +86,7 @@ class LineScanner
       return true
     return false
 
-  extractOneCharacterTokens: ->
+  extractedOneCharacterTokens: ->
     @start = @position
     if @line[@position] in tokens.oneCharacterTokens
       @addToken {kind: @line[@position]}
@@ -81,7 +94,7 @@ class LineScanner
       return true
     return false
 
-  extractStringLiterals: ->
+  extractedStringLiterals: ->
     if @currentState.multiline.string
       @extractMultilineString()
       return true
@@ -95,23 +108,23 @@ class LineScanner
       return false
 
   extractMultilineString: ->
+    # TODO: IMPLEMENT SO THAT ESCAPED QUOTES AREN'T TREATED AS END OF STRING
+
     # search for trailing quote for end of multiline string
     @position++ while @line[@position] isnt ("'" or '"') and
                       @position < @line.length
     return unless @position < @line.length
 
-    # found trailing quote for end of multiline string (isn't an escaped quote)
-    # TODO: implement ability to escape quote characters?
-    if @line[@position] is ("'" or '"') and @line[@position - 1]
-      @currentState.multiline.string = false
-      @position++
-      @addToken {kind: 'STRLIT', lexeme: @line[@start...@position]}
+    # found trailing quote
+    @currentState.multiline.string = false
+    @position++
+    @addToken {kind: 'STRLIT', lexeme: @line[@start...@position]}
 
-  extractWords: ->
+  extractedWords: ->
     @start = @position
     if /[a-zA-Z]/.test @line[@position]
       @position++ while /\w/.test(@line[@position]) and @position < @line.length
-      @addWord(word = @line[@start...@position])
+      @addWord @line[@start...@position]
       return true
     return false
 
@@ -121,21 +134,14 @@ class LineScanner
     else
       @addToken {kind: 'ID', lexeme: word}
 
-  extractNumericLiterals: ->
+  extractedNumericLiterals: ->
     @start = @position
     if /\d/.test @line[@position]
-      @extractNumberSequence()
-      if @line[@position] is '.'
-        @position++
-        # get numbers after the decimal point
-        @extractNumberSequence()
-        @addToken {kind: 'FLOATLIT', lexeme: @line[@start...@position]}
-      else
-        @addToken {kind: 'INTLIT', lexeme: @line[@start...@position]}
+      numberGroups = /(\d*)\.?(\d*)/.exec @line[@position..]
+      kind = if numberGroups[2] then 'FLOATLIT' else 'INTLIT'
+      @addToken {kind, lexeme: numberGroups[0]}
+      @position += numberGroups[0].length
       return true
     return false
-
-  extractNumberSequence: ->
-    @position++ while /\d/.test(@line[@position]) and @position < @line.length
 
 module.exports = LineScanner
