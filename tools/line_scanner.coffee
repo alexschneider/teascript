@@ -12,7 +12,7 @@ class LineScanner
 
   scan: ->
 
-    return unless @line
+    return {errors: null, @lineTokens, @currentState} unless @line
 
     while @position < @line.length
       console.log "LINE #{@line}"
@@ -41,10 +41,12 @@ class LineScanner
     return {errors: null, @lineTokens, @currentState}
 
   addToken: ({kind, lexeme}) ->
+    console.log "addToken #{lexeme}"
     lexeme ?= kind
     @lineTokens.push {lexeme, kind, @start}
 
   skippedSpaces: ->
+    console.log "skipped spaces"
     skippedSpaces = false
     if /\s/.test @line[@position]
       @position++ and @start++ while /\s/.test @line[@position]
@@ -59,6 +61,7 @@ class LineScanner
     skippedSingleComments
 
   skippedMultiComments: ->
+    console.log "Skip multiline comment"
     skippedMultiComments = false
     if @currentState.multiline.comment
       @lookForMultiCommentEnd()
@@ -78,7 +81,9 @@ class LineScanner
       @currentState.multiline.comment = false
     # we have not yet found the trailing hashes
     else
+      console.log "didn't find shit"
       @position = @line.length
+    console.log "POSITION #{@position}"
 
   extractedTwoCharacterTokens: ->
     @start = @position

@@ -4,7 +4,7 @@
   "description": "The best programming language in the world",
   "dependencies": {
     "async": "latest",
-    "line-by-line": "latest",
+    "byline": "latest",
     "coffee-script": "latest"
   },
   "devDependencies": {

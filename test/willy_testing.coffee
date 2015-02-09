@@ -12,7 +12,7 @@ describe 'FileScanner', ->
       myTokens = MyTokens.tokens1
 
       it 'returns the appropriate tokens', ->
-        console.log myTokens
+        # console.log myTokens
         Scanner 'scanner_test_willy_1.txt', (tokens) ->
-          console.log tokens
+          console.log "TOKENS #{JSON.stringify tokens}"
           expect(tokens).to.eql myTokens
