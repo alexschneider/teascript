@@ -80,8 +80,8 @@ class LineScanner
 
   extractedTwoCharacterTokens: ->
     @start = @position
-    if @line[@position...@position+2] in tokens.twoCharacterTokens
-      @addToken {kind: @line[@position...@position+2]}
+    if @line[@position...@position + 2] in tokens.twoCharacterTokens
+      @addToken {kind: @line[@position...@position + 2]}
       @position += 2
       return true
     return false
@@ -111,7 +111,8 @@ class LineScanner
     # TODO: IMPLEMENT SO THAT ESCAPED QUOTES AREN'T TREATED AS END OF STRING
 
     # search for trailing quote for end of multiline string
-    @position++ while @line[@position] isnt ("'" or '"') and @position < @line.length
+    @position++ while @line[@position] isnt ("'" or '"') and
+                      @position < @line.length
     return unless @position < @line.length
 
     # found trailing quote

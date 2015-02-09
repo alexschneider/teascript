@@ -4,14 +4,14 @@ LineScanner = require './tools/line_scanner'
 module.exports = (filePath, callback) ->
   reader = new LineByLineReader filePath, {encoding: 'utf8'}
   allTokens = []
-  currentScannerState = 
+  currentScannerState =
     multiline:
       comment: false
       string: false
   lineNumber = 0
   
   reader.on 'error', (error) ->
-    # TODO handle error stuff 
+    # TODO handle error stuff
 
   reader.on 'line', (line) ->
     lineNumber++

@@ -99,7 +99,8 @@ describe 'LineScanner', ->
       lineScanner = new LineScanner "## this is a multiline comment without a defined ending"
       result = lineScanner.skippedMultiComments()
 
-      it 'sets the current state of the mulitline comment of the scanner to be true', ->
+      it 'sets the current state of the mulitline comment of the scanner to be
+          true', ->
         expect(lineScanner.currentState.multiline.comment).to.be.true
 
       it 'increments the scanner position to the end of the line', ->
@@ -110,11 +111,13 @@ describe 'LineScanner', ->
 
     context 'when the scanner is in the middle of a multiline comment', ->
       currentScannerState = multiline: comment: true
-      lineScanner = new LineScanner "this is the continuation of a multiline comment begun elsewhere ##"
+      lineScanner = new LineScanner 'this is the continuation of a multiline
+                                     comment begun elsewhere ##'
                                     , currentScannerState
       result = lineScanner.skippedMultiComments()
 
-      it 'toggles the current state of the multiline comment of the scanner back to false', ->
+      it 'toggles the current state of the multiline comment of the scanner back
+          to false', ->
         expect(lineScanner.currentState.multiline.comment).to.be.false
 
       it 'increments the scanner position to just after the comment', ->
@@ -174,10 +177,12 @@ describe 'LineScanner', ->
   describe '#extractedStringLiterals', ->
 
     context 'when the next token is a string without a defined ending', ->
-      lineScanner = new LineScanner "'this is a multiline string without a defined ending"
+      lineScanner = new LineScanner "'this is a multiline string without a
+                                     defined ending"
       result = lineScanner.extractedStringLiterals()
 
-      it 'sets the current state of the mulitline string of the scanner to be true', ->
+      it 'sets the current state of the mulitline string of the scanner to be
+          true', ->
         expect(lineScanner.currentState.multiline.string).to.be.true
 
       it 'increments the scanner position to the end of the line', ->
@@ -191,11 +196,13 @@ describe 'LineScanner', ->
 
     context 'when the scanner is in the middle of a multiline string', ->
       currentScannerState = multiline: string: true
-      lineScanner = new LineScanner "this is the continuation of a multiline string begun elsewhere '"
+      lineScanner = new LineScanner "this is the continuation of a multiline
+                                     string begun elsewhere '"
                                     , currentScannerState
       result = lineScanner.extractedStringLiterals()
 
-      it 'toggles the current state of the multiline string of the scanner back to false', ->
+      it 'toggles the current state of the multiline string of the scanner back
+          to false', ->
         expect(lineScanner.currentState.multiline.string).to.be.false
 
       it 'increments the scanner position to the end of the string', ->
@@ -206,7 +213,8 @@ describe 'LineScanner', ->
           .eql [{
             start: 0,
             kind: 'STRLIT',
-            lexeme: "this is the continuation of a multiline string begun elsewhere '"
+            lexeme: "this is the continuation of a multiline string begun
+                     elsewhere '"
           }]
 
       it 'returns true since part of a multiline string was extracted', ->
@@ -240,11 +248,16 @@ describe 'LineScanner', ->
       lineScanner = new LineScanner "bool ="
       extractionResult = lineScanner.extractedWords()
       
+
       it 'accurately increments the current position of the scanner', ->
         expect(lineScanner.position).to.equal 4
-      
+
       it 'adds the reserved word to the line tokens', ->
-        expect(lineScanner.lineTokens).to.eql [{kind: 'bool', lexeme: 'bool', start: 0}]
+        expect(lineScanner.lineTokens).to.eql [{
+          kind: 'bool',
+          lexeme: 'bool',
+          start: 0
+        }]
 
       it 'returns true since it was successful in extracting a word', ->
         expect(extractionResult).to.be.true
@@ -257,7 +270,11 @@ describe 'LineScanner', ->
         expect(lineScanner.position).to.equal 10
 
       it 'adds the identifer to the line tokens', ->
-        expect(lineScanner.lineTokens).to.eql [{kind: 'ID', lexeme: 'myVariable', start: 0}]
+        expect(lineScanner.lineTokens).to.eql [{
+          kind: 'ID',
+          lexeme: 'myVariable',
+          start: 0
+        }]
 
       it 'returns true since it was successful in extracting a word', ->
         expect(extractionResult).to.be.true
@@ -286,9 +303,14 @@ describe 'LineScanner', ->
         expect(lineScanner.position).to.equal 1
 
       it 'adds the one-character token to the line tokens', ->
-        expect(lineScanner.lineTokens).to.eql [{kind: '*', lexeme: '*', start: 0}]
+        expect(lineScanner.lineTokens).to.eql [{
+          kind: '*',
+          lexeme: '*',
+          start: 0
+        }]
 
-      it 'returns true since a one-character token was successfully extracted', ->
+      it 'returns true since a one-character token was successfully
+          extracted', ->
         expect(extractionResult).to.be.true
 
     context 'when a one-character token is not the next token', ->
@@ -315,9 +337,14 @@ describe 'LineScanner', ->
         expect(lineScanner.position).to.equal 2
 
       it 'adds the two-character token to the line tokens', ->
-        expect(lineScanner.lineTokens).to.eql [{kind: '<=', lexeme: '<=', start: 0}]
+        expect(lineScanner.lineTokens).to.eql [{
+          kind: '<=',
+          lexeme: '<=',
+          start: 0
+        }]
 
-      it 'returns true since a two-character token was successfully extracted', ->
+      it 'returns true since a two-character token was successfully
+          extracted', ->
         expect(extractionResult).to.be.true
 
     context 'when a two-character token is not the next token', ->
@@ -344,7 +371,11 @@ describe 'LineScanner', ->
         expect(lineScanner.position).to.equal 5
 
       it 'adds the integer literal to the line tokens', ->
-        expect(lineScanner.lineTokens).to.eql [{kind: 'INTLIT', lexeme: '23456', start: 0}]
+        expect(lineScanner.lineTokens).to.eql [{
+          kind: 'INTLIT',
+          lexeme: '23456',
+          start: 0
+        }]
 
       it 'returns true since a numeric literal was extracted', ->
         expect(extractionResult).to.be.true
@@ -370,7 +401,11 @@ describe 'LineScanner', ->
         expect(lineScanner.position).to.equal 7
 
       it 'adds the integer literal to the line tokens', ->
-        expect(lineScanner.lineTokens).to.eql [{kind: 'FLOATLIT', lexeme: '123.456', start: 0}]
+        expect(lineScanner.lineTokens).to.eql [{
+          kind: 'FLOATLIT',
+          lexeme: '123.456',
+          start: 0
+        }]
 
       it 'returns true since a numeric literal was extracted', ->
         expect(extractionResult).to.be.true
