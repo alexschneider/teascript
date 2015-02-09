@@ -136,7 +136,7 @@ class LineScanner
   extractedNumericLiterals: ->
     @start = @position
     if /\d/.test @line[@position]
-      numberGroups = /(\d*).?(\d*)/.exec @line[@position..]
+      numberGroups = /(\d*)\.?(\d*)/.exec @line[@position..]
       kind = if numberGroups[2] then 'FLOATLIT' else 'INTLIT'
       @addToken {kind, lexeme: numberGroups[0]}
       @position += numberGroups[0].length

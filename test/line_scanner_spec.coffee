@@ -349,6 +349,19 @@ describe 'LineScanner', ->
       it 'returns true since a numeric literal was extracted', ->
         expect(extractionResult).to.be.true
 
+    context 'when two numeric literals are separated by something other than a period', ->
+      lineScanner = new LineScanner "234k567"
+      extractionResult = lineScanner.extractedNumericLiterals()
+
+      it 'accurately increments the current position of the scanner', ->
+        expect(lineScanner.position).to.equal 3
+
+      it 'adds the integer literal to the line tokens', ->
+        expect(lineScanner.lineTokens).to.eql [{kind: 'INTLIT', lexeme: '234', start: 0}]
+
+      it 'returns true since a numeric literal was extracted', ->
+        expect(extractionResult).to.be.true
+
     context 'when a float literal is the next token', ->
       lineScanner = new LineScanner "123.456"
       extractionResult = lineScanner.extractedNumericLiterals()
