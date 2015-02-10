@@ -13,6 +13,8 @@ teascript is a very high level language that compiles into JavaScript. More intr
 
 #### Features 
 
+#### Comments
+
 Like most programming languages, teascript has **comments**. Single line comments are created with an octothorpe/hashtag/tic-tac-toe arena (#). Multiline comments begin and end with double octothorpes.
 
 ```
@@ -30,6 +32,9 @@ Like most programming languages, teascript has **comments**. Single line comment
 ## This is a multiline comment on a single line. ##
 
 ```
+
+#### Primitive Types
+
 Unlike JavaScript, we don't have a variable declaration keyword like `var`. Unlike Python, we make a distinction between variable declaration and mutation. Additionally, variables must be assigned a value when they are declared.
 
 ``` 
@@ -58,6 +63,69 @@ my_set = <1,3,5,7>     # Immutable unordered lists with NO REPEATS
 # Ordered pair of key-values
 my_map = {"lat":51.24,"long":0.18} 
 ```
+In teascripts, variable declarations and mutations are expressions.
 
-Variables assignments and mutations only get you so far. That's why we included control show  
+```
+x := 100     # We declare x and assign it the value of 10
+y := (x = 4) # We assign the value of 4 to x. Since assignemnts
+             # are expressions, we return a value of 4, which gets
+             # assigned to y.
+             
+z := (y = (x = 2) + 4) + 10
+
+# x = 2, y = 6, and z = 16. 
+```
+
+#### Control Flow
+Variables assignments and mutations only get you so far. That's why we have `if`s, `for`s, `while`s and functions.
+
+##### Ifs
+
+`if`s are conditional expressions. Like variable declarations and mutations, conditional expressions return values. In our language, `if`s return whatever the last expression in the body of the `if` evaluated to. In some cases an `if` statement will evaluate to `none`.
+
+```
+# We have several syntaxes for ifs.
+# 1) expression1 if condition else expression2
+
+i_am_ready := false
+message := "Let's go!" if i_am_ready else "We gotta wait..." 
+
+# message has a string that says "We gotta wait..."
+
+message := "Let's go!" if (i_am_ready = !i_am_ready) else "We gotta wait..."
+
+# i_am_ready is now true and the message reads "Let's go!"
+
+# 2) if condition: expression
+## This is similar to the previous form, except that when
+   when we don't provide an alternate expression, the if
+   evaluates to non
+##
+
+x := true
+y := if x: 10 + 33 # y is now 43
+
+x = false          # since the condition is false
+z := if x: 4*5     # the if statement returns none
+
+# 3) if blocks
+## These contain the typical if-else if-else
+   structure. We indicate the end of a block
+   if with the keyword 'end'
+##
+
+if i_am_ready:
+    out("I'm ready.")
+    counter++
+else if almost_ready:
+    out("I'm almost ready.")
+else
+    out("Come back some other time.")
+end
+```
+
+
+```
+
+```
 
