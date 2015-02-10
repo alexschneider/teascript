@@ -1,6 +1,7 @@
 fs = require 'fs'
 byline = require 'byline'
 LineScanner = require './tools/line_scanner'
+CustomError = require './custom_error'
 
 module.exports = (filePath, callback) ->
   baseStream = fs.createReadStream filePath, {encoding: 'utf8'}
@@ -13,15 +14,13 @@ module.exports = (filePath, callback) ->
       string: false
   lineNumber = 0
 
-
   stream.on 'readable', ->
+    lineScanner = new LineScanner stream.read(), currentScannerState
+    {error, lineTokens, currentState} = lineScanner.scan()
+    if error
+      console.log (new CustomError(error, lineNumber)).getMessage()
+      return
     lineNumber++
-    line = stream.read()
-    lineScanner = new LineScanner line, currentScannerState
-    {errors, lineTokens, currentState} = lineScanner.scan()
-    # TODO better error handling
-    console.log "error happended on line #{lineNumber}" if errors
-
     allTokens = allTokens.concat lineTokens
     currentScannerState = currentState
 

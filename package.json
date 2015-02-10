@@ -12,6 +12,8 @@
     "coffee-coverage": "^0.4.4",
     "coffeelint": "^1.8.1",
     "coveralls": "^2.11.2",
+    "fixture-stdout": "^0.2.1",
+    "intercept-stdout": "0.0.2",
     "mocha": "latest",
     "mocha-lcov-reporter": "0.0.1",
     "sinon": "latest",
