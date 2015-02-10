@@ -3,8 +3,8 @@ chai = require 'chai'
 sinonChai = require 'sinon-chai'
 expect = chai.expect
 chai.use(sinonChai)
-LineScanner = require '../tools/line_scanner'
-scan = require '../scanner.coffee'
+LineScanner = require '../../tools/line_scanner'
+scan = require '../../scanner.coffee'
 
 describe 'LineScanner', ->
   describe '#scan', ->
@@ -24,7 +24,7 @@ describe 'LineScanner', ->
           {kind: '(', lexeme: '(', start: 23},
           {kind: ')', lexeme: ')', start: 24},
           {kind: 'bool', lexeme: 'bool', start: 26},
-          {kind: 'newline', lexeme: 'newline', start: 27}
+          {kind: 'newline', lexeme: 'newline', start: 40}
         ]
 
     context 'when the line is empty', ->
@@ -33,13 +33,16 @@ describe 'LineScanner', ->
       lineScanner.extractedOneCharacterTokens = sinon.stub()
       lineScanner.extractedWords = sinon.stub()
       lineScanner.extractedNumericLiterals = sinon.stub()
-      lineScanner.scan()
+      result = lineScanner.scan()
 
       it 'returns without trying to extract any tokens', ->
         expect(lineScanner.extractedTwoCharacterTokens).to.not.have.been.called
         expect(lineScanner.extractedOneCharacterTokens).to.not.have.been.called
         expect(lineScanner.extractedWords).to.not.have.been.called
         expect(lineScanner.extractedNumericLiterals).to.not.have.been.called
+
+      it 'returns a result with no line tokens', ->
+        expect(result.lineTokens).to.eql []
 
     context 'when the line is full of spaces', ->
       lineScanner = new LineScanner "                    "
@@ -409,6 +412,14 @@ describe 'LineScanner', ->
 
       it 'returns true since a numeric literal was extracted', ->
         expect(extractionResult).to.be.true
+
+    context 'when numbers followed by a period is the next sequence of characters', ->
+      lineScanner = new LineScanner '123.'
+      extractionResult = lineScanner.extractedNumericLiterals()
+
+      it 'reads the input as a INTLIT (followed by a period operator)
+          rather than a FLOATLIT', ->
+        expect(lineScanner.lineTokens).to.eql [{kind: 'INTLIT', lexeme: '123', start:0}]
 
     context 'when a numeric literal is not the next token', ->
       lineScanner = new LineScanner "abc.1234"

@@ -1,5 +1,5 @@
 class Tokens
-  
+
   @oneCharacterTokens = [
     '^', '&', '|',                       # bitwise operators
     '+', '-', '*', '/', '%',             # arithmetic operators
@@ -8,7 +8,8 @@ class Tokens
     '<', '>',                            # for set construction
     '{', '}',                            # for map construction
     '=',                                 # mutation
-    '.'                                  # member access for objects
+    '.',                                 # member access for objects
+    ','                                  # separating args/params
   ]
 
   @twoCharacterTokens = [

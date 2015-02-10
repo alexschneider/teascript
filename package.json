@@ -4,7 +4,7 @@
   "description": "The best programming language in the world",
   "dependencies": {
     "async": "latest",
-    "line-by-line": "latest",
+    "byline": "latest",
     "coffee-script": "latest"
   },
   "devDependencies": {
@@ -18,7 +18,7 @@
     "sinon-chai": "latest"
   },
   "scripts": {
-    "test": "mocha --compilers coffee:coffee-script/register ./test/*spec.coffee",
+    "test": "mocha --compilers coffee:coffee-script/register ./test/ --recursive",
     "coverage": "mocha --require coffee-coverage/register --compilers coffee:coffee-script/register test --reporter mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js"
   }
 }

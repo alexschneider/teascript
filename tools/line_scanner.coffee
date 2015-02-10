@@ -12,9 +12,10 @@ class LineScanner
 
   scan: ->
 
-    return unless @line
+    return {errors: null, @lineTokens, @currentState} unless @line
 
     while @position < @line.length
+      extractedTokens = false
 
       # continue iterating over the line of characters
       # if we've been able to do one of the following:
@@ -22,12 +23,14 @@ class LineScanner
       # 2. extract a valid token
       continue if @skippedSpaces()
       continue if @skippedMultiComments()
+
+      extractedTokens = true
       continue if @skippedSingleComments()
+      continue if @extractedNumericLiterals()
       continue if @extractedTwoCharacterTokens()
       continue if @extractedOneCharacterTokens()
       continue if @extractedStringLiterals()
       continue if @extractedWords()
-      continue if @extractedNumericLiterals()
 
       # return an error if we were not able to either extract
       # something from or skip the current character
@@ -35,8 +38,9 @@ class LineScanner
       return {errors: "INVALID TOKEN"}
 
     # add newline token after each line
-    @addToken {kind: 'newline'}
-    return {@lineTokens, @currentState}
+    @start = @position
+    @addToken {kind: 'newline'} if extractedTokens
+    return {errors: null, @lineTokens, @currentState}
 
   addToken: ({kind, lexeme}) ->
     lexeme ?= kind
@@ -137,7 +141,7 @@ class LineScanner
   extractedNumericLiterals: ->
     @start = @position
     if /\d/.test @line[@position]
-      numberGroups = /(\d*)\.?(\d*)/.exec @line[@position..]
+      numberGroups = /(\d*)(\.\d+)?/.exec @line[@position..]
       kind = if numberGroups[2] then 'FLOATLIT' else 'INTLIT'
       @addToken {kind, lexeme: numberGroups[0]}
       @position += numberGroups[0].length
