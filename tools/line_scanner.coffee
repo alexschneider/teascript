@@ -107,7 +107,7 @@ class LineScanner
 
   extractMultilineString: ->
     # TODO: IMPLEMENT SO THAT ESCAPED QUOTES AREN'T TREATED AS END OF STRING
-
+    # "([^"\\] | \\["\\rn])*"
     # search for trailing quote for end of multiline string
     @position++ while not /\"|\'/.test(@line[@position]) and
                                  @position < @line.length
