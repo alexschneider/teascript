@@ -105,7 +105,7 @@ instrument[0..8 by 3]    # We grab "xoo"
 
 ```
 
-#### Assignments and Mutations Are Expression
+#### Assignments and Mutations Are Expressions
 
 In teascripts, variable declarations and mutations are expressions.
 
