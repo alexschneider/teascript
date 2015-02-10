@@ -299,7 +299,7 @@ y:= x is iterable                             for (x in iterable) {
                                                 return false;
                                               }
                                               return true;
-                                          };
+                                            };
                                             y = $check_trait(x, iterable);
 
 ```
