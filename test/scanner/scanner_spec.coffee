@@ -11,7 +11,7 @@ describe 'Scanner', ->
       expectedTokens = outputTokens.program1_tokens
 
       it 'returns the appropriate tokens for the first program', ->
-        scan './input-programs/program1.tea', (extractedTokens) ->
+        scan "#{__dirname}/input-programs/program1.tea", (extractedTokens) ->
           expect(extractedTokens).to.eql expectedTokens
 
   describe 'Second scanner test', ->
@@ -19,5 +19,5 @@ describe 'Scanner', ->
       expectedTokens = outputTokens.program2_tokens
 
       it 'returns the appropriate tokens for the second program', ->
-        scan './input-programs/program2.tea', (extractedTokens) ->
+        scan "#{__dirname}/input-programs/program2.tea", (extractedTokens) ->
           expect(extractedTokens).to.eql expectedTokens
