@@ -21,3 +21,11 @@ describe 'Scanner', ->
       it 'returns the appropriate tokens for the second program', ->
         scan "#{__dirname}/input-programs/program2.tea", (extractedTokens) ->
           expect(extractedTokens).to.eql expectedTokens
+
+  describe 'Third scanner test', ->
+    context 'when all valid tokens can be extracted from the program', ->
+      expectedTokens = outputTokens.program3_tokens
+
+      it 'returns the appropriate tokens for the second program', ->
+        scan "#{__dirname}/input-programs/program3.tea", (extractedTokens) ->
+          expect(extractedTokens).to.eql expectedTokens

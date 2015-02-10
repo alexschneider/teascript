@@ -9,7 +9,8 @@ class Tokens
     '{', '}',                            # for map construction
     '=',                                 # mutation
     '.',                                 # member access for objects
-    ','                                  # separating args/params
+    ',',                                 # separating args/params
+    ':'                                  # start of a block
   ]
 
   @twoCharacterTokens = [

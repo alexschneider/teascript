@@ -22,7 +22,7 @@ class MyTokens
     {kind: ':=', lexeme: ':=', start: 8},
     {kind: '(', lexeme: '(', start: 11},
     {kind: 'ID', lexeme: 'x', start: 12},
-    {kind: ', ', lexeme: ', ', start: 13},
+    {kind: ',', lexeme: ',', start: 13},
     {kind: 'ID', lexeme: 'y', start: 15},
     {kind: ')', lexeme: ')', start: 16},
     {kind: '->', lexeme: '->', start: 18},
@@ -95,5 +95,37 @@ class MyTokens
     {kind:')', lexeme:')', start:75},
     {kind:')', lexeme:')', start:76},
     {kind:'newline', lexeme:'newline', start:77},
-    ]
+  ]
+
+  @program3_tokens = [
+    {kind:'ID',lexeme:'a',start:0},
+    {kind:':=',lexeme:':=',start:2},
+    {kind: 'INTLIT',lexeme:'4',start:5 },
+    {kind:'+',lexeme:'+',start:7},
+    {kind:'INTLIT',lexeme:'5', start: 9},
+    {kind:'newline',lexeme:'newline',start:44},
+
+    {kind:'ID',lexeme:'b',start:0},
+    {kind:':=',lexeme:':=', start:2},
+    {kind:'INTLIT',lexeme:'3',start:5},
+    {kind:'/',lexeme:'/',start:7},
+    {kind:'INTLIT',lexeme:'2',start:9},
+
+    {kind:'for',lexeme:'for',start:0},
+    {kind:'ID',lexeme:'a',start:4},
+    {kind:'in',lexeme:'in',start:6},
+    {kind:'ID',lexeme:'x',start:9},
+    {kind:':',lexeme:':',start:10},
+    {kind:'newline',lexeme:'newline',start:11},
+
+    {kind:'ID',lexeme:'out',start:4},
+    {kind:'(',lexeme:'(',start:7},
+    {kind:'ID',lexeme:'a',start:8},
+    {kind:')',lexeme:')',start:9},
+    {kind:'newline',lexeme:'newline',start:10},
+
+    {kind:'end',lexeme:'end',start:0},
+    {kind:'newline',lexeme:'newline',start:3}
+  ]
+
 module.exports = MyTokens
