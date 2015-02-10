@@ -60,9 +60,37 @@ my_string = "Oh baby!" # This is a string literal
 my_list = [1..5]       # This is a list, which is mutable.
 my_tuple = (1,2,3,2,1) # Immutable ordered lists
 my_set = <1,3,5,7>     # Immutable unordered lists with NO REPEATS
-# Ordered pair of key-values
-my_map = {"lat":51.24,"long":0.18} 
+my_map = {"lat":51.24,"long":0.18}  # Ordered pair of key-values
+ 
 ```
+
+##### Ranges and Slices for iterables
+A range is a list of integers at a regularly spaced interval, bounded by x inclusive on the low side, and y exclusive on the high side, I.E. `[x, y)`. A range can be describe in two ways:
+
+```
+a .. b       # We go from a to b-1 in increments of 1. 
+# OR
+a .. b by x  # We go from from a to b-1 in increments of x.
+
+1 .. 10       # This is [1,2,3,4,5,6,7,8,9]
+2 .. 10 by 2  # This is [2,4,6,8] 
+1 .. 15 by 4  # This is [1,5,9,13]. The next numeber is 
+              # 17, which is bigger than 17, so we finish
+              # our list at 13.
+```
+
+A slice is a 1 to 1 mapping of a range to an ordered collection of elements, such that the index of an element in a slice corresponds to a number given by the range. This means that we use a range to select a specific subset of the elements of an ordered iterabele. All reference types are iterables. All reference types except sets are ordered iterables. Since they are ordered, we can iterate over them in a predictable way and apply slices to them.  
+
+```
+instrument := "xylophone"
+instrument[0,1,2]        # We grab "xyl"
+instrument[0..3]         # Since [0..3] == [0,1,2] this is also "xyl"
+instrument[0..8 by 3]    # We grab "xoo"
+
+```
+
+##### Assignments and Mutations Are Expression
+
 In teascripts, variable declarations and mutations are expressions.
 
 ```
