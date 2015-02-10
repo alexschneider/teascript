@@ -5,12 +5,9 @@ Status](https://travis-ci.org/alexschneider/teascript.svg?branch=as%2Ftravis)](h
 [![Coverage
 Status](https://coveralls.io/repos/alexschneider/teascript/badge.svg)](https://coveralls.io/r/alexschneider/teascript)
 
-Check out our wiki: https://github.com/alexschneider/teascript/wiki/1)-Ideas-for-Language
-
 ![](https://raw.githubusercontent.com/alexschneider/teascript/master/teascript_logo.jpg)
 
-teascript is a very high level language that compiles into JavaScript.
-More introduction is needed here...
+teascript is a language that compiles into JavaScript. 
 
 ### Features
 
@@ -203,6 +200,41 @@ out(new_str)  # prints out "oos"
 for color in <"red","yellow","green","blue">:
     out(color)
 end
+```
+
+#### while loops
+While loops can be used one of two ways.
+```
+# If the while loop has a single expression in its
+# body it can be written into a single line.
+counter := 0
+while counter < 28: out(++counter)
+
+# Otherwise, we apply the traditional model. Don't forget
+# the 'end' at the bottom!
+
+counter = 10
+while counter > 0:
+    out(--counter)
+end
+out('Happy New Year!')
+```
+
+#### Functions
+Functions in teascript look a lot like the functions in coffeescript. Functions are 
+first-level objects.
+
+```
+repeat = (str, n) ->
+    new_str := ""
+    for i in 1..n:
+        new_str += str
+    end
+    return new_str
+end
+
+# We can also have anonymous functions.
+times((x) -> 2*x, 5, 10)
 ```
 ### Example Programs
 teascript on left, JavaScript on right.
