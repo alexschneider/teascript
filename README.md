@@ -181,10 +181,10 @@ ordering when iterating over them.
 # a reference to an iterable or pass an
 # iterable.
 
-cum_sum := 0
+sum := 0
 for i in [1,2,3,4]:
-    cum_sum += i
-    out(cum_sum)
+    sum += i
+    out(sum)
 end
 
 new_str := ""
