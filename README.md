@@ -33,7 +33,7 @@ Like most programming languages, teascript has **comments**. Single line comment
 
 ```
 
-#### Primitive Types
+#### Primitive and Reference Types
 
 Unlike JavaScript, we don't have a variable declaration keyword like `var`. Unlike Python, we make a distinction between variable declaration and mutation. Additionally, variables must be assigned a value when they are declared.
 
@@ -57,7 +57,7 @@ is_this_true = false # Inferred to be a bool
 z := none            # You can assign none to a variable 
 
 my_string = "Oh baby!" # This is a string literal
-my_list = [1..5]       # This is a list, which is an array.
+my_list = [1..5]       # This is a list, which is mutable.
 my_tuple = (1,2,3,2,1) # Immutable ordered lists
 my_set = <1,3,5,7>     # Immutable unordered lists with NO REPEATS
 # Ordered pair of key-values
@@ -123,9 +123,32 @@ else
     out("Come back some other time.")
 end
 ```
-
+##### for Loops
+In teascript we can iterate over anything that is an iterable. Of our five reference types, only four of them are ordered, ie lists, tuples, strings, and maps(we iterate over their keys in lexicographical order). Sets are unordered iterables, so while iterating over them is allowed, do not expect an explicit ordering when iterating over them.
 
 ```
+# We can give the for loop a variable that is
+# a reference to an iterable or pass an
+# iterable.
 
+cum_sum := 0
+for i in [1,2,3,4]:
+    cum_sum += i
+    out(cum_sum)
+end
+
+new_str := "" 
+for letter in "xylophones"[0..9 by 3]:
+    new_str +=letter
+end
+out(new_str)  # prints out "oos"
+
+## You won't know in what order the strings will be 
+   printed because sets are unordered iterables. However, 
+   each color will be printed once.
+##
+for color in <"red","yellow","green","blue">:
+    out(color)
+end
 ```
 
