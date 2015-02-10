@@ -227,7 +227,7 @@ first-level objects.
 ```
 repeat = (str, n) ->
     new_str := ""
-    for i in 1..n
+    for i in 1..n:
         new_str += str
     end
     return new_str
