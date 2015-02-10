@@ -311,16 +311,15 @@ f := () -> [0, 1, 2]                        var f = function() { return [0, 1, 2
 (x, y, z) := f()                            var $xyz = f(), x = $xyz[0], y = $xyz[1], z = $xyz[2];
 ```
 
-#### Objects
-Objects behave like maps with slightly different syntax (and they can be
-instantiated more than once)
+#### Classes / Objects
+Objects behave like maps with slightly different syntax
 ```
-O := obj:                                   var O = function() {
-  a := () -> "hello"                          this.a = function() { return "hello"; };
-  b := 5                                      this.b = 5;
+Circle := class:                              var Circle = function() {
+  r := 4                                      this.r = 4;
+  circum := () -> 2*Math.PI*this.r            this.circum = function() { return 2*Math.PI.this.r; };
 end                                         };
 
-o := new O()                                var o = new O();
-out(o.a());                                 console.log(o.a());
-out(o.b);                                   console.log(o.b());
+circle := new Circle()                      var circle = new Circle();
+out(circle.r);                              console.log(circle.r);
+out(circle.circum());                       console.log(circle.circum());
 ```
