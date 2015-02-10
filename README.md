@@ -104,7 +104,7 @@ instrument[0..8 by 3]    # We grab "xoo"
 
 #### Assignments and Mutations Are Expressions
 
-In teascripts, variable declarations and mutations are expressions.
+In teascript, variable declarations and mutations are expressions.
 
 ```
 x := 100     # We declare x and assign it the value of 10
@@ -119,7 +119,7 @@ z := (y = (x = 2) + 4) + 10
 ```
 
 #### Control Flow
-Variables assignments and mutations only get you so far. That's why we have
+Variable assignments and mutations only get you so far. That's why we have
 `if`s, `for`s, `while`s and functions.
 
 #### Ifs
