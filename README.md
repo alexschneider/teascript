@@ -59,5 +59,5 @@ my_set = <1,3,5,7>     # Immutable unordered lists with NO REPEATS
 my_map = {"lat":51.24,"long":0.18} 
 ```
 
-Variables assignments and mutations only get you so far. That's why we included 
+Variables assignments and mutations only get you so far. That's why we included control show  
 
