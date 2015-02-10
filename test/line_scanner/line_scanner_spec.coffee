@@ -3,8 +3,8 @@ chai = require 'chai'
 sinonChai = require 'sinon-chai'
 expect = chai.expect
 chai.use(sinonChai)
-LineScanner = require '../tools/line_scanner'
-scan = require '../scanner.coffee'
+LineScanner = require '../../tools/line_scanner'
+scan = require '../../scanner.coffee'
 
 describe 'LineScanner', ->
   describe '#scan', ->
@@ -24,7 +24,7 @@ describe 'LineScanner', ->
           {kind: '(', lexeme: '(', start: 23},
           {kind: ')', lexeme: ')', start: 24},
           {kind: 'bool', lexeme: 'bool', start: 26},
-          {kind: 'newline', lexeme: 'newline', start: 27}
+          {kind: 'newline', lexeme: 'newline', start: 40}
         ]
 
     context 'when the line is empty', ->

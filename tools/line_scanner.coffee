@@ -133,7 +133,6 @@ class LineScanner
     return false
 
   addWord: (word) ->
-    console.log "adding word?"
     if word in tokens.reservedWords
       @addToken {kind: word}
     else
