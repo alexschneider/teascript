@@ -32,8 +32,7 @@ Multiline comments begin and end with double octothorpes.
 ## This is a multiline comment on a single line. ##
 
 ```
-
-#### Primitive and Reference Types
+#### Assignment and Mutation
 
 Unlike JavaScript, we don't have a variable declaration keyword like `var`.
 Unlike Python, we make a distinction between variable declaration and mutation.
@@ -49,6 +48,7 @@ y := 'MLG status'  # We also allow for type inference.
 x = 127001 # x has been defined, so it's cool
 z = 42     # Hey z wasn't declared! This causes error.
 ```
+#### Primitive and Reference Types
 
 We have four primitive types: `int`, `double`, `bool`, and `none`, our
 "undefined"/"null" data type. Note that our primitive types are **ALL**
