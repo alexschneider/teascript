@@ -95,6 +95,7 @@ In teascripts, variable declarations and mutations are expressions.
 
 ```
 x := 100     # We declare x and assign it the value of 10
+
 y := (x = 4) # We assign the value of 4 to x. Since assignemnts
              # are expressions, we return a value of 4, which gets
              # assigned to y.
