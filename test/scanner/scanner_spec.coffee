@@ -14,7 +14,8 @@ describe 'Scanner', ->
         expectedTokens1 = outputTokens.program1_tokens
 
         it 'returns the appropriate tokens', ->
-          scan "#{validProgramsPath}/program1.tea", (extractedTokens) ->
+          scan "#{validProgramsPath}/program1.tea", (err, extractedTokens) ->
+            expect(err).to.be.null
             expect(extractedTokens).to.eql expectedTokens1
 
     describe 'valid teascript program #2', ->
@@ -22,7 +23,8 @@ describe 'Scanner', ->
         expectedTokens2 = outputTokens.program2_tokens
 
         it 'returns the appropriate tokens', ->
-          scan "#{validProgramsPath}/program2.tea", (extractedTokens) ->
+          scan "#{validProgramsPath}/program2.tea", (err, extractedTokens) ->
+            expect(err).to.be.null
             expect(extractedTokens).to.eql expectedTokens2
 
     describe 'valid teascript program #3', ->
@@ -30,7 +32,8 @@ describe 'Scanner', ->
         expectedTokens3 = outputTokens.program3_tokens
 
         it 'returns the appropriate tokens', ->
-          scan "#{validProgramsPath}/program3.tea", (extractedTokens) ->
+          scan "#{validProgramsPath}/program3.tea", (err, extractedTokens) ->
+            expect(err).to.be.null
             expect(extractedTokens).to.eql expectedTokens3
 
     describe 'valid teascript program #4', ->
@@ -38,7 +41,8 @@ describe 'Scanner', ->
         expectedTokens4 = outputTokens.program4_tokens
 
         it 'returns the appropriate tokens', ->
-          scan "#{validProgramsPath}/program4.tea", (extractedTokens) ->
+          scan "#{validProgramsPath}/program4.tea", (err, extractedTokens) ->
+            expect(err).to.be.null
             expect(extractedTokens).to.eql expectedTokens4
 
     describe 'teascript program #5', ->
@@ -46,6 +50,14 @@ describe 'Scanner', ->
         expectedTokens5 = outputTokens.program5_tokens
 
         it 'returns the appropriate tokens', ->
-          scan "#{validProgramsPath}/program5.tea", (extractedTokens) ->
+          scan "#{validProgramsPath}/program5.tea", (err, extractedTokens) ->
+            expect(err).to.be.null
             expect(extractedTokens).to.eql expectedTokens5
 
+  describe 'scanning invalid teascript programs', ->
+    describe 'invalid teascript program #1', ->
+      context 'when test program1.tea is passed through the scanner', ->
+
+        it 'returns the appropriate error', ->
+          scan "#{invalidProgramsPath}/program1.tea", (err, extractedTokens) ->
+            expect(err).to.equal "line 0: invalid token at position 21"

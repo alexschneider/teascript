@@ -5,7 +5,7 @@ CustomError = require './custom_error'
 
 module.exports = (filePath, callback) ->
   baseStream = fs.createReadStream filePath, {encoding: 'utf8'}
-  baseStream.on 'error', (err) -> console.log err
+  baseStream.on 'error', (err) -> return callback err
   stream = byline baseStream, {keepEmptyLines: true}
   allTokens = []
   currentScannerState =
@@ -13,17 +13,19 @@ module.exports = (filePath, callback) ->
       comment: false
       string: false
   lineNumber = 0
+  isValid = true
 
   stream.on 'readable', ->
     lineScanner = new LineScanner stream.read(), currentScannerState
     {error, lineTokens, currentState} = lineScanner.scan()
     if error
-      console.log (new CustomError(error, lineNumber)).getMessage()
-      return
+      isValid = false
+      return callback (new CustomError(error, lineNumber)).getMessage()
     lineNumber++
     allTokens = allTokens.concat lineTokens
     currentScannerState = currentState
 
   stream.once 'end', ->
     allTokens.push {kind: 'EOF', lexeme: 'EOF', start: 0}
-    callback allTokens[1..] # don't include preceding newline character
+    # don't include preceding newline character
+    callback null, allTokens[1..] if isValid
