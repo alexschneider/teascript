@@ -246,14 +246,14 @@ var collatz = function(starting, iterations) {
 #### Traits
 ```
 iterable := trait:                          var iterable = {
-  next()                                      trait: true,
-  has_next()                                  next: 'function'
+  next()                                      trait: true,,
+  has_next()                                  next: 'function',
 end                                           has_next: 'function'
-                                            }
+                                            };
 ordered_iterable := trait:                  var ordered_iterable = {
   implements iterable                           implements: [iterable],
   index                                         index: 'property'
-end                                         }
+end                                         };
 
 
 x := # some variable                        var x = // some variable
@@ -267,7 +267,28 @@ y:= x is iterable                             for (x in iterable) {
                                                 return false;
                                               }
                                               return true;
-                                            }
+                                          };
                                             y = $check_trait(x, iterable);
 
+```
+
+#### Parallel / destructuring assignment
+```
+(x, y, z) := (1, 2, 3)                      var x = 1, y = 2, z = 3;
+f := () -> [0, 1, 2]                        var f = function() { return [0, 1, 2] };
+(x, y, z) := f()                            var $xyz = f(), x = $xyz[0], y = $xyz[1], z = $xyz[2];
+```
+
+#### Objects
+Objects behave like maps with slightly different syntax (and they can be
+instantiated more than once)
+```
+O := obj:                                   var O = function() {
+  a := () -> "hello"                          this.a = function() { return "hello"; };
+  b := 5                                      this.b = 5;
+end                                         };
+
+o := new O()                                var o = new O();
+out(o.a());                                 console.log(o.a());
+out(o.b);                                   console.log(o.b());
 ```
