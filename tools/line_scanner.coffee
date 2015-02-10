@@ -11,35 +11,30 @@ class LineScanner
     @lineTokens = []
 
   scan: ->
-
     return {errors: null, @lineTokens, @currentState} unless @line
-
+    unless (@currentState.multiline.comment or @currentState.multiline.string)
+      @addToken {kind: 'newline'}
     while @position < @line.length
-      extractedTokens = false
 
       # continue iterating over the line of characters
       # if we've been able to do one of the following:
-      # 1. skip insignificant characters (white space, comments, etc.)
-      # 2. extract a valid token
+      # 1. skip one or more insignificant characters (white space, comments, etc.)
+      # 2. extract a valid teascript token
       continue if @skippedSpaces()
       continue if @skippedMultiComments()
-
-      extractedTokens = true
       continue if @skippedSingleComments()
       continue if @extractedNumericLiterals()
       continue if @extractedTwoCharacterTokens()
       continue if @extractedOneCharacterTokens()
-      continue if @extractedStringLiterals()
       continue if @extractedWords()
+      continue if @extractedStringLiterals()
 
       # return an error if we were not able to either extract
       # something from or skip the current character
       # TODO: BETTER ERROR HANDLING
-      return {errors: "INVALID TOKEN"}
+      return {errors: "INVALID TOKEN", lineTokens: []}
 
     # add newline token after each line
-    @start = @position
-    @addToken {kind: 'newline'} if extractedTokens
     return {errors: null, @lineTokens, @currentState}
 
   addToken: ({kind, lexeme}) ->
@@ -102,7 +97,7 @@ class LineScanner
     if @currentState.multiline.string
       @extractMultilineString()
       return true
-    else if @line[@position] is ("'" or '"')
+    else if /\"|\'/.test @line[@position]
       @position++
       # strings multiline by default
       @currentState.multiline.string = true
@@ -115,8 +110,8 @@ class LineScanner
     # TODO: IMPLEMENT SO THAT ESCAPED QUOTES AREN'T TREATED AS END OF STRING
 
     # search for trailing quote for end of multiline string
-    @position++ while @line[@position] isnt ("'" or '"') and
-                      @position < @line.length
+    @position++ while not /\"|\'/.test(@line[@position]) and
+                                 @position < @line.length
     return unless @position < @line.length
 
     # found trailing quote

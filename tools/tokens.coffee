@@ -17,7 +17,8 @@ class Tokens
     '+=', '-=', '*=', '/=', '++', '--',  # mutators
     '<=', '>=',                          # relational operators
     ':=',                                # assignment
-    '->'                                 # function
+    '->',                                # function
+    '..'                                 # range
   ]
 
   @reservedWords = [
