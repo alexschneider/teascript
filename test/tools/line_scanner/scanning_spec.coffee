@@ -1,5 +1,8 @@
+sinon = require 'sinon'
 chai = require 'chai'
+sinonChai = require 'sinon-chai'
 expect = chai.expect
+chai.use(sinonChai)
 LineScanner = require '../../../tools/line_scanner'
 scan = require '../../../scanner.coffee'
 
@@ -26,6 +29,13 @@ describe 'LineScanner', ->
 
     context 'when the line is empty', ->
       lineScanner = new LineScanner ''
+      lineScanner.skippedSpaces = sinon.stub()
+      lineScanner.skippedMultiComments = sinon.stub()
+      lineScanner.skippedSingleComments = sinon.stub()
+      lineScanner.extractedTwoCharacterTokens = sinon.stub()
+      lineScanner.extractedOneCharacterTokens = sinon.stub()
+      lineScanner.extractedWords = sinon.stub()
+      lineScanner.extractedNumericLiterals = sinon.stub()
       result = lineScanner.scan()
 
       it 'returns without trying to extract any tokens/skip any characters', ->
@@ -42,6 +52,10 @@ describe 'LineScanner', ->
 
     context 'when the line is full of spaces', ->
       lineScanner = new LineScanner '                    '
+      lineScanner.extractedTwoCharacterTokens = sinon.stub()
+      lineScanner.extractedOneCharacterTokens = sinon.stub()
+      lineScanner.extractedWords = sinon.stub()
+      lineScanner.extractedNumericLiterals = sinon.stub()
       lineScanner.scan()
 
       it 'returns without trying to extract any tokens', ->
@@ -52,6 +66,10 @@ describe 'LineScanner', ->
 
     context 'when the line is commented out', ->
       lineScanner = new LineScanner '# example commented out line'
+      lineScanner.extractedTwoCharacterTokens = sinon.stub()
+      lineScanner.extractedOneCharacterTokens = sinon.stub()
+      lineScanner.extractedWords = sinon.stub()
+      lineScanner.extractedNumericLiterals = sinon.stub()
       lineScanner.scan()
 
       it 'returns without trying to extract any tokens', ->

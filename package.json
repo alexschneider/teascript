@@ -9,15 +9,18 @@
     "yargs": "^3.0.4"
   },
   "devDependencies": {
-    "chai": "^2.0.0",
+    "chai": "~1.10.0",
     "coffee-coverage": "^0.4.4",
     "coffeelint": "^1.8.1",
     "coveralls": "^2.11.2",
     "fixture-stdout": "^0.2.1",
     "intercept-stdout": "0.0.2",
     "mocha": "^2.1.0",
-    "mocha-lcov-reporter": "0.0.1"
+    "mocha-lcov-reporter": "0.0.1",
+    "sinon-chai": "latest",
+    "sinon": "latest"
   },
+
   "scripts": {
     "test": "mocha --compilers coffee:coffee-script/register ./test/ --recursive",
     "coverage": "mocha --require coffee-coverage/register --compilers coffee:coffee-script/register test --recursive --reporter mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js"
