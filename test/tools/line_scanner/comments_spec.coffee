@@ -10,10 +10,12 @@ describe 'LineScanner', ->
 
       context 'when a multiline comment without a defined
                ending is the next sequence of characters', ->
-        lineScanner = new LineScanner '## this is a multiline comment without a defined ending'
+        lineScanner = new LineScanner '## this is a multiline comment
+                                       without a defined ending'
         result = lineScanner.skippedMultiComments()
 
-        it 'sets the current state of the mulitline comment of the scanner to be true', ->
+        it 'sets the current state of the mulitline
+            comment of the scanner to be true', ->
           expect(lineScanner.currentState.multiline.comment).to.be.true
 
         it 'increments the scanner position to the end of the line', ->
@@ -29,8 +31,8 @@ describe 'LineScanner', ->
                                       , currentScannerState
         result = lineScanner.skippedMultiComments()
 
-        it 'toggles the current state of the multiline comment of the scanner back
-            to false', ->
+        it 'toggles the current state of the multiline
+            comment of the scanner back to false', ->
           expect(lineScanner.currentState.multiline.comment).to.be.false
 
         it 'increments the scanner position to just after the comment', ->
@@ -41,10 +43,12 @@ describe 'LineScanner', ->
 
       context 'when there is a multiline comment with a defined ending', ->
         lineScanner =
-          new LineScanner '## this is a multiline comment with a defined ending ## f := 5'
+          new LineScanner '## this is a multiline comment
+                           with a defined ending ## f := 5'
         result = lineScanner.skippedMultiComments()
 
-        it 'toggles the current state of the multiline comment of the scanner back to false', ->
+        it 'toggles the current state of the multiline comment
+            of the scanner back to false', ->
           expect(lineScanner.currentState.multiline.comment).to.be.false
 
         it 'increments the scanner position to just after the comment', ->
@@ -55,7 +59,8 @@ describe 'LineScanner', ->
 
       context 'when there is not a multiline comment nor is the scanner
                in the middle of scanning a multiline comment', ->
-        lineScanner = new LineScanner 'This is just a regular line with no comments'
+        lineScanner = new LineScanner 'This is just a regular
+                                       line with no comments'
         result = lineScanner.skippedMultiComments()
 
         it 'does not increment the scanner position', ->
@@ -77,7 +82,8 @@ describe 'LineScanner', ->
       it 'returns true since a single line comment was skipped', ->
         expect(result).to.be.true
 
-    context 'when a single line comment is not the next sequence of characters', ->
+    context 'when a single line comment is not
+             the next sequence of characters', ->
       lineScanner = new LineScanner 'x := 5'
       result = lineScanner.skippedSingleComments()
 

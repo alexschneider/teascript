@@ -18,7 +18,7 @@ class LineScanner
 
       # continue iterating over the line of characters
       # if we've been able to do one of the following:
-      # 1. skip one or more insignificant characters (white space, comments, etc.)
+      # 1. skip one or more insignificant characters (white space, comment, etc)
       # 2. extract a valid teascript token
       continue if @skippedSpaces()
       continue if @skippedMultiComments()
@@ -67,7 +67,7 @@ class LineScanner
     skippedMultiComments
 
   lookForMultiCommentEnd: ->
-    relativePositionOfTrailingHashes = @line[@position..].indexOf "##"
+    relativePositionOfTrailingHashes = @line[@position..].indexOf '##'
     # we have found the trailing hashes
     if relativePositionOfTrailingHashes >= 0
       @position += relativePositionOfTrailingHashes + 2

@@ -8,7 +8,7 @@ describe 'LineScanner', ->
     describe '#extractedWords', ->
 
       context 'when a reserved word is the next token', ->
-        lineScanner = new LineScanner "bool ="
+        lineScanner = new LineScanner 'bool ='
         extractionResult = lineScanner.extractedWords()
 
 
@@ -26,7 +26,7 @@ describe 'LineScanner', ->
           expect(extractionResult).to.be.true
 
       context 'when an identifer is the next token', ->
-        lineScanner = new LineScanner "myVariable := () ->"
+        lineScanner = new LineScanner 'myVariable := () ->'
         extractionResult = lineScanner.extractedWords()
 
         it 'accurately increments the current position of the scanner', ->
@@ -43,7 +43,7 @@ describe 'LineScanner', ->
           expect(extractionResult).to.be.true
 
       context 'when a word is not the next token', ->
-        lineScanner = new LineScanner "* 5"
+        lineScanner = new LineScanner '* 5'
         extractionResult = lineScanner.extractedWords()
 
         it 'does not increment the current position of the scanner', ->
@@ -56,7 +56,7 @@ describe 'LineScanner', ->
           expect(extractionResult).to.be.false
 
       context 'when an identifier is only one character', ->
-        lineScanner = new LineScanner "x := 123456"
+        lineScanner = new LineScanner 'x := 123456'
         extractionResult = lineScanner.extractedWords()
 
         it 'accurately increments the current position of the scanner', ->
@@ -73,7 +73,7 @@ describe 'LineScanner', ->
           expect(extractionResult).to.be.true
 
       context 'when an identifier that does not begin with a letter is next', ->
-        lineScanner = new LineScanner "5myVar = 1"
+        lineScanner = new LineScanner '5myVar = 1'
         extractionResult = lineScanner.extractedWords()
 
         it 'does not increment the current position of the scanner', ->

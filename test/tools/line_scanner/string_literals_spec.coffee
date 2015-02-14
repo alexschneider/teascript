@@ -32,8 +32,8 @@ describe 'LineScanner', ->
                                       , currentScannerState
         result = lineScanner.extractedStringLiterals()
 
-        it 'toggles the current state of the multiline string of the scanner back
-            to false', ->
+        it 'toggles the current state of the multiline string of the
+            scanner back to false', ->
           expect(lineScanner.currentState.multiline.string).to.be.false
 
         it 'increments the scanner position to the end of the string', ->
@@ -52,10 +52,12 @@ describe 'LineScanner', ->
           expect(result).to.be.true
 
       context 'when there is a multiline string with a defined ending', ->
-        lineScanner = new LineScanner '\'this is a multiline string with a defined ending \'f := 5'
+        lineScanner = new LineScanner '\'this is a multiline string with
+                                       a defined ending \'f := 5'
         result = lineScanner.extractedStringLiterals()
 
-        it 'toggles the current state of the multiline string of the scanner back to false', ->
+        it 'toggles the current state of the multiline string of the scanner
+            back to false', ->
           expect(lineScanner.currentState.multiline.string).to.be.false
 
         it 'increments the scanner position to just after the string', ->

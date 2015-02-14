@@ -60,4 +60,4 @@ describe 'Scanner', ->
 
         it 'returns the appropriate error', ->
           scan "#{invalidProgramsPath}/program1.tea", (err, extractedTokens) ->
-            expect(err).to.equal "line 0: invalid token at position 21"
+            expect(err).to.equal 'line 0: invalid token at position 21'
