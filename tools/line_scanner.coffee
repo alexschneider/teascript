@@ -1,7 +1,7 @@
 tokens = require './tokens'
 
 class LineScanner
-  constructor: (@line, @currentState) ->
+  constructor: (@line, @currentState, @lineNumber) ->
     @currentState ?=
       multiline:
         comment: false
@@ -38,7 +38,10 @@ class LineScanner
 
   addToken: ({kind, lexeme}) ->
     lexeme ?= kind
-    @lineTokens.push {lexeme, kind, @start}
+    token = {lexeme, kind, @start}
+    token.lineNumber = @lineNumber if @lineNumber?
+    @lineTokens.push token
+    @lineTokens
 
   skippedSpaces: ->
     skippedSpaces = false
