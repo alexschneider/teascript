@@ -2,6 +2,7 @@ language: node_js
 node_js:
 - '0.10'
 script:
+- npm test
 - find -path ./node_modules -prune -o -name "*.coffee" -exec $(npm bin)/coffeelint "{}" +
 after_script:
 - npm run-script coverage
