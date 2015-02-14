@@ -16,7 +16,7 @@ module.exports = (filePath, callback) ->
   isValid = true
 
   stream.on 'readable', ->
-    lineScanner = new LineScanner stream.read(), currentScannerState
+    lineScanner = new LineScanner stream.read(), currentScannerState, lineNumber
     {error, lineTokens, currentState} = lineScanner.scan()
     if error
       isValid = false

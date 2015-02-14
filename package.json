@@ -17,10 +17,10 @@
     "intercept-stdout": "0.0.2",
     "mocha": "^2.1.0",
     "mocha-lcov-reporter": "0.0.1",
+    "sinon": "latest",
     "sinon-chai": "latest",
-    "sinon": "latest"
+    "yargs": "^3.0.4"
   },
-
   "scripts": {
     "test": "mocha --compilers coffee:coffee-script/register ./test/ --recursive",
     "coverage": "mocha --require coffee-coverage/register --compilers coffee:coffee-script/register test --recursive --reporter mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js"
