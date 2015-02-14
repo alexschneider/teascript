@@ -8,7 +8,7 @@ describe 'LineScanner', ->
     describe '#extractedOneCharacterTokens', ->
 
       context 'when a one-character token is the next token', ->
-        lineScanner = new LineScanner "*5"
+        lineScanner = new LineScanner '*5'
         extractionResult = lineScanner.extractedOneCharacterTokens()
 
         it 'accurately increments the current position of the scanner', ->
@@ -26,7 +26,7 @@ describe 'LineScanner', ->
           expect(extractionResult).to.be.true
 
       context 'when a one-character token is not the next token', ->
-        lineScanner = new LineScanner " x"
+        lineScanner = new LineScanner ' x'
         extractionResult = lineScanner.extractedOneCharacterTokens()
 
         it 'does not increment the current position of the scanner', ->

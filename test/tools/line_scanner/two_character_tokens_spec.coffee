@@ -8,7 +8,7 @@ describe 'LineScanner', ->
     describe '#extractedTwoCharacterTokens', ->
 
       context 'when a two-character token is the next token', ->
-        lineScanner = new LineScanner "<="
+        lineScanner = new LineScanner '<='
         extractionResult = lineScanner.extractedTwoCharacterTokens()
 
         it 'accurately increments the current position of the scanner', ->
@@ -26,7 +26,7 @@ describe 'LineScanner', ->
           expect(extractionResult).to.be.true
 
       context 'when a two-character token is not the next token', ->
-        lineScanner = new LineScanner "."
+        lineScanner = new LineScanner '.'
         extractionResult = lineScanner.extractedTwoCharacterTokens()
 
         it 'does not increment the current position of the scanner', ->
