@@ -1,7 +1,7 @@
 chai = require 'chai'
 expect = chai.expect
 
-parse = require '../../parser'
+parse = require '../../parser/parser'
 outputTokens = require '../example/output_tokens'
 
 describe 'Scanner', ->
@@ -10,4 +10,3 @@ describe 'Scanner', ->
     describe 'valid teascript program #1', ->
       context "when test program1.tea's tokens
                are passed through the scanner", ->
-        
