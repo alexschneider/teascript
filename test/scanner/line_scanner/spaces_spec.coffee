@@ -1,6 +1,6 @@
 chai = require 'chai'
 expect = chai.expect
-LineScanner = require '../../../tools/line_scanner'
+LineScanner = require '../../../scanner/line_scanner'
 
 describe 'LineScanner', ->
   describe 'Skipping Spaces', ->
@@ -39,4 +39,3 @@ describe 'LineScanner', ->
 
         it 'returns false since no spaces were skipped', ->
           expect(result).to.be.false
-

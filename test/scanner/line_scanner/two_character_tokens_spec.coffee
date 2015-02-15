@@ -1,6 +1,6 @@
 chai = require 'chai'
 expect = chai.expect
-LineScanner = require '../../../tools/line_scanner'
+LineScanner = require '../../../scanner/line_scanner'
 
 describe 'LineScanner', ->
   describe 'Extracting Two-Character Tokens', ->
@@ -37,5 +37,3 @@ describe 'LineScanner', ->
 
         it 'returns false since a two-character token was not extracted', ->
           expect(extractionResult).to.be.false
-
-

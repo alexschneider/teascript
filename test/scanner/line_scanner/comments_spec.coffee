@@ -1,6 +1,6 @@
 chai = require 'chai'
 expect = chai.expect
-LineScanner = require '../../../tools/line_scanner'
+LineScanner = require '../../../scanner/line_scanner'
 
 describe 'LineScanner', ->
   describe 'Skipping Comments', ->
