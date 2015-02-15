@@ -1,7 +1,7 @@
 fs = require 'fs'
 byline = require 'byline'
-LineScanner = require './tools/line_scanner'
-CustomError = require './custom_error'
+LineScanner = require './line_scanner'
+CustomError = require '../error/custom_error'
 
 module.exports = (filePath, callback) ->
   baseStream = fs.createReadStream filePath, {encoding: 'utf8'}
