@@ -1,4 +1,4 @@
-scanner = require '../parser/scanner'
+scanner = require '../scanner/scanner'
 CustomError = require '../error/custom_error'
 
 Program = require '../entities/01_program'
