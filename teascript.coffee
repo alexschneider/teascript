@@ -5,7 +5,7 @@ argv = require 'yargs'
   .demand 1
   .argv
 
-scan = require './scanner'
+scan = require './scanner/scanner'
 
 scan argv._[0], (err, tokens) ->
   console.log err if err
