@@ -1,9 +1,9 @@
 chai = require 'chai'
 expect = chai.expect
-scan = require '../../scanner'
-outputTokens = require './output_tokens'
-validProgramsPath = "#{__dirname}/input_programs/valid_programs"
-invalidProgramsPath = "#{__dirname}/input_programs/invalid_programs"
+scan = require '../../scanner/scanner'
+outputTokens = require '../example/output_tokens'
+validProgramsPath = "#{__dirname}/../example/input_programs/valid_programs"
+invalidProgramsPath = "#{__dirname}/../example/input_programs/invalid_programs"
 
 
 describe 'Scanner', ->
