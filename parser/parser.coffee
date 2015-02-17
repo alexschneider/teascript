@@ -12,7 +12,7 @@ tokens = []
 
 module.exports = (scannerOutput) ->
   tokens = scannerOutput
-  program = parseProgram(tokens)
+  program = parseProgram()
   match 'EOF'
 
 parseProgram = ->
@@ -40,30 +40,73 @@ parseForLoop = ->
   match 'in'
   iterable = parseExpression()
   match ':'
-  body = parseBlock()
-  match 'end'
+  if at 'newline'
+    body = parseBlock()
+    match 'end'
+  else
+    body = parseExpression()
+    match 'newline'
   new ForStatement id, iterable, body
 
 parseWhileLoop = ->
   match 'while'
   condition = parseExpression()
   match ':'
-  body = parseBlock()
-  match 'end'
+  if at 'newline'
+    body = parseBlock()
+    match 'end'
+  else
+    body = parseExpression()
+    match 'newline'
   new WhileStatement condition, body
 
 parseExpression = ->
   # TODO
 
+parseVarDec = ->
+  variable = match 'ID'
+  match ':'
+  if not at '='
+    match() # TODO: match type?
+  match '='
+  exp = parseExpression()
+  new VarDec variable, exp
+
+parseVarAssig = ->
+  variable = match 'ID'
+  match '='
+  exp = parseExpression()
+  new VarAssig variable, exp
+
+parseConditional = ->
+  ### TODO: finish
+  if at 'if'
+    match()
+    condition = parseExpression()
+    match ':'
+
+  else
+    ifExp = parseExpression()
+    match 'if'
+    condition = parseExpression()
+    if at 'else'
+      match()
+      elseExp = parseExpression()
+  ###
 
 
-at = (kind) ->
-  if tokens.length is 0
+at = (kind, theseTokens) ->
+  theseTokens ?= tokens
+  if theseTokens.length is 0
     false
   else if Array.isArray kind
     kind.some at
   else
-    kind is tokens[0].kind
+    kind is theseTokens[0].kind
+
+next = (kind) ->
+  at kind, tokens[1..]
+
 
 match = (kind) ->
   if tokens.length is 0
