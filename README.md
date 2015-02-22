@@ -7,14 +7,13 @@ Status](https://coveralls.io/repos/alexschneider/teascript/badge.svg)](https://c
 
 ![](https://raw.githubusercontent.com/alexschneider/teascript/master/teascript_logo.jpg)
 
-teascript is a language that compiles into JavaScript. 
+teascript is a gorgeous little language that compiles into JavaScript. teascript is expressive and powerful, allowing you to not only do exactly what you want, but do so in a clear and concise manner.
 
 ### Features
 
 #### Comments
 
-Like most programming languages, teascript has **comments**. Single line
-comments are created with an octothorpe/hashtag/tic-tac-toe arena (#).
+Single line comments are created with an octothorpe/hashtag/tic-tac-toe arena (#).
 Multiline comments begin and end with double octothorpes.
 
 ```
@@ -92,7 +91,7 @@ such that the index of an element in a slice corresponds to a number given by
 the range. This means that we use a range to select a specific subset of the
 elements of an ordered iterabele. All reference types are iterables. All
 reference types except sets are ordered iterables. Since they are ordered, we
-can iterate over them in a predictable way and apply slices to them.  
+can iterate over them in a predictable way and apply slices to them.
 
 ```
 instrument := "xylophone"
@@ -221,7 +220,7 @@ out('Happy New Year!')
 ```
 
 #### Functions
-Functions in teascript look a lot like the functions in coffeescript. Functions are 
+Functions in teascript look a lot like the functions in coffeescript. Functions are
 first-level objects.
 
 ```
