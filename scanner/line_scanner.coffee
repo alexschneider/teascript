@@ -109,17 +109,16 @@ class LineScanner
       return false
 
   extractMultilineString: ->
-    # TODO: IMPLEMENT SO THAT ESCAPED QUOTES AREN'T TREATED AS END OF STRING
-    # "([^"\\] | \\["\\rn])*"
-    # search for trailing quote for end of multiline string
-    @position++ while not /\"|\'/.test(@line[@position]) and
-                                 @position < @line.length
-    return unless @position < @line.length
+    stringGroup = /([^'"\\]|\\['"\\rn])*("|')/.exec @line[@position..]
 
-    # found trailing quote
-    @currentState.multiline.string = false
-    @position++
-    @addToken {kind: 'STRLIT', lexeme: @line[@start...@position]}
+    if stringGroup
+      # found trailing quote
+      @currentState.multiline.string = false
+      @position += stringGroup[0].length
+      @addToken {kind: 'STRLIT', lexeme: @line[@start...@position]}
+    else
+      # no trailing quote found
+      @position = @line.length
 
   extractedWords: ->
     @start = @position
@@ -139,6 +138,9 @@ class LineScanner
     @start = @position
     if /\d/.test @line[@position]
       numberGroups = /(\d*)(\.\d+)?/.exec @line[@position..]
+      # if we grouped anything in the second group
+      # (numbers after the decimal point), then it is a floatlit
+      # if we didn't, it is a intlit
       kind = if numberGroups[2] then 'FLOATLIT' else 'INTLIT'
       @addToken {kind, lexeme: numberGroups[0]}
       @position += numberGroups[0].length
