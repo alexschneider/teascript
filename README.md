@@ -52,8 +52,8 @@ z = 42     # Hey z wasn't declared! This causes error.
 
 We have four primitive types: `int`, `double`, `bool`, and `none`, our
 "undefined"/"null" data type. Note that our primitive types are **ALL**
-lowercase. We also have 5 reference types: `String`,`Lists`,`Maps`,`Sets`, and
-`Tuples`. Note that the reference types all begin with an **uppercase** letter.
+lowercase. We also have 5 reference types: `String`,`List`,`Map`,`Set`, and
+`Tuple`. Note that the reference types all begin with an **uppercase** letter.
 We demonstrate how to create these types.
 
 ```
@@ -72,8 +72,8 @@ my_map := {"lat":51.24,"long":0.18}  # Ordered pair of key-values
 
 #### Ranges and Slices for iterables
 A range is a list of integers at a regularly spaced interval, bounded by x
-inclusive on the low side, and y exclusive on the high side, I.E. `[x, y)`. A
-range can be describe in two ways:
+inclusive on the low side, and y exclusive on the high side, i.e. `[x, y)`. A
+range can be described in two ways:
 
 ```
 a .. b       # We go from a to b-1 in increments of 1.
@@ -87,7 +87,7 @@ a .. b by x  # We go from from a to b-1 in increments of x.
               # our list at 13.
 ```
 
-A slice is a 1 to 1 mapping of a range to an ordered collection of elements,
+A slice is a one-to-one mapping of a range to an ordered collection of elements,
 such that the index of an element in a slice corresponds to a number given by
 the range. This means that we use a range to select a specific subset of the
 elements of an ordered iterabele. All reference types are iterables. All
@@ -120,7 +120,7 @@ z := (y = (x = 2) + 4) + 10
 
 #### Control Flow
 Variable assignments and mutations only get you so far. That's why we have
-`if`s, `for`s, `while`s and functions.
+`if`, `for`, `while` and functions.
 
 #### Ifs
 

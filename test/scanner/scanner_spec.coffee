@@ -1,9 +1,9 @@
 chai = require 'chai'
 expect = chai.expect
-scan = require '../../scanner'
-outputTokens = require './output_tokens'
-validProgramsPath = "#{__dirname}/input_programs/valid_programs"
-invalidProgramsPath = "#{__dirname}/input_programs/invalid_programs"
+scan = require '../../scanner/scanner'
+outputTokens = require '../example/output_tokens'
+validProgramsPath = "#{__dirname}/../example/input_programs/valid_programs"
+invalidProgramsPath = "#{__dirname}/../example/input_programs/invalid_programs"
 
 
 describe 'Scanner', ->
@@ -60,4 +60,4 @@ describe 'Scanner', ->
 
         it 'returns the appropriate error', ->
           scan "#{invalidProgramsPath}/program1.tea", (err, extractedTokens) ->
-            expect(err).to.equal "line 0: invalid token at position 21"
+            expect(err).to.equal 'line 0: invalid token at position 21'

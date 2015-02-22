@@ -1,7 +1,7 @@
 tokens = require './tokens'
 
 class LineScanner
-  constructor: (@line, @currentState) ->
+  constructor: (@line, @currentState, @lineNumber) ->
     @currentState ?=
       multiline:
         comment: false
@@ -18,7 +18,7 @@ class LineScanner
 
       # continue iterating over the line of characters
       # if we've been able to do one of the following:
-      # 1. skip one or more insignificant characters (white space, comments, etc.)
+      # 1. skip one or more insignificant characters (white space, comment, etc)
       # 2. extract a valid teascript token
       continue if @skippedSpaces()
       continue if @skippedMultiComments()
@@ -38,7 +38,10 @@ class LineScanner
 
   addToken: ({kind, lexeme}) ->
     lexeme ?= kind
-    @lineTokens.push {lexeme, kind, @start}
+    token = {lexeme, kind, @start}
+    token.lineNumber = @lineNumber if @lineNumber?
+    @lineTokens.push token
+    @lineTokens
 
   skippedSpaces: ->
     skippedSpaces = false
@@ -67,7 +70,7 @@ class LineScanner
     skippedMultiComments
 
   lookForMultiCommentEnd: ->
-    relativePositionOfTrailingHashes = @line[@position..].indexOf "##"
+    relativePositionOfTrailingHashes = @line[@position..].indexOf '##'
     # we have found the trailing hashes
     if relativePositionOfTrailingHashes >= 0
       @position += relativePositionOfTrailingHashes + 2
