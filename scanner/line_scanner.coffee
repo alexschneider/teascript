@@ -11,7 +11,7 @@ class LineScanner
     @lineTokens = []
 
   scan: ->
-    return {error: null, @lineTokens, @currentState} unless @line
+    return {lineError: null, @lineTokens, @currentState} unless @line
     unless (@currentState.multiline.comment or @currentState.multiline.string)
       @addToken {kind: 'newline'}
     while @position < @line.length
@@ -31,10 +31,10 @@ class LineScanner
 
       # return an error if we were not able to either extract
       # something from or skip the current character
-      return {error: "invalid token at position #{@position}", lineTokens: []}
+      return {lineError: "invalid token at position #{@position}", lineTokens: []}
 
     # add newline token after each line
-    return {error: null, @lineTokens, @currentState}
+    return {lineError: null, @lineTokens, @currentState}
 
   addToken: ({kind, lexeme}) ->
     lexeme ?= kind
