@@ -71,12 +71,12 @@ class LineScanner
 
   lookForMultiCommentEnd: ->
     relativePositionOfTrailingHashes = @line[@position..].indexOf '##'
-    # we have found the trailing hashes
     if relativePositionOfTrailingHashes >= 0
+      # we have found the trailing hashes
       @position += relativePositionOfTrailingHashes + 2
       @currentState.multiline.comment = false
-    # we have not yet found the trailing hashes
     else
+      # no trailing hashes
       @position = @line.length
 
   extractedTwoCharacterTokens: ->
