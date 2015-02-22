@@ -31,7 +31,10 @@ class LineScanner
 
       # return an error if we were not able to either extract
       # something from or skip the current character
-      return {lineError: "invalid token at position #{@position}", lineTokens: []}
+      return {
+        lineError: "invalid token at position #{@position}",
+        lineTokens: []
+      }
 
     # add newline token after each line
     return {lineError: null, @lineTokens, @currentState}
