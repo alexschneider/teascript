@@ -13,7 +13,7 @@ teascript is a gorgeous little language that compiles into JavaScript. teascript
 
 #### Comments
 
-Single line comments are created with an octothorpe/hashtag/tic-tac-toe arena (#).
+Single line comments are created with an octothorpe/hashtag/tic-tac-toe arena (`#`).
 Multiline comments begin and end with double octothorpes.
 
 ```
@@ -221,7 +221,7 @@ out('Happy New Year!')
 
 #### Functions
 Functions in teascript look a lot like the functions in coffeescript. Functions are
-first-level objects.
+first-class objects.
 
 ```
 repeat = (str, n) ->
