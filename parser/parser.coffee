@@ -116,7 +116,7 @@ parseExp0 = ->
   while at 'or'
     op = match()
     right = parseExp1()
-    left = new BinaryExpression(op, left, right)
+    left = new BinaryExpression op, left, right
   left
 
 parseExp1 = ->
@@ -124,7 +124,7 @@ parseExp1 = ->
   while at 'and'
     op = match()
     right = parseExp2()
-    left = new BinaryExpression(op, left, right)
+    left = new BinaryExpression op, left, right
   left
 
 parseExp2 = ->
@@ -132,7 +132,7 @@ parseExp2 = ->
   if at ['<', '<=', '>=', '>', 'is', 'isnt']
     op = match()
     right = parseExp3()
-    left = new BinaryExpression(op, left, right)
+    left = new BinaryExpression op, left, right
   left
 
 parseExp3 = ->
@@ -140,7 +140,7 @@ parseExp3 = ->
   while at ['+', '-']
     op = match()
     right = parseExp4()
-    left = new BinaryExpression(op, left, right)
+    left = new BinaryExpression op, left, right
   left
 
 parseExp4 = ->
@@ -148,14 +148,14 @@ parseExp4 = ->
   while at ['*', '/', '%']
     op = match()
     right = parseExp5()
-    left = new BinaryExpression(op, left, right)
+    left = new BinaryExpression op, left, right
   left
 
 parseExp5 = ->
   if at ['-', 'not']
     op = match()
     operand = parseExp6()
-    new UnaryExpression(op, operand)
+    new UnaryExpression op, operand
   else
     parseExp6()
 
@@ -183,15 +183,15 @@ parseSetLiteral = ->
 
 parseExp6 = ->
   if at ['true', 'false']
-    new BooleanLiteral(match().lexeme)
+    new BooleanLiteral match().lexeme
   else if at 'INTLIT'
-    new IntegerLiteral(match().lexeme)
+    new IntegerLiteral match().lexeme
   else if at 'FLOATLIT'
-    new FloatLiteral(match().lexeme)
+    new FloatLiteral match().lexeme
   else if at 'STRLIT'
-    new StringLiteral(match().lexeme)
+    new StringLiteral match().lexeme
   else if at ['ID', Tokens.reservedWords]
-    new VariableReference(match())
+    new VariableReference match()
   else if at '['
     parseListLiteral()
   else if at '<'
