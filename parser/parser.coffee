@@ -1,10 +1,12 @@
 scanner = require '../scanner/scanner'
 CustomError = require '../error/custom_error'
 
-Program = require '../entities/01_program'
-Block = require '../entities/02_block'
-ForStatement = require '../entities/03_for_statement'
-WhileStatement = require '../entities/03_while_statement'
+Program = require '../entities/program'
+Block = require '../entities/block'
+ForStatement = require '../entities/for_statement'
+WhileStatement = require '../entities/while_statement'
+IntegerLiteral = require '../entities/integer_literal'
+VariableDeclaration = require '../entities/variable_declaration'
 
 StartTokens = require './start_tokens'
 
@@ -61,14 +63,14 @@ parseWhileLoop = ->
     match 'newline'
   new WhileStatement condition, body
 
-parseVarDec = ->
-  variable = match 'ID'
+parseVarDec = (variable) ->
+  console.log "parsing variable declaration"
   match ':'
   if not at '='
     match() # TODO: match type?
   match '='
   exp = parseExpression()
-  new VarDec variable, exp
+  new VariableDeclaration variable, exp
 
 parseVarAssig = ->
   variable = match 'ID'
@@ -93,8 +95,8 @@ parseConditional = ->
 parseExpression = ->
   if at 'ID'
     id = match 'ID'
-    if at ':='
-      parseVarDec()
+    if at ':'
+      parseVarDec id
     else if at '='
       parseVarAssig()
   else if at 'if'
@@ -106,14 +108,17 @@ parseExpression = ->
 
 
 parseExp0 = ->
+  console.log 'parsing expression 0'
   left = parseExp1()
   while at 'or'
     op = match()
     right = parseExp1()
     left = new BinaryExpression(op, left, right)
+  console.log left
   left
 
 parseExp1 = ->
+  console.log 'parsing expression 1'
   left = parseExp2()
   while at 'and'
     op = match()
@@ -122,6 +127,7 @@ parseExp1 = ->
   left
 
 parseExp2 = ->
+  console.log 'parsing expression 2'
   left = parseExp3()
   if at ['<','<=','==','!=','>=','>']
     op = match()
@@ -130,6 +136,7 @@ parseExp2 = ->
   left
 
 parseExp3 = ->
+  console.log 'parsing expression 3'
   left = parseExp4()
   while at ['+','-']
     op = match()
@@ -138,6 +145,7 @@ parseExp3 = ->
   left
 
 parseExp4 = ->
+  console.log 'parsing expression 4'
   left = parseExp5()
   while at ['*','/']
     op = match()
@@ -146,6 +154,7 @@ parseExp4 = ->
   left
 
 parseExp5 = ->
+  console.log 'parsing expression 5'
   if at ['-','not']
     op = match()
     operand = parseExp6()
@@ -154,6 +163,7 @@ parseExp5 = ->
     parseExp6()
 
 parseExp6 = ->
+  console.log 'parsing expression 6'
   if at ['true','false']
     new BooleanLiteral(match().lexeme)
   else if at 'INTLIT'

@@ -15,4 +15,4 @@ describe 'Scanner', ->
           scan "#{validProgramsPath}/program6.tea", (err, tokens) ->
             console.log tokens
             x = parse tokens
-            console.log x
+            console.log JSON.stringify(x)

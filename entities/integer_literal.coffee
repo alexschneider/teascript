@@ -3,6 +3,7 @@ Type = require './type'
 class IntegerLiteral
 
   constructor: (@value) ->
+    console.log "int literal!"
 
   toString: -> @value
 

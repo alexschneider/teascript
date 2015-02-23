@@ -1,4 +1,4 @@
-error = require '../error'
+error = require '../error/custom_error'
 
 cache = {}
 
