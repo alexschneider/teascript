@@ -97,8 +97,8 @@ parseConditional = ->
 parseExpression = ->
   if next ':='
     parseVarDec()
-  # else if at 'ID' and next '='
-  #   parseVarAssig()
+  else if next '='
+    parseVarAssig()
   else if at 'if'
     parseConditional()
   else if at 'class'

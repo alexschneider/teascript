@@ -12,6 +12,7 @@ class MyASTs
 
   @program7_AST_string = '(Program (Block
    (VarDec (foo (- 1)))
-   (VarDec (bar (not x)))))'
+   (VarDec (bar (not x)))
+   (VarDec (foobar (not (- 3))))))'
 
 module.exports = MyASTs
