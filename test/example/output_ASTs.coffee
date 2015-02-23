@@ -10,5 +10,8 @@ class MyASTs
    (VarDec (bool2 false))
    (VarDec (nil none))))'
 
+  @program7_AST_string = '(Program (Block
+   (VarDec (foo (- 1)))
+   (VarDec (bar (not x)))))'
 
 module.exports = MyASTs

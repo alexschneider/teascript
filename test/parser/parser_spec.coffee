@@ -17,4 +17,13 @@ describe 'Parser', ->
           AST = parse tokens
           expect(AST.toString()).to.eql outputASTs.program6_AST_string
 
+    context 'when a variable is assigned to a
+             unary expression', ->
+
+      it 'creates an accurate abstract syntax tree', ->
+        scan "#{validProgramsPath}/program7.tea", (err, tokens) ->
+          AST = parse tokens
+          expect(AST.toString()).to.eql outputASTs.program7_AST_string
+
+
 

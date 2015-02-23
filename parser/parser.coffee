@@ -31,7 +31,7 @@ parseBlock = ->
   loop
     statements.push parseStatement()
     match 'newline'
-    break unless at StartTokens.statement
+    break unless at StartTokens.expression
   new Block statements
 
 parseStatement = ->
@@ -68,24 +68,24 @@ parseWhileLoop = ->
     match 'newline'
   new WhileStatement condition, body
 
-parseVarDec = (variable) ->
+parseVarDec = ->
+  id = match 'ID'
   match ':='
   # TODO: match type?
   exp = parseExpression()
-  new VariableDeclaration variable, exp
+  new VariableDeclaration id, exp
 
 parseVarAssig = ->
-  variable = match 'ID'
+  id = match 'ID'
   match '='
   exp = parseExpression()
-  new VarAssig variable, exp
+  new VarAssig id, exp
 
 parseConditional = ->
   if at 'if'
     match()
     condition = parseExpression()
     match ':'
-
   else
     ifExp = parseExpression()
     match 'if'
@@ -95,10 +95,10 @@ parseConditional = ->
       elseExp = parseExpression()
 
 parseExpression = ->
-  if at 'ID'
-    id = match 'ID'
-    if at ':='
-      parseVarDec id
+  if next ':='
+    parseVarDec()
+  # else if at 'ID' and next '='
+  #   parseVarAssig()
   else if at 'if'
     parseConditional()
   else if at 'class'
@@ -175,13 +175,16 @@ parseExp6 = ->
     CustomError 'Illegal start of expression', tokens[0]
 
 
-at = (kind) ->
-  if tokens.length is 0
+at = (kind, theseTokens) ->
+  unless Array.isArray(theseTokens)
+    theseTokens = (if @tokens then @tokens else tokens)
+
+  if theseTokens.length is 0
     false
   else if Array.isArray kind
-    kind.some(at)
+    kind.some(at, {tokens: theseTokens})
   else
-    kind is tokens[0].kind
+    kind is theseTokens[0].kind
 
 next = (kind) ->
   at kind, tokens[1..]
