@@ -14,7 +14,6 @@ describe 'LineScanner', ->
 
       it 'returns the appropriate tokens', ->
         expect(lineTokens).to.eql [
-          {kind: 'newline', lexeme: 'newline', start: 0}
           {kind: 'ID', lexeme: 'f', start: 0},
           {kind: ':=', lexeme: ':=', start: 2},
           {kind: '->', lexeme: '->', start: 6},
@@ -25,6 +24,7 @@ describe 'LineScanner', ->
           {kind: '(', lexeme: '(', start: 23},
           {kind: ')', lexeme: ')', start: 24},
           {kind: 'bool', lexeme: 'bool', start: 26},
+          {kind: 'newline', lexeme: 'newline', start: 27}
         ]
 
     context 'when the line is empty', ->

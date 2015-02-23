@@ -22,7 +22,10 @@ class MyASTs
   @program7_AST_string = '(Program (Block
    (VarDec (foo (- 1)))
    (VarDec (bar (not x)))
-   (VarDec (foobar (not (- 3))))))'
+   (VarDec (foobar (not (- 3))))
+   (= foo (- 100))
+   (= bar (not foo))
+   (= foobar (not (- foo)))))'
 
   @program8_AST_string = '(Program (Block
    (VarDec (x (or a b)))

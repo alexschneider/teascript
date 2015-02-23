@@ -315,7 +315,8 @@ class MyTokens
     start: 0,
     lineNumber: 17},
     {lexeme: '=', kind: '=', start: 31, lineNumber: 17},
-    {lexeme: '"this is a string that allows for escaped \\\' stuff \\" since teascript is \\\\ so darn awesome!"',
+    {lexeme: '"this is a string that allows for escaped
+    \\\' stuff \\" since teascript is \\\\ so darn awesome!"',
     kind: 'STRLIT',
     start: 33,
     lineNumber: 17},
