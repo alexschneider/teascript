@@ -141,7 +141,8 @@ parseExp2 = ->
 
 parseExp3 = ->
   left = parseExp4()
-  while at ['+', '-']
+  while ((at ['+', '-']) and
+  (next StartTokens.expression))
     op = match()
     right = parseExp4()
     left = new BinaryExpression op, left, right
@@ -149,14 +150,16 @@ parseExp3 = ->
 
 parseExp4 = ->
   left = parseExp5()
-  while at ['*', '/', '%']
+  while ((at ['*', '/', '%']) and
+  (next StartTokens.expression))
     op = match()
     right = parseExp5()
     left = new BinaryExpression op, left, right
   left
 
 parseExp5 = ->
-  if at ['-', 'not']
+  if ((at ['-', 'not']) and
+  (next StartTokens.expression))
     op = match()
     operand = parseExp6()
     new UnaryExpression op, operand
