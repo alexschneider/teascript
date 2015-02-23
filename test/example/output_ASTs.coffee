@@ -10,6 +10,8 @@ class MyASTs
    (VarDec (bool2 false))
    (VarDec (set1 <1, 2, 3>))
    (VarDec (set2 <1, 2, 3, <4, 5, 6>, <7, 8, <9, 10, 11>>>))
+   (VarDec (combo [<a, b, c>, {foo: "bar", foobar: <1, a>}]))
+   (VarDec (multiline_combo [{a: b, c: d}, <1, 2, 3>]))
    (VarDec (nil none))
    (VarDec (a [1, (* x 5), 12]))
    (VarDec (b {a: 123, b: (* 55 123), c: 33}))

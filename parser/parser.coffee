@@ -132,7 +132,8 @@ parseExp1 = ->
 parseExp2 = ->
   left = parseExp3()
 
-  if ((at ['<', '<=', '>=', '>', 'is', 'isnt']) and (next StartTokens.expression))
+  if ((at ['<', '<=', '>=', '>', 'is', 'isnt']) and
+  (next StartTokens.expression))
     op = match()
     right = parseExp3()
     left = new BinaryExpression op, left, right
@@ -165,22 +166,27 @@ parseExp5 = ->
 parseListLiteral = ->
   elements = []
   match '['
-  elements.push(parseExpression()) unless at ']'
-  while at ','
-    match()
+
+  while not at ']'
+    match 'newline' if at 'newline'
     elements.push parseExpression()
+    match ',' if at ','
+    match 'newline' if at 'newline'
+
+  match 'newline' if at 'newline'
   match ']'
   new ListLiteral elements
 
 parseSetLiteral = ->
-  # TODO fix this so that it doesn't treat closing
-  # symbol as lessthan binary op
   elements = []
   match '<'
   while not at '>'
-    exp = elements.push parseExpression()
-    match exp
+    match 'newline' if at 'newline'
+    elements.push parseExpression()
     match ',' if at ','
+    match 'newline' if at 'newline'
+
+  match 'newline' if at 'newline'
   match '>'
   new SetLiteral elements
 
@@ -189,12 +195,16 @@ parseMapLiteral = ->
   values = []
   match '{'
   while not at '}'
+    match 'newline' if at 'newline'
     key = match 'ID'
     keys.push key
     match ':'
     value = parseExpression()
     values.push value
     match ',' if at ','
+    match 'newline' if at 'newline'
+
+  match 'newline' if at 'newline'
   match '}'
   new MapLiteral keys, values
 
