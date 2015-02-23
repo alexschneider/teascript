@@ -36,6 +36,7 @@ parseBlock = ->
   loop
     statements.push parseStatement() unless at 'newline'
     match 'newline' while at 'newline'
+    # recursion not working?
     break unless at StartTokens.expression
   new Block statements
 

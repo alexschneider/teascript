@@ -42,5 +42,8 @@ describe 'Parser', ->
   describe 'parsing a for statement', ->
     context 'when an iterable literal is being iterated over', ->
 
-      it 'creates an accurate AST', ->
-        # TODO
+      it 'creates an accurate AST', (done) ->
+        scan "#{validProgramsPath}/program9.tea", (err, tokens) ->
+          AST = parse tokens
+          expect(AST.toString()).to.eql outputASTs.program9_AST_string
+          done()
