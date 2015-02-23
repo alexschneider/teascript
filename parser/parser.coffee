@@ -12,6 +12,8 @@ BooleanLiteral = require './entities/boolean_literal'
 VariableReference = require './entities/variable_reference'
 VariableDeclaration = require './entities/variable_declaration'
 VariableAssignment = require './entities/variable_assignment'
+ListLiteral = require './entities/list_literal'
+SetLiteral = require './entities/set_literal'
 UnaryExpression = require './entities/unary_expression'
 BinaryExpression = require './entities/binary_expression'
 Tokens = require '../scanner/tokens'
@@ -157,6 +159,28 @@ parseExp5 = ->
   else
     parseExp6()
 
+parseListLiteral = ->
+  elements = []
+  match '['
+  elements.push(parseExpression()) unless at ']'
+  while at ','
+    match()
+    elements.push parseExpression()
+  match ']'
+  new ListLiteral elements
+
+parseSetLiteral = ->
+  # TODO fix this so that it doesn't treat closing
+  # symbol as lessthan binary op
+  elements = []
+  elements.push(parseExpression()) unless at '>'
+  while at ','
+    match()
+    elements.push parseExpression()
+  match '>'
+  new SetLiteral elements
+
+
 parseExp6 = ->
   if at ['true', 'false']
     new BooleanLiteral(match().lexeme)
@@ -168,7 +192,16 @@ parseExp6 = ->
     new StringLiteral(match().lexeme)
   else if at ['ID', Tokens.reservedWords]
     new VariableReference(match())
+  else if at '['
+    parseListLiteral()
+  else if at '<'
+    parseSetLiteral()
+  # TODO
+  # else if at '{'
+  #   parseMapLiteral()
   else if at '('
+    # TODO handle parsing tuples or parsing
+    # expressions here - operator overloads
     match()
     expression = parseExpression()
     match ')'
