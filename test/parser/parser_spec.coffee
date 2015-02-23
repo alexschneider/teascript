@@ -13,7 +13,7 @@ describe 'Parser', ->
              primitive or reference literal
              (int/float/bool/none or string/map/list/set/tuple)', ->
 
-      # TODO: IMPLEMENT AND TEST SET AND TUPLE LITERALS
+      # TODO: IMPLEMENT AND TEST TUPLE LITERALS
 
       it 'creates an accurate AST', (done) ->
         scan "#{validProgramsPath}/program6.tea", (err, tokens) ->

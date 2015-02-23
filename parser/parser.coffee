@@ -35,7 +35,8 @@ parseBlock = ->
   statements = []
   loop
     statements.push parseStatement()
-    match 'newline'
+    while at 'newline'
+      match 'newline'
     break unless at StartTokens.statement
   new Block statements
 
@@ -130,7 +131,8 @@ parseExp1 = ->
 
 parseExp2 = ->
   left = parseExp3()
-  if at ['<', '<=', '>=', '>', 'is', 'isnt']
+
+  if ((at ['<', '<=', '>=', '>', 'is', 'isnt']) and (next StartTokens.expression))
     op = match()
     right = parseExp3()
     left = new BinaryExpression op, left, right
@@ -175,10 +177,10 @@ parseSetLiteral = ->
   # symbol as lessthan binary op
   elements = []
   match '<'
-  elements.push(parseExpression()) unless at '>'
-  while at ','
-    match()
-    elements.push parseExpression() unless next '>'
+  while not at '>'
+    exp = elements.push parseExpression()
+    match exp
+    match ',' if at ','
   match '>'
   new SetLiteral elements
 

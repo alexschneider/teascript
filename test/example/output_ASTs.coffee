@@ -8,6 +8,8 @@ class MyASTs
    (VarDec (z 0.345))
    (VarDec (bool1 true))
    (VarDec (bool2 false))
+   (VarDec (set1 <1, 2, 3>))
+   (VarDec (set2 <1, 2, 3, <4, 5, 6>, <7, 8, <9, 10, 11>>>))
    (VarDec (nil none))
    (VarDec (a [1, (* x 5), 12]))
    (VarDec (b {a: 123, b: (* 55 123), c: 33}))
