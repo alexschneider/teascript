@@ -14,6 +14,7 @@ VariableDeclaration = require '../entities/variable_declaration'
 VariableAssignment = require '../entities/variable_assignment'
 ListLiteral = require '../entities/list_literal'
 SetLiteral = require '../entities/set_literal'
+MapLiteral = require '../entities/map_literal'
 UnaryExpression = require '../entities/unary_expression'
 BinaryExpression = require '../entities/binary_expression'
 Tokens = require '../scanner/tokens'
@@ -173,13 +174,27 @@ parseSetLiteral = ->
   # TODO fix this so that it doesn't treat closing
   # symbol as lessthan binary op
   elements = []
+  match '<'
   elements.push(parseExpression()) unless at '>'
   while at ','
     match()
-    elements.push parseExpression()
+    elements.push parseExpression() unless next '>'
   match '>'
   new SetLiteral elements
 
+parseMapLiteral = ->
+  keys = []
+  values = []
+  match '{'
+  while not at '}'
+    key = match 'ID'
+    keys.push key
+    match ':'
+    value = parseExpression()
+    values.push value
+    match ',' if at ','
+  match '}'
+  new MapLiteral keys, values
 
 parseExp6 = ->
   if at ['true', 'false']
@@ -196,9 +211,8 @@ parseExp6 = ->
     parseListLiteral()
   else if at '<'
     parseSetLiteral()
-  # TODO
-  # else if at '{'
-  #   parseMapLiteral()
+  else if at '{'
+    parseMapLiteral()
   else if at '('
     # TODO handle parsing tuples or parsing
     # expressions here - operator overloads

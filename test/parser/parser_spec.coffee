@@ -10,7 +10,10 @@ describe 'Parser', ->
 
   describe 'parsing a variable declaration/assignment', ->
     context 'when a variable is declared and assigned to a
-             string/int/float/boolean/none literal', ->
+             primitive or reference literal
+             (int/float/bool/none or string/map/list/set/tuple)', ->
+
+      # TODO: IMPLEMENT AND TEST SET AND TUPLE LITERALS
 
       it 'creates an accurate AST', (done) ->
         scan "#{validProgramsPath}/program6.tea", (err, tokens) ->
