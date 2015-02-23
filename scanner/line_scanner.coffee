@@ -11,7 +11,7 @@ class LineScanner
     @lineTokens = []
 
   scan: ->
-    return {error: null, @lineTokens, @currentState} unless @line
+    return {lineError: null, @lineTokens, @currentState} unless @line
     unless (@currentState.multiline.comment or @currentState.multiline.string)
       @addToken {kind: 'newline'}
     while @position < @line.length
@@ -31,10 +31,13 @@ class LineScanner
 
       # return an error if we were not able to either extract
       # something from or skip the current character
-      return {error: "invalid token at position #{@position}", lineTokens: []}
+      return {
+        lineError: "invalid token at position #{@position}",
+        lineTokens: []
+      }
 
     # add newline token after each line
-    return {error: null, @lineTokens, @currentState}
+    return {lineError: null, @lineTokens, @currentState}
 
   addToken: ({kind, lexeme}) ->
     lexeme ?= kind
@@ -71,12 +74,12 @@ class LineScanner
 
   lookForMultiCommentEnd: ->
     relativePositionOfTrailingHashes = @line[@position..].indexOf '##'
-    # we have found the trailing hashes
     if relativePositionOfTrailingHashes >= 0
+      # we have found the trailing hashes
       @position += relativePositionOfTrailingHashes + 2
       @currentState.multiline.comment = false
-    # we have not yet found the trailing hashes
     else
+      # no trailing hashes
       @position = @line.length
 
   extractedTwoCharacterTokens: ->
@@ -109,17 +112,16 @@ class LineScanner
       return false
 
   extractMultilineString: ->
-    # TODO: IMPLEMENT SO THAT ESCAPED QUOTES AREN'T TREATED AS END OF STRING
+    stringGroup = /([^'"\\]|\\['"\\rn])*("|')/.exec @line[@position..]
 
-    # search for trailing quote for end of multiline string
-    @position++ while not /\"|\'/.test(@line[@position]) and
-                                 @position < @line.length
-    return unless @position < @line.length
-
-    # found trailing quote
-    @currentState.multiline.string = false
-    @position++
-    @addToken {kind: 'STRLIT', lexeme: @line[@start...@position]}
+    if stringGroup
+      # found trailing quote
+      @currentState.multiline.string = false
+      @position += stringGroup[0].length
+      @addToken {kind: 'STRLIT', lexeme: @line[@start...@position]}
+    else
+      # no trailing quote found
+      @position = @line.length
 
   extractedWords: ->
     @start = @position
@@ -139,6 +141,9 @@ class LineScanner
     @start = @position
     if /\d/.test @line[@position]
       numberGroups = /(\d*)(\.\d+)?/.exec @line[@position..]
+      # if we grouped anything in the second group
+      # (numbers after the decimal point), then it is a floatlit
+      # if we didn't, it is a intlit
       kind = if numberGroups[2] then 'FLOATLIT' else 'INTLIT'
       @addToken {kind, lexeme: numberGroups[0]}
       @position += numberGroups[0].length
