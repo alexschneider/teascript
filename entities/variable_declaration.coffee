@@ -1,18 +1,14 @@
-Type = require './type'
-
 class VariableDeclaration
 
-  constructor: (@id, @type) ->
+  constructor: (@id, @value) ->
 
-  toString = ->
-    "(Var :#{@id.lexeme} #{@type})"
+  toString: ->
+    "(VarDec (#{@id.lexeme} #{@value.value}))"
 
   analyze: (context) ->
-    context.variableMustNotBeAlreadyDeclared @id
-    context.addVariable @id.lexeme, this
+    #TODO
 
-  optimize: -> this
-
-VariableDeclaration.ARBITRARY = new VariableDeclaration '<arbitrary>', Type.ARBITRARY
+  optimize: ->
+    #TODO
 
 module.exports = VariableDeclaration

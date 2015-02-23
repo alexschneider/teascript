@@ -7,7 +7,7 @@ class Tokens
     '[', ']',                            # for list construction
     '<', '>',                            # for set construction
     '{', '}',                            # for map construction
-    '=',                                 # mutation
+    '=',                                 # assignment
     '.',                                 # member access for objects
     ',',                                 # separating args/params
     ':'                                  # start of a block
@@ -17,14 +17,16 @@ class Tokens
     '+=', '-=', '*=', '/=', '++', '--',  # mutators
     '<=', '>=',                          # relational operators
     '->',                                # function
-    '..'                                 # range
+    '..',                                # range
+    ':='                                 # declaration
   ]
 
   @reservedWords = [
     'int', 'double', 'bool', 'none',     # primitive types
     'class', 'trait',                    # reference types
     'for', 'in', 'by', 'while', 'end',   # loops/blocks/range keywords
-    'and', 'or', 'is',                   # logical operators
+    'and', 'or',                         # logical operators
+    'is', 'isnt',                        # relational operators
     'if', 'else',                        # if/then
     'not',                               # negation
     'true', 'false',                     # boolean literals

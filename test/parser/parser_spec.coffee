@@ -1,18 +1,18 @@
 chai = require 'chai'
 expect = chai.expect
 parse = require '../../parser/parser'
-outputTokens = require '../example/output_tokens'
 scan = require '../../scanner/scanner'
 validProgramsPath = "#{__dirname}/../example/input_programs/valid_programs"
+outputASTs = require "#{__dirname}/../example/output_ASTs"
 
-describe 'Scanner', ->
 
-  describe 'parsing valid teascript programs', ->
-    describe 'valid teascript program #1', ->
-      context "when test program1.tea's tokens
-               are passed through the scanner", ->
-        it 'blah blah', ->
-          scan "#{validProgramsPath}/program6.tea", (err, tokens) ->
-            console.log tokens
-            x = parse tokens
-            console.log JSON.stringify(x)
+describe 'Parser', ->
+
+  describe 'parsing a variable declaration', ->
+    context 'when a variable is assigned to an integer literal', ->
+
+      it 'creates an accurate abstract syntax tree', ->
+        scan "#{validProgramsPath}/program6.tea", (err, tokens) ->
+          AST = parse tokens
+          expect(AST.toString()).to.eql outputASTs.program6_AST_string
+

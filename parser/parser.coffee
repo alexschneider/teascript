@@ -26,7 +26,7 @@ parseBlock = ->
   loop
     statements.push parseStatement()
     match 'newline'
-    break unless at StartTokens.statement
+    break unless ((at StartTokens.statement) or (at StartTokens.expression))
   new Block statements
 
 parseStatement = ->
@@ -64,11 +64,8 @@ parseWhileLoop = ->
   new WhileStatement condition, body
 
 parseVarDec = (variable) ->
-  console.log "parsing variable declaration"
-  match ':'
-  if not at '='
-    match() # TODO: match type?
-  match '='
+  match ':='
+  # TODO: match type?
   exp = parseExpression()
   new VariableDeclaration variable, exp
 
@@ -95,10 +92,8 @@ parseConditional = ->
 parseExpression = ->
   if at 'ID'
     id = match 'ID'
-    if at ':'
+    if at ':='
       parseVarDec id
-    else if at '='
-      parseVarAssig()
   else if at 'if'
     parseConditional()
   else if at 'class'
@@ -108,17 +103,14 @@ parseExpression = ->
 
 
 parseExp0 = ->
-  console.log 'parsing expression 0'
   left = parseExp1()
   while at 'or'
     op = match()
     right = parseExp1()
     left = new BinaryExpression(op, left, right)
-  console.log left
   left
 
 parseExp1 = ->
-  console.log 'parsing expression 1'
   left = parseExp2()
   while at 'and'
     op = match()
@@ -127,16 +119,14 @@ parseExp1 = ->
   left
 
 parseExp2 = ->
-  console.log 'parsing expression 2'
   left = parseExp3()
-  if at ['<','<=','==','!=','>=','>']
+  if at ['<','<=', '>=','>', 'is', 'isnt']
     op = match()
     right = parseExp3()
     left = new BinaryExpression(op, left, right)
   left
 
 parseExp3 = ->
-  console.log 'parsing expression 3'
   left = parseExp4()
   while at ['+','-']
     op = match()
@@ -145,7 +135,6 @@ parseExp3 = ->
   left
 
 parseExp4 = ->
-  console.log 'parsing expression 4'
   left = parseExp5()
   while at ['*','/']
     op = match()
@@ -154,7 +143,6 @@ parseExp4 = ->
   left
 
 parseExp5 = ->
-  console.log 'parsing expression 5'
   if at ['-','not']
     op = match()
     operand = parseExp6()
@@ -163,7 +151,6 @@ parseExp5 = ->
     parseExp6()
 
 parseExp6 = ->
-  console.log 'parsing expression 6'
   if at ['true','false']
     new BooleanLiteral(match().lexeme)
   else if at 'INTLIT'
@@ -176,10 +163,10 @@ parseExp6 = ->
     match ')'
     expression
   else
-    error 'Illegal start of expression', tokens[0]
+    CustomError 'Illegal start of expression', tokens[0]
 
 
-at = (kind, theseTokens) ->
+at = (kind) ->
   if tokens.length is 0
     false
   else if Array.isArray kind
