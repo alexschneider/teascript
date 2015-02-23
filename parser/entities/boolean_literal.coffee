@@ -1,5 +1,3 @@
-Type = require './type'
-
 class BooleanLiteral
 
   constructor: (name) ->

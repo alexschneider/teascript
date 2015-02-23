@@ -1,13 +1,16 @@
 scanner = require '../scanner/scanner'
 CustomError = require '../error/custom_error'
 
-Program = require '../entities/program'
-Block = require '../entities/block'
-ForStatement = require '../entities/for_statement'
-WhileStatement = require '../entities/while_statement'
-IntegerLiteral = require '../entities/integer_literal'
-VariableDeclaration = require '../entities/variable_declaration'
-
+Program = require './entities/program'
+Block = require './entities/block'
+ForStatement = require './entities/for_statement'
+WhileStatement = require './entities/while_statement'
+IntegerLiteral = require './entities/integer_literal'
+FloatLiteral = require './entities/float_literal'
+StringLiteral = require './entities/string_literal'
+BooleanLiteral = require './entities/boolean_literal'
+VariableDeclaration = require './entities/variable_declaration'
+UnaryExpression = require './entities/unary_expression'
 StartTokens = require './start_tokens'
 
 tokens = []
@@ -26,7 +29,7 @@ parseBlock = ->
   loop
     statements.push parseStatement()
     match 'newline'
-    break unless ((at StartTokens.statement) or (at StartTokens.expression))
+    break unless at StartTokens.statement
   new Block statements
 
 parseStatement = ->
@@ -120,7 +123,7 @@ parseExp1 = ->
 
 parseExp2 = ->
   left = parseExp3()
-  if at ['<','<=', '>=','>', 'is', 'isnt']
+  if at ['<', '<=', '>=', '>', 'is', 'isnt']
     op = match()
     right = parseExp3()
     left = new BinaryExpression(op, left, right)
@@ -128,7 +131,7 @@ parseExp2 = ->
 
 parseExp3 = ->
   left = parseExp4()
-  while at ['+','-']
+  while at ['+', '-']
     op = match()
     right = parseExp4()
     left = new BinaryExpression(op, left, right)
@@ -136,14 +139,14 @@ parseExp3 = ->
 
 parseExp4 = ->
   left = parseExp5()
-  while at ['*','/']
+  while at ['*', '/']
     op = match()
     right = parseExp5()
     left = new BinaryExpression(op, left, right)
   left
 
 parseExp5 = ->
-  if at ['-','not']
+  if at ['-', 'not']
     op = match()
     operand = parseExp6()
     new UnaryExpression(op, operand)
@@ -151,10 +154,14 @@ parseExp5 = ->
     parseExp6()
 
 parseExp6 = ->
-  if at ['true','false']
+  if at ['true', 'false']
     new BooleanLiteral(match().lexeme)
   else if at 'INTLIT'
     new IntegerLiteral(match().lexeme)
+  else if at 'FLOATLIT'
+    new FloatLiteral(match().lexeme)
+  else if at 'STRLIT'
+    new StringLiteral(match().lexeme)
   else if at 'ID'
     new VariableReference(match())
   else if at '('
