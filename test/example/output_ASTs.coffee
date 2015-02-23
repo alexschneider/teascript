@@ -7,7 +7,8 @@ class MyASTs
    (VarDec (y 1.23))
    (VarDec (z 0.345))
    (VarDec (bool1 true))
-   (VarDec (bool2 false))))'
+   (VarDec (bool2 false))
+   (VarDec (nil none))))'
 
 
 module.exports = MyASTs

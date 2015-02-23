@@ -9,8 +9,10 @@ IntegerLiteral = require './entities/integer_literal'
 FloatLiteral = require './entities/float_literal'
 StringLiteral = require './entities/string_literal'
 BooleanLiteral = require './entities/boolean_literal'
+VariableReference = require './entities/variable_reference'
 VariableDeclaration = require './entities/variable_declaration'
 UnaryExpression = require './entities/unary_expression'
+Tokens = require '../scanner/tokens'
 StartTokens = require './start_tokens'
 
 tokens = []
@@ -162,7 +164,7 @@ parseExp6 = ->
     new FloatLiteral(match().lexeme)
   else if at 'STRLIT'
     new StringLiteral(match().lexeme)
-  else if at 'ID'
+  else if at ['ID', Tokens.reservedWords]
     new VariableReference(match())
   else if at '('
     match()
