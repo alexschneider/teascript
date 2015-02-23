@@ -14,9 +14,10 @@ module.exports = (scannerOutput) ->
   tokens = scannerOutput
   program = parseProgram()
   match 'EOF'
+  program
 
 parseProgram = ->
-  new Program parseBlock
+  new Program parseBlock()
 
 parseBlock = ->
   statements = []
@@ -36,7 +37,7 @@ parseStatement = ->
 
 parseForLoop = ->
   match 'for'
-  id = parseId()
+  id = match 'ID'
   match 'in'
   iterable = parseExpression()
   match ':'
@@ -60,9 +61,6 @@ parseWhileLoop = ->
     match 'newline'
   new WhileStatement condition, body
 
-parseExpression = ->
-  # TODO
-
 parseVarDec = ->
   variable = match 'ID'
   match ':'
@@ -79,7 +77,6 @@ parseVarAssig = ->
   new VarAssig variable, exp
 
 parseConditional = ->
-  ### TODO: finish
   if at 'if'
     match()
     condition = parseExpression()
@@ -92,17 +89,93 @@ parseConditional = ->
     if at 'else'
       match()
       elseExp = parseExpression()
-  ###
+
+parseExpression = ->
+  if at 'ID'
+    id = match 'ID'
+    if at ':='
+      parseVarDec()
+    else if at '='
+      parseVarAssig()
+  else if at 'if'
+    parseConditional()
+  else if at 'class'
+    parseClassDec()
+  else
+    parseExp0()
+
+
+parseExp0 = ->
+  left = parseExp1()
+  while at 'or'
+    op = match()
+    right = parseExp1()
+    left = new BinaryExpression(op, left, right)
+  left
+
+parseExp1 = ->
+  left = parseExp2()
+  while at 'and'
+    op = match()
+    right = parseExp2()
+    left = new BinaryExpression(op, left, right)
+  left
+
+parseExp2 = ->
+  left = parseExp3()
+  if at ['<','<=','==','!=','>=','>']
+    op = match()
+    right = parseExp3()
+    left = new BinaryExpression(op, left, right)
+  left
+
+parseExp3 = ->
+  left = parseExp4()
+  while at ['+','-']
+    op = match()
+    right = parseExp4()
+    left = new BinaryExpression(op, left, right)
+  left
+
+parseExp4 = ->
+  left = parseExp5()
+  while at ['*','/']
+    op = match()
+    right = parseExp5()
+    left = new BinaryExpression(op, left, right)
+  left
+
+parseExp5 = ->
+  if at ['-','not']
+    op = match()
+    operand = parseExp6()
+    new UnaryExpression(op, operand)
+  else
+    parseExp6()
+
+parseExp6 = ->
+  if at ['true','false']
+    new BooleanLiteral(match().lexeme)
+  else if at 'INTLIT'
+    new IntegerLiteral(match().lexeme)
+  else if at 'ID'
+    new VariableReference(match())
+  else if at '('
+    match()
+    expression = parseExpression()
+    match ')'
+    expression
+  else
+    error 'Illegal start of expression', tokens[0]
 
 
 at = (kind, theseTokens) ->
-  theseTokens ?= tokens
-  if theseTokens.length is 0
+  if tokens.length is 0
     false
   else if Array.isArray kind
-    kind.some at
+    kind.some(at)
   else
-    kind is theseTokens[0].kind
+    kind is tokens[0].kind
 
 next = (kind) ->
   at kind, tokens[1..]

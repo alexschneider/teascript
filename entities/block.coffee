@@ -1,7 +1,7 @@
 class Block
   constructor: (@statements) ->
 
-  toString: () ->
+  toString: ->
     "(Block #{@statements.join(' ')})"
 
   analyze: (context) ->
