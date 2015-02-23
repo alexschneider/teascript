@@ -34,10 +34,9 @@ parseProgram = ->
 parseBlock = ->
   statements = []
   loop
-    statements.push parseStatement() unless at 'newline'
-    match 'newline' while at 'newline'
-    # recursion not working?
-    break unless at StartTokens.expression
+    statements.push parseStatement()
+    match 'newline'
+    break unless at StartTokens.statement
   new Block statements
 
 parseStatement = ->

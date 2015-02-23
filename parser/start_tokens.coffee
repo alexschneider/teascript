@@ -1,18 +1,18 @@
 class StartTokens
   @statement = [
     #statements
-    'for', 'while',                                  # Start of statement
-    @expression
-  ]
+      'for', 'while',                           # Start of statement
 
-  @expression = [
-    'INTLIT', 'FLOATLIT', 'true', 'false',           # Primitive literals
-    'ID', '->', 'trait', 'class',                    # Misc other tokens
-    @iterable
-  ]
+      #expressions
+      [
+        'INTLIT', 'FLOATLIT', 'true', 'false',  # Primitive literals
+        'ID', '->', 'trait', 'class',           # Misc other tokens
 
-  @iterable = [
-    '(', '<', '[', '{', 'STRLIT'                     # Reference type literals
-  ]
+        #iterables
+        [
+          '(', '<', '[', '{', 'STRLIT'          # Reference type literals
+        ]
+      ]
+    ]
 
 module.exports = StartTokens
