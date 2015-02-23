@@ -12,6 +12,7 @@ BooleanLiteral = require './entities/boolean_literal'
 VariableReference = require './entities/variable_reference'
 VariableDeclaration = require './entities/variable_declaration'
 UnaryExpression = require './entities/unary_expression'
+BinaryExpression = require './entities/binary_expression'
 Tokens = require '../scanner/tokens'
 StartTokens = require './start_tokens'
 
@@ -30,7 +31,8 @@ parseBlock = ->
   statements = []
   loop
     statements.push parseStatement()
-    match 'newline'
+    while at 'newline'
+      match 'newline'
     break unless at StartTokens.expression
   new Block statements
 
@@ -141,7 +143,7 @@ parseExp3 = ->
 
 parseExp4 = ->
   left = parseExp5()
-  while at ['*', '/']
+  while at ['*', '/', '%']
     op = match()
     right = parseExp5()
     left = new BinaryExpression(op, left, right)
