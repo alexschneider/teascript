@@ -30,5 +30,4 @@ module.exports = (filePath, callback) ->
 
   stream.once 'end', ->
     allTokens.push {kind: 'EOF', lexeme: 'EOF', start: 0}
-    # don't include preceding newline character
-    callback scanningError, allTokens[1..]
+    callback scanningError, allTokens

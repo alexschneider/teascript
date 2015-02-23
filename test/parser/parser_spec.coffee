@@ -8,17 +8,17 @@ outputASTs = require "#{__dirname}/../example/output_ASTs"
 
 describe 'Parser', ->
 
-  describe 'parsing a variable declaration', ->
-    context 'when a variable is assigned to an
-             int/string/float/boolean/none literal', ->
+  describe 'parsing a variable declaration/assignment', ->
+    context 'when a variable is declared and assigned to a
+             string/int/float/boolean/none literal', ->
 
       it 'creates an accurate abstract syntax tree', (done) ->
         scan "#{validProgramsPath}/program6.tea", (err, tokens) ->
           AST = parse tokens
-          expect(AST.toString()).to.eql outputASTs.program6_AST_string
+          expect(AST.toString()).to.equal outputASTs.program6_AST_string
           done()
 
-    context 'when a variable is assigned to a
+    context 'when a variable is declared and assigned to a
              unary expression', ->
 
       it 'creates an accurate abstract syntax tree', (done) ->
@@ -27,7 +27,7 @@ describe 'Parser', ->
           expect(AST.toString()).to.eql outputASTs.program7_AST_string
           done()
 
-    context 'when a variable is assigned to a
+    context 'when a variable is declared and assigned to a
              binary expression', ->
 
       it 'creates an accurate abstract syntax tree', (done) ->
@@ -35,6 +35,3 @@ describe 'Parser', ->
           AST = parse tokens
           expect(AST.toString()).to.eql outputASTs.program8_AST_string
           done()
-
-
-

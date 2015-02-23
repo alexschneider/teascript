@@ -3,12 +3,21 @@ class MyASTs
    (VarDec (foo 123456789))
    (VarDec (bar 11))
    (VarDec (abc "string literal"))
-   (VarDec (def "strlit with \\\' escaped stuff"))
+   (VarDec (defg "strlit with \\\' escaped stuff"))
    (VarDec (y 1.23))
    (VarDec (z 0.345))
    (VarDec (bool1 true))
    (VarDec (bool2 false))
-   (VarDec (nil none))))'
+   (VarDec (nil none))
+   (= x 1)
+   (= foo 987654321)
+   (= bar 22)
+   (= abc "NEW string literal")
+   (= defg "NEW strlit with \\\' escaped stuff")
+   (= y 32.1)
+   (= bool1 false)
+   (= nil 2)
+   (= nil none)))'
 
   @program7_AST_string = '(Program (Block
    (VarDec (foo (- 1)))
@@ -23,6 +32,6 @@ class MyASTs
    (VarDec (example (or (is a b) (isnt c d))))
    (VarDec (a (> (+ 1 5) 9)))
    (VarDec (b (is (- (* 4 5) 9) 11)))
-   (VarDec (all_together (or (>= (+ (/ a b) c) d) (and e (isnt f false)))))))'
+   (VarDec (all_together (or (>= (+ (% a b) c) d) (and e (isnt f false)))))))'
 
 module.exports = MyASTs

@@ -11,6 +11,7 @@ StringLiteral = require './entities/string_literal'
 BooleanLiteral = require './entities/boolean_literal'
 VariableReference = require './entities/variable_reference'
 VariableDeclaration = require './entities/variable_declaration'
+VariableAssignment = require './entities/variable_assignment'
 UnaryExpression = require './entities/unary_expression'
 BinaryExpression = require './entities/binary_expression'
 Tokens = require '../scanner/tokens'
@@ -30,9 +31,8 @@ parseProgram = ->
 parseBlock = ->
   statements = []
   loop
-    statements.push parseStatement()
-    while at 'newline'
-      match 'newline'
+    statements.push parseStatement() unless at 'newline'
+    match 'newline' while at 'newline'
     break unless at StartTokens.expression
   new Block statements
 
@@ -81,7 +81,7 @@ parseVarAssig = ->
   id = match 'ID'
   match '='
   exp = parseExpression()
-  new VarAssig id, exp
+  new VariableAssignment id, exp
 
 parseConditional = ->
   if at 'if'
