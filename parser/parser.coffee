@@ -36,7 +36,7 @@ parseProgram = ->
 parseBlock = ->
   statements = []
   loop
-    statements.push parseStatement()
+    statements.push parseStatement() unless at 'newline'
     while at 'newline'
       match 'newline'
     break unless ((at StartTokens.statement) and
@@ -110,8 +110,8 @@ parseExpression = ->
     parseVarAssig()
   else if at 'if'
     parseConditional()
-  else if at 'class'
-    parseClassDec()
+  # else if at 'class'
+  #   parseClassDec()
   else
     parseExp0()
 
@@ -252,7 +252,6 @@ at = (kind, theseTokens) ->
 
 next = (kind) ->
   at kind, tokens[1..]
-
 
 match = (kind) ->
   if tokens.length is 0

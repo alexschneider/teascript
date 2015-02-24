@@ -14,7 +14,6 @@ describe 'Parser', ->
              (int/float/bool/none or string/map/list/set/tuple)', ->
 
       # TODO: IMPLEMENT AND TEST TUPLE LITERALS
-
       it 'creates an accurate AST', (done) ->
         scan "#{validProgramsPath}/program6.tea", (err, tokens) ->
           {error, program} = parse tokens
@@ -43,10 +42,11 @@ describe 'Parser', ->
           done()
 
   describe 'parsing a for statement', ->
-    context 'when an iterable literal is being iterated over', ->
+    context 'when an iterable literal or ID is being iterated over', ->
 
       it 'creates an accurate AST', (done) ->
         scan "#{validProgramsPath}/program9.tea", (err, tokens) ->
           {error, program} = parse tokens
+          expect(error).to.be.null
           expect(program.toString()).to.eql outputASTs.program9_AST_string
           done()
