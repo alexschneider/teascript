@@ -1,3 +1,4 @@
+tokens = require '../scanner/tokens'
 class StartTokens
 
   @varRefStart = [
@@ -11,7 +12,7 @@ class StartTokens
   @expression = [
     'INTLIT', 'FLOATLIT', 'true', 'false', # Primitive literals
     'ID', '->', 'trait', 'class',          # Misc other tokens
-    @iterable
+    @iterable, tokens.reservedWords
   ]
 
   @statement = [

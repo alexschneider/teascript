@@ -62,7 +62,8 @@ describe 'Parser', ->
           done()
 
   describe 'parsing a valid function declaration', ->
-    context 'when parsing a function declared with parameters', ->
+    context 'when parsing functions declared
+             both with and without parameters', ->
 
       it 'parses correctly', (done) ->
         scan "#{validProgramsPath}/program11.tea", (err, tokens) ->
@@ -72,7 +73,8 @@ describe 'Parser', ->
           done()
 
   describe 'parsing a valid function invocation', ->
-    context 'when parsing a function invoked with arguments', ->
+    context 'when parsing functions invoked
+            both with and without arguments', ->
 
       it 'parses correctly', (done) ->
         scan "#{validProgramsPath}/program12.tea", (err, tokens) ->

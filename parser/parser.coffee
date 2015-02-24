@@ -22,6 +22,7 @@ Args = require '../entities/args'
 ListSubscript = require '../entities/list_subscript'
 MemberAccess = require '../entities/member_access'
 FunctionInvocation = require '../entities/function_invocation'
+ReturnStatement = require '../entities/return_statement'
 Tokens = require '../scanner/tokens'
 StartTokens = require './start_tokens'
 
@@ -53,6 +54,8 @@ parseStatement = ->
     parseForLoop()
   else if at 'while'
     parseWhileLoop()
+  else if at 'return'
+    parseReturnStatement()
   else
     parseExpression()
 
@@ -65,6 +68,10 @@ parseExpression = ->
     parseConditional()
   else
     parseExp0()
+
+parseReturnStatement = ->
+  match 'return'
+  new ReturnStatement parseExpression()
 
 parseParams = ->
   match '('
@@ -135,6 +142,7 @@ parseVarAssig = ->
   new VariableAssignment id, exp
 
 parseConditional = ->
+  # TODO
   # if at 'if'
   #   match()
   #   condition = parseExpression()
@@ -225,7 +233,7 @@ parseExp7 = ->
     else
       exp = new FunctionInvocation exp, parseArgs()
 
-  if at([ "++", "--" ])
+  if at([ '++', '--' ])
     op = match()
     exp = new PostUnaryExpression op, exp
   exp

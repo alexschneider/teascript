@@ -63,7 +63,10 @@ class MyASTs
              (= b save)))))"
 
   @program11_AST_string = '(Program (Block
-    (FuncDec (f ((a, b, c) (Block (= x a)))))))'
+    (FuncDec (f ((a, b, c)
+      (Block (VarDec (x (+ a 100)))
+             (= a b)
+             (Return x)))))))'
 
   @program12_AST_string = "(Program (Block
     (Invoke f (1, 2, 3))
