@@ -1,4 +1,4 @@
-class UnaryExpression
+class PreUnaryExpression
 
   constructor: (@op, @operand) ->
 
@@ -11,4 +11,4 @@ class UnaryExpression
   optimize: ->
     #TODO
 
-module.exports = UnaryExpression
+module.exports = PreUnaryExpression

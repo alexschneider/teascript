@@ -13,7 +13,8 @@ VariableAssignment = require '../entities/variable_assignment'
 ListLiteral = require '../entities/list_literal'
 SetLiteral = require '../entities/set_literal'
 MapLiteral = require '../entities/map_literal'
-UnaryExpression = require '../entities/unary_expression'
+PreUnaryExpression = require '../entities/pre_unary_expression'
+PostUnaryExpression = require '../entities/post_unary_expression'
 BinaryExpression = require '../entities/binary_expression'
 Function = require '../entities/function'
 FunctionInvocation = require '../entities/function_invocation'
@@ -206,7 +207,7 @@ parseExp5 = ->
   (next StartTokens.expression))
     op = match()
     operand = parseExp6()
-    new UnaryExpression op, operand
+    new PreUnaryExpression op, operand
   else
     parseExp6()
 
@@ -214,7 +215,7 @@ parseExp6 = ->
   if (at ['++', '--'])
     op = match()
     operand = parseExp7()
-    new UnaryExpression op, operand
+    new PreUnaryExpression op, operand
   else
     parseExp7()
 
