@@ -2,7 +2,7 @@ class StringLiteral
 
   constructor: (@value) ->
 
-  toString: -> @value
+  toString: -> @value.lexeme
 
   analyze: (context) ->
     #TODO

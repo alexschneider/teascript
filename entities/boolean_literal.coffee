@@ -1,15 +1,11 @@
 class BooleanLiteral
 
-  constructor: (name) ->
-    @name = "#{name}"
+  constructor: (@name) ->
 
-  value: ->
-    @name is 'true'
-
-  toString: -> @name
+  toString: -> @name.lexeme
 
   analyze: (context) ->
-    @type = Type.BOOL
+    #TODO
 
   optimize: -> this
 

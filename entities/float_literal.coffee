@@ -2,7 +2,7 @@ class FloatLiteral
 
   constructor: (@value) ->
 
-  toString: -> @value
+  toString: -> @value.lexeme
 
   analyze: (context) ->
     #TODO

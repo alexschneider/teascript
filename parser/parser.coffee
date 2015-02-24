@@ -1,6 +1,4 @@
-scanner = require '../scanner/scanner'
 CustomError = require '../error/custom_error'
-
 Program = require '../entities/program'
 Block = require '../entities/block'
 ForStatement = require '../entities/for_statement'
@@ -18,6 +16,7 @@ MapLiteral = require '../entities/map_literal'
 UnaryExpression = require '../entities/unary_expression'
 BinaryExpression = require '../entities/binary_expression'
 Function = require '../entities/function'
+FunctionInvocation = require '../entities/function_invocation'
 Parameters = require '../entities/parameters'
 Tokens = require '../scanner/tokens'
 StartTokens = require './start_tokens'
@@ -55,42 +54,33 @@ parseStatement = ->
 
 parseExpression = ->
   if at 'ID'
-    # if next '['
-    #   parseIndexing()
-    # else if next '.'
-    #   parseMemberAccessing()
-    # else if next '('
-    #   parseFuncInvocation()
     if next ':='
       parseVarDec()
     else if next '='
       parseVarAssig()
     else
       parseExp0()
-  else if at '->'
-    parseFunction()
   else if at 'if'
     parseConditional()
   else
     parseExp0()
 
-parseIndexing = ->
-  if blah
-  else if next '('
-    parseFuncInvocation()
-
-parseMemberAccessing = ->
-
 parseFunctionInvocation = ->
+  f = new VariableReference match()
+  match '('
+  args = []
+  while not (at ')')
+    args.push parseExpression()
+    match ',' if (at ',')
+  match ')'
+  new FunctionInvocation f, args
 
 parseParams = ->
   match '('
   params = []
   while not at ')'
-    match 'newline' if at 'newline'
     params.push parseExpression()
     match ',' if at ','
-    match 'newline' if at 'newline'
   match ')'
   new Parameters params
 
@@ -157,6 +147,7 @@ parseConditional = ->
   #     match()
   #     elseExp = parseExpression()
 
+
 parseExp0 = ->
   left = parseExp1()
   while ((at 'or') and
@@ -211,6 +202,15 @@ parseExp5 = ->
   else
     parseExp6()
 
+parseExp6 = ->
+  left = parseExp7()
+  while ((at ['.']) and
+  (next StartTokens.expression))
+    op = match()
+    right = parseExp7()
+    left = new BinaryExpression op, left, right
+  left
+
 parseListLiteral = ->
   elements = []
   match '['
@@ -227,7 +227,7 @@ parseListLiteral = ->
 parseSetLiteral = ->
   elements = []
   match '<'
-  while not at '>'
+  while not (at '>')
     match 'newline' if at 'newline'
     elements.push parseExpression()
     match ',' if at ','
@@ -240,7 +240,7 @@ parseMapLiteral = ->
   keys = []
   values = []
   match '{'
-  while not at '}'
+  while not (at '}')
     match 'newline' if at 'newline'
     key = match 'ID'
     keys.push key
@@ -253,17 +253,20 @@ parseMapLiteral = ->
   match '}'
   new MapLiteral keys, values
 
-parseExp6 = ->
+parseExp7 = ->
   if at ['true', 'false']
-    new BooleanLiteral match().lexeme
+    new BooleanLiteral match()
   else if at 'INTLIT'
-    new IntegerLiteral match().lexeme
+    new IntegerLiteral match()
   else if at 'FLOATLIT'
-    new FloatLiteral match().lexeme
+    new FloatLiteral match()
   else if at 'STRLIT'
-    new StringLiteral match().lexeme
+    new StringLiteral match()
   else if at ['ID', Tokens.reservedWords]
-    new VariableReference match()
+    if next '('
+      parseFunctionInvocation()
+    else
+      new VariableReference match()
   else if at '['
     parseListLiteral()
   else if at '<'

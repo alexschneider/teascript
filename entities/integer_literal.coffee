@@ -2,7 +2,7 @@ class IntegerLiteral
 
   constructor: (@value) ->
 
-  toString: -> @value
+  toString: -> @value.lexeme
 
   analyze: (context) ->
     #TODO
