@@ -43,9 +43,8 @@ parseProgram = ->
 parseBlock = ->
   statements = []
   loop
-    statements.push parseStatement() unless at 'newline'
-    while at 'newline'
-      match 'newline'
+    statements.push parseStatement()
+    match 'newline' if at 'newline'
     break unless ((at StartTokens.statement) and
                    not (at 'end'))
   new Block statements
@@ -106,6 +105,7 @@ parseForLoop = ->
   iterable = parseExpression()
   match ':'
   if at 'newline'
+    match 'newline'
     body = parseBlock()
     match 'end'
   else
@@ -118,6 +118,7 @@ parseWhileLoop = ->
   condition = parseExpression()
   match ':'
   if at 'newline'
+    match 'newline'
     body = parseBlock()
     match 'end'
   else
