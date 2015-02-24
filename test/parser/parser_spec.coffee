@@ -58,6 +58,17 @@ describe 'Parser', ->
         scan "#{validProgramsPath}/program10.tea", (err, tokens) ->
           {error, program} = parse tokens
           expect(error).to.be.null
+          # console.log error
           expect(program.toString()).to.eql outputASTs.program10_AST_string
           done()
 
+  describe 'parsing a valid while statement', ->
+    context 'when parsing single line and multiline while statements', ->
+
+      it 'creates an accurate AST', (done) ->
+        scan "#{validProgramsPath}/program11.tea", (err, tokens) ->
+          {error, program} = parse tokens
+          # expect(error).to.be.null
+          console.log program.toString()
+          # expect(program.toString()).to.eql outputASTs.program10_AST_string
+          done()

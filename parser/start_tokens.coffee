@@ -1,4 +1,9 @@
 class StartTokens
+
+  @varRefStart = [
+    '.', '[', '('
+  ]
+
   @iterable = [
     '(', '<', '[', '{', 'STRLIT'          # Reference type literals
   ]

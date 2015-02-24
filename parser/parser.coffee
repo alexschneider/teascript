@@ -17,6 +17,8 @@ SetLiteral = require '../entities/set_literal'
 MapLiteral = require '../entities/map_literal'
 UnaryExpression = require '../entities/unary_expression'
 BinaryExpression = require '../entities/binary_expression'
+Function = require '../entities/function'
+Parameters = require '../entities/parameters'
 Tokens = require '../scanner/tokens'
 StartTokens = require './start_tokens'
 
@@ -51,6 +53,54 @@ parseStatement = ->
   else
     parseExpression()
 
+parseExpression = ->
+  if at 'ID'
+    # if next '['
+    #   parseIndexing()
+    # else if next '.'
+    #   parseMemberAccessing()
+    # else if next '('
+    #   parseFuncInvocation()
+    if next ':='
+      parseVarDec()
+    else if next '='
+      parseVarAssig()
+    else
+      parseExp0()
+  else if at '->'
+    parseFunction()
+  else if at 'if'
+    parseConditional()
+  else
+    parseExp0()
+
+parseIndexing = ->
+  if blah
+  else if next '('
+    parseFuncInvocation()
+
+parseMemberAccessing = ->
+
+parseFunctionInvocation = ->
+
+parseParams = ->
+  match '('
+  params = []
+  while not at ')'
+    match 'newline' if at 'newline'
+    params.push parseExpression()
+    match ',' if at ','
+    match 'newline' if at 'newline'
+  match ')'
+  new Parameters params
+
+parseFunction = ->
+  params = parseParams()
+  match '->'
+  match 'newline'
+  body = parseBlock()
+  new Function params, body
+
 parseForLoop = ->
   match 'for'
   id = match 'ID'
@@ -78,11 +128,15 @@ parseWhileLoop = ->
   new WhileStatement condition, body
 
 parseVarDec = ->
+  typeOfDec = 'Var'
   id = match 'ID'
   match ':='
-  # TODO: match type?
-  exp = parseExpression()
-  new VariableDeclaration id, exp
+  if inStatement '->'
+    typeOfDec = 'Func'
+    exp = parseFunction()
+  else
+    exp = parseExpression()
+  new VariableDeclaration id, exp, typeOfDec
 
 parseVarAssig = ->
   id = match 'ID'
@@ -91,34 +145,22 @@ parseVarAssig = ->
   new VariableAssignment id, exp
 
 parseConditional = ->
-  if at 'if'
-    match()
-    condition = parseExpression()
-    match ':'
-  else
-    ifExp = parseExpression()
-    match 'if'
-    condition = parseExpression()
-    if at 'else'
-      match()
-      elseExp = parseExpression()
-
-parseExpression = ->
-  if next ':='
-    parseVarDec()
-  else if next '='
-    parseVarAssig()
-  else if at 'if'
-    parseConditional()
-  # else if at 'class'
-  #   parseClassDec()
-  else
-    parseExp0()
-
+  # if at 'if'
+  #   match()
+  #   condition = parseExpression()
+  #   match ':'
+  # else
+  #   ifExp = parseExpression()
+  #   match 'if'
+  #   condition = parseExpression()
+  #   if at 'else'
+  #     match()
+  #     elseExp = parseExpression()
 
 parseExp0 = ->
   left = parseExp1()
-  while at 'or'
+  while ((at 'or') and
+  (next StartTokens.expression))
     op = match()
     right = parseExp1()
     left = new BinaryExpression op, left, right
@@ -126,7 +168,8 @@ parseExp0 = ->
 
 parseExp1 = ->
   left = parseExp2()
-  while at 'and'
+  while ((at 'and') and
+  (next StartTokens.expression))
     op = match()
     right = parseExp2()
     left = new BinaryExpression op, left, right
@@ -134,7 +177,6 @@ parseExp1 = ->
 
 parseExp2 = ->
   left = parseExp3()
-
   if ((at ['<', '<=', '>=', '>', 'is', 'isnt']) and
   (next StartTokens.expression))
     op = match()
@@ -229,8 +271,6 @@ parseExp6 = ->
   else if at '{'
     parseMapLiteral()
   else if at '('
-    # TODO handle parsing tuples or parsing
-    # expressions here - operator overloads
     match()
     expression = parseExpression()
     match ')'
@@ -252,6 +292,22 @@ at = (kind, theseTokens) ->
 
 next = (kind) ->
   at kind, tokens[1..]
+
+findIndexOfNext = (kind) ->
+  i = 0
+  for token in tokens
+    return i if token.kind is kind
+    i++
+
+inStatement = (kind) ->
+  endingPosOfCurrentStatement = findIndexOfNext 'newline'
+  currentStatement = tokens[..endingPosOfCurrentStatement]
+  if tokens.length is 0
+    false
+  else if Array.isArray kind
+    kind.some at
+  else
+    kind in (token.kind for token in currentStatement)
 
 match = (kind) ->
   if tokens.length is 0
