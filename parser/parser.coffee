@@ -53,27 +53,17 @@ parseStatement = ->
     parseExpression()
 
 parseExpression = ->
-  if at 'ID'
-    if next ':='
-      parseVarDec()
-    else if next '='
-      parseVarAssig()
-    else
-      parseExp0()
+  if next ':='
+    parseVarDec()
+  else if next '='
+    parseVarAssig()
   else if at 'if'
     parseConditional()
   else
     parseExp0()
 
-parseFunctionInvocation = ->
-  f = new VariableReference match()
-  match '('
-  args = []
-  while not (at ')')
-    args.push parseExpression()
-    match ',' if (at ',')
-  match ')'
-  new FunctionInvocation f, args
+#parseFunctionInvocation = ->
+#TODO
 
 parseParams = ->
   match '('
