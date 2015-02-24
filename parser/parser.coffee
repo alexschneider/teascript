@@ -263,10 +263,7 @@ parseExp7 = ->
   else if at 'STRLIT'
     new StringLiteral match()
   else if at ['ID', Tokens.reservedWords]
-    if next '('
-      parseFunctionInvocation()
-    else
-      new VariableReference match()
+    new VariableReference match()
   else if at '['
     parseListLiteral()
   else if at '<'

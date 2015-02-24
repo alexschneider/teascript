@@ -1,7 +1,6 @@
 class Parameters
 
   constructor: (@params) ->
-    console.log "constructing params"
 
   toString: ->
     "(#{@params.join(', ')})"

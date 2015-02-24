@@ -47,7 +47,7 @@ class MyASTs
   @program9_AST_string = '(Program (Block (VarDec (z "z"))
    (For x "abc" (= z x))
    (For y <1, 7, 9> (VarDec (a b)))
-   (For y [a, b, c] (Block out "hello, there" out y))
+   (For y [a, b, c] (Block (VarDec (x 4)) (VarDec (y 5))))
    (For var some_variable (Block (= z var)))))'
 
   @program10_AST_string = "(Program (Block
@@ -60,5 +60,9 @@ class MyASTs
              (VarDec (save a))
              (= a b)
              (= b save)))))"
+
+  @program11_AST_string = '(Program
+    (Block
+      (FuncDec (f ((a, b, c) (Block (= x a)))))))'
 
 module.exports = MyASTs

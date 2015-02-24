@@ -8,38 +8,38 @@ outputASTs = require "#{__dirname}/../example/output_ASTs"
 
 describe 'Parser', ->
 
-  # describe 'parsing a valid variable declaration/assignment', ->
-  #   context 'when a variable is declared and assigned to a
-  #            primitive or reference literal
-  #            (int/float/bool/none or string/map/list/set/tuple)', ->
+  describe 'parsing a valid variable declaration/assignment', ->
+    context 'when a variable is declared and assigned to a
+             primitive or reference literal
+             (int/float/bool/none or string/map/list/set/tuple)', ->
 
-  #     # TODO: IMPLEMENT AND TEST TUPLE LITERALS
-  #     it 'creates an accurate AST', (done) ->
-  #       scan "#{validProgramsPath}/program6.tea", (err, tokens) ->
-  #         {error, program} = parse tokens
-  #         expect(error).to.be.null
-  #         expect(program.toString()).to.equal outputASTs.program6_AST_string
-  #         done()
+      # TODO: IMPLEMENT AND TEST TUPLE LITERALS
+      it 'creates an accurate AST', (done) ->
+        scan "#{validProgramsPath}/program6.tea", (err, tokens) ->
+          {error, program} = parse tokens
+          expect(error).to.be.null
+          expect(program.toString()).to.equal outputASTs.program6_AST_string
+          done()
 
-  #   context 'when a variable is declared and assigned to a
-  #            unary expression', ->
+    context 'when a variable is declared and assigned to a
+             unary expression', ->
 
-  #     it 'creates an accurate AST', (done) ->
-  #       scan "#{validProgramsPath}/program7.tea", (err, tokens) ->
-  #         {error, program} = parse tokens
-  #         expect(error).to.be.null
-  #         expect(program.toString()).to.eql outputASTs.program7_AST_string
-  #         done()
+      it 'creates an accurate AST', (done) ->
+        scan "#{validProgramsPath}/program7.tea", (err, tokens) ->
+          {error, program} = parse tokens
+          expect(error).to.be.null
+          expect(program.toString()).to.eql outputASTs.program7_AST_string
+          done()
 
-  #   context 'when a variable is declared and assigned to a
-  #            binary expression', ->
+    context 'when a variable is declared and assigned to a
+             binary expression', ->
 
-  #     it 'creates an accurate AST', (done) ->
-  #       scan "#{validProgramsPath}/program8.tea", (err, tokens) ->
-  #         {error, program} = parse tokens
-  #         expect(error).to.be.null
-  #         expect(program.toString()).to.eql outputASTs.program8_AST_string
-  #         done()
+      it 'creates an accurate AST', (done) ->
+        scan "#{validProgramsPath}/program8.tea", (err, tokens) ->
+          {error, program} = parse tokens
+          expect(error).to.be.null
+          expect(program.toString()).to.eql outputASTs.program8_AST_string
+          done()
 
   describe 'parsing a valid for statement', ->
     context 'when an iterable literal or ID is being iterated over', ->
@@ -47,31 +47,26 @@ describe 'Parser', ->
       it 'creates an accurate AST', (done) ->
         scan "#{validProgramsPath}/program9.tea", (err, tokens) ->
           {error, program} = parse tokens
-          console.log tokens
-          # expect(error).to.be.null
-          console.log program.toString()
-          # expect(program.toString()).to.eql outputASTs.program9_AST_string
+          expect(error).to.be.null
+          expect(program.toString()).to.eql outputASTs.program9_AST_string
           done()
 
-  # describe 'parsing a valid while statement', ->
-  #   context 'when parsing single line and multiline while statements', ->
+  describe 'parsing a valid while statement', ->
+    context 'when parsing single line and multiline while statements', ->
 
-  #     it 'creates an accurate AST', (done) ->
-  #       scan "#{validProgramsPath}/program10.tea", (err, tokens) ->
-  #         {error, program} = parse tokens
-  #         expect(error).to.be.null
-  #         # console.log error
-  #         expect(program.toString()).to.eql outputASTs.program10_AST_string
-  #         done()
+      it 'creates an accurate AST', (done) ->
+        scan "#{validProgramsPath}/program10.tea", (err, tokens) ->
+          {error, program} = parse tokens
+          expect(error).to.be.null
+          expect(program.toString()).to.eql outputASTs.program10_AST_string
+          done()
 
-  # describe 'parsing a valid while statement', ->
-  #   context 'when parsing single line and multiline while statements', ->
+  describe 'parsing a valid function declaration', ->
+    context 'when parsing a function declared with parameters', ->
 
-  #     it 'creates an accurate AST', (done) ->
-  #       scan "#{validProgramsPath}/program11.tea", (err, tokens) ->
-  #         {error, program} = parse tokens
-  #         console.log error
-  #         # expect(error).to.be.null
-  #         console.log program.toString()
-  #         # expect(program.toString()).to.eql outputASTs.program10_AST_string
-  #         done()
+      it 'creates an accurate AST', (done) ->
+        scan "#{validProgramsPath}/program11.tea", (err, tokens) ->
+          {error, program} = parse tokens
+          expect(error).to.be.null
+          expect(program.toString()).to.eql outputASTs.program11_AST_string
+          done()
