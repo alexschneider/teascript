@@ -14,7 +14,7 @@ describe 'Parser', ->
              (int/float/bool/none or string/map/list/set/tuple)', ->
 
       # TODO: IMPLEMENT AND TEST TUPLE LITERALS
-      it 'creates an accurate AST', (done) ->
+      it 'parses correctly', (done) ->
         scan "#{validProgramsPath}/program6.tea", (err, tokens) ->
           {error, program} = parse tokens
           expect(error).to.be.null
@@ -24,7 +24,7 @@ describe 'Parser', ->
     context 'when a variable is declared and assigned to a
              unary expression', ->
 
-      it 'creates an accurate AST', (done) ->
+      it 'parses correctly', (done) ->
         scan "#{validProgramsPath}/program7.tea", (err, tokens) ->
           {error, program} = parse tokens
           expect(error).to.be.null
@@ -34,7 +34,7 @@ describe 'Parser', ->
     context 'when a variable is declared and assigned to a
              binary expression', ->
 
-      it 'creates an accurate AST', (done) ->
+      it 'parses correctly', (done) ->
         scan "#{validProgramsPath}/program8.tea", (err, tokens) ->
           {error, program} = parse tokens
           expect(error).to.be.null
@@ -44,7 +44,7 @@ describe 'Parser', ->
   describe 'parsing a valid for statement', ->
     context 'when an iterable literal or ID is being iterated over', ->
 
-      it 'creates an accurate AST', (done) ->
+      it 'parses correctly', (done) ->
         scan "#{validProgramsPath}/program9.tea", (err, tokens) ->
           {error, program} = parse tokens
           expect(error).to.be.null
@@ -54,7 +54,7 @@ describe 'Parser', ->
   describe 'parsing a valid while statement', ->
     context 'when parsing single line and multiline while statements', ->
 
-      it 'creates an accurate AST', (done) ->
+      it 'parses correctly', (done) ->
         scan "#{validProgramsPath}/program10.tea", (err, tokens) ->
           {error, program} = parse tokens
           expect(error).to.be.null
@@ -64,9 +64,20 @@ describe 'Parser', ->
   describe 'parsing a valid function declaration', ->
     context 'when parsing a function declared with parameters', ->
 
-      it 'creates an accurate AST', (done) ->
+      it 'parses correctly', (done) ->
         scan "#{validProgramsPath}/program11.tea", (err, tokens) ->
           {error, program} = parse tokens
           expect(error).to.be.null
           expect(program.toString()).to.eql outputASTs.program11_AST_string
           done()
+
+  describe 'parsing a valid function invocation', ->
+    context 'when parsing a function invoked with arguments', ->
+
+      it 'parses correctly', (done) ->
+        scan "#{validProgramsPath}/program12.tea", (err, tokens) ->
+          {error, program} = parse tokens
+          expect(error).to.be.null
+          expect(program.toString()).to.eql outputASTs.program12_AST_string
+          done()
+

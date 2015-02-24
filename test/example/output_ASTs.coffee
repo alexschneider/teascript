@@ -62,8 +62,12 @@ class MyASTs
              (= a b)
              (= b save)))))"
 
-  @program11_AST_string = '(Program
-    (Block
-      (FuncDec (f ((a, b, c) (Block (= x a)))))))'
+  @program11_AST_string = '(Program (Block
+    (FuncDec (f ((a, b, c) (Block (= x a)))))))'
+
+  @program12_AST_string = "(Program (Block
+    (Invoke f (1, 2, 3))
+    (. a (. (Subscript b 1) (. c (. (Subscript d 6)
+      (Invoke e ('arg1', 'arg2'))))))))"
 
 module.exports = MyASTs
