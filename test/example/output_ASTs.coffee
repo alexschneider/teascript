@@ -65,8 +65,12 @@ class MyASTs
   @program11_AST_string = '(Program (Block
     (FuncDec (f ((a, b, c)
       (Block (VarDec (x (+ a 100)))
-             (= a b)
-             (Return x)))))))'
+        (= a b)
+        (Return x)
+    (FuncDec (g ((first_arg, another_arg)
+      (Block (Invoke out (\'hi\'))
+        (VarDec (string "here is a super cool string thing"))
+        (Return (Invoke f (string, <first_arg, 1>, <another_arg>)))))))))))))'
 
   @program12_AST_string = "(Program (Block
     (Invoke f (1, 2, 3))

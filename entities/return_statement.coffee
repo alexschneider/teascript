@@ -1,7 +1,6 @@
 class ReturnStatement
 
   constructor: (@value) ->
-    console.log "constructing with #{@value}"
 
   toString: ->
     "(Return #{@value})"
