@@ -100,6 +100,8 @@ class LineScanner
     return false
 
   extractedStringLiterals: ->
+    # TODO: distinguish b/w single quotes and double quotes
+    # for matching
     if @currentState.multiline.string
       @extractMultilineString()
       return true

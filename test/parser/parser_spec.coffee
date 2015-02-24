@@ -8,7 +8,7 @@ outputASTs = require "#{__dirname}/../example/output_ASTs"
 
 describe 'Parser', ->
 
-  describe 'parsing a variable declaration/assignment', ->
+  describe 'parsing a valid variable declaration/assignment', ->
     context 'when a variable is declared and assigned to a
              primitive or reference literal
              (int/float/bool/none or string/map/list/set/tuple)', ->
@@ -41,7 +41,7 @@ describe 'Parser', ->
           expect(program.toString()).to.eql outputASTs.program8_AST_string
           done()
 
-  describe 'parsing a for statement', ->
+  describe 'parsing a valid for statement', ->
     context 'when an iterable literal or ID is being iterated over', ->
 
       it 'creates an accurate AST', (done) ->
@@ -50,3 +50,14 @@ describe 'Parser', ->
           expect(error).to.be.null
           expect(program.toString()).to.eql outputASTs.program9_AST_string
           done()
+
+  describe 'parsing a valid while statement', ->
+    context 'when parsing single line and multiline while statements', ->
+
+      it 'creates an accurate AST', (done) ->
+        scan "#{validProgramsPath}/program10.tea", (err, tokens) ->
+          {error, program} = parse tokens
+          expect(error).to.be.null
+          expect(program.toString()).to.eql outputASTs.program10_AST_string
+          done()
+

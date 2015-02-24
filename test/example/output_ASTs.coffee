@@ -49,4 +49,8 @@ class MyASTs
    (For y [a, b, c] (Block out "hello, there" out y))
    (For var some_variable (Block (= z var)))))'
 
+  @program10_AST_string = '(Program (Block
+   (While (and (is (+ (/ x 10) 5) 2) (> y x)) (= x (+ x 1)))
+   (While true (Block out "I am in an infinite loop!!"))))'
+
 module.exports = MyASTs
