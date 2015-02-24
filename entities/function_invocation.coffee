@@ -3,8 +3,7 @@ class FunctionInvocation
   constructor: (@func, @args) ->
 
   toString: ->
-    "(Invoke #{@func} #{@args.join(', ')}"
-
+    "(Invoke #{@func} #{@args})"
 
   analyze: (context) ->
     #TODO

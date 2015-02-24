@@ -1,6 +1,6 @@
 class VariableDeclaration
 
-  constructor: (@id, @value, @type) ->
+  constructor: (@type, @id, @value) ->
 
   toString: ->
     "(#{@type}Dec (#{@id.lexeme} #{@value}))"

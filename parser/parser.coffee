@@ -18,6 +18,10 @@ BinaryExpression = require '../entities/binary_expression'
 Function = require '../entities/function'
 FunctionInvocation = require '../entities/function_invocation'
 Parameters = require '../entities/parameters'
+Args = require '../entities/args'
+ListSubscript = require '../entities/list_subscript'
+MemberAccess = require '../entities/member_access'
+FunctionInvocation = require '../entities/function_invocation'
 Tokens = require '../scanner/tokens'
 StartTokens = require './start_tokens'
 
@@ -62,9 +66,6 @@ parseExpression = ->
   else
     parseExp0()
 
-#parseFunctionInvocation = ->
-#TODO
-
 parseParams = ->
   match '('
   params = []
@@ -73,6 +74,15 @@ parseParams = ->
     match ',' if at ','
   match ')'
   new Parameters params
+
+parseArgs = ->
+  match '('
+  args = []
+  while not at ')'
+    args.push parseExpression()
+    match ',' if at ','
+  match ')'
+  new Args args
 
 parseFunction = ->
   params = parseParams()
@@ -116,7 +126,7 @@ parseVarDec = ->
     exp = parseFunction()
   else
     exp = parseExpression()
-  new VariableDeclaration id, exp, typeOfDec
+  new VariableDeclaration typeOfDec, id, exp
 
 parseVarAssig = ->
   id = match 'ID'
@@ -193,57 +203,34 @@ parseExp5 = ->
     parseExp6()
 
 parseExp6 = ->
-  left = parseExp7()
-  while ((at ['.']) and
-  (next StartTokens.expression))
+  if (at ['++', '--'])
     op = match()
-    right = parseExp7()
-    left = new BinaryExpression op, left, right
-  left
-
-parseListLiteral = ->
-  elements = []
-  match '['
-
-  while not at ']'
-    match 'newline' if at 'newline'
-    elements.push parseExpression()
-    match ',' if at ','
-    match 'newline' if at 'newline'
-
-  match ']'
-  new ListLiteral elements
-
-parseSetLiteral = ->
-  elements = []
-  match '<'
-  while not (at '>')
-    match 'newline' if at 'newline'
-    elements.push parseExpression()
-    match ',' if at ','
-    match 'newline' if at 'newline'
-
-  match '>'
-  new SetLiteral elements
-
-parseMapLiteral = ->
-  keys = []
-  values = []
-  match '{'
-  while not (at '}')
-    match 'newline' if at 'newline'
-    key = match 'ID'
-    keys.push key
-    match ':'
-    value = parseExpression()
-    values.push value
-    match ',' if at ','
-    match 'newline' if at 'newline'
-
-  match '}'
-  new MapLiteral keys, values
+    operand = parseExp7()
+    new UnaryExpression op, operand
+  else
+    parseExp7()
 
 parseExp7 = ->
+  exp = parseExp8()
+
+  while ((at ['.', '[', '(']) and
+  (next StartTokens.expression))
+    if at '.'
+      match '.'
+      exp = new MemberAccess exp, parseExpression()
+    else if at '['
+      match '['
+      exp = new ListSubscript exp, parseExpression()
+      match ']'
+    else
+      exp = new FunctionInvocation exp, parseArgs()
+
+  if at([ "++", "--" ])
+    op = match()
+    exp = new PostUnaryExpression op, exp
+  exp
+
+parseExp8 = ->
   if at ['true', 'false']
     new BooleanLiteral match()
   else if at 'INTLIT'
@@ -267,6 +254,50 @@ parseExp7 = ->
     expression
   else
     CustomError 'Illegal start of expression', tokens[0]
+
+parseListLiteral = ->
+  elements = []
+  match '['
+
+  while not at ']'
+    match 'newline' if at 'newline'
+    elements.push parseExpression()
+    match ',' if at ','
+    match 'newline' if at 'newline'
+
+  match ']'
+  new ListLiteral elements
+
+parseSetLiteral = ->
+  elements = []
+  match '<'
+
+  while not (at '>')
+    match 'newline' if at 'newline'
+    elements.push parseExpression()
+    match ',' if at ','
+    match 'newline' if at 'newline'
+
+  match '>'
+  new SetLiteral elements
+
+parseMapLiteral = ->
+  keys = []
+  values = []
+  match '{'
+
+  while not (at '}')
+    match 'newline' if at 'newline'
+    key = match 'ID'
+    keys.push key
+    match ':'
+    value = parseExpression()
+    values.push value
+    match ',' if at ','
+    match 'newline' if at 'newline'
+
+  match '}'
+  new MapLiteral keys, values
 
 
 at = (kind, theseTokens) ->

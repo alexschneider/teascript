@@ -47,13 +47,14 @@ class MyASTs
   @program9_AST_string = '(Program (Block (VarDec (z "z"))
    (For x "abc" (= z x))
    (For y <1, 7, 9> (VarDec (a b)))
-   (For y [a, b, c] (Block (VarDec (x 4)) (VarDec (y 5))))
+   (For y [a, b, c] (Block (Invoke f (\'strlit1\', \'strlit2\', 1, 2))
+                           (Invoke out (y))))
    (For var some_variable (Block (= z var)))))'
 
   @program10_AST_string = "(Program (Block
    (While (and (is (+ (/ x 10) 5) 2) (> y x)) (= x (+ x 1)))
    (While (VarDec (x true)) \"vardec expressions are da bomb\")
-   (While true (Block out \"I am in an infinite loop!!\"))
+   (While true (Block (Invoke out (\"I am in an infinite loop!!\"))))
    (While (or (or (or (or a b) c) d) <1, 2, 3, (> 5 6)>)
       (Block (VarDec (a 'a'))
              (VarDec (b 'b'))
