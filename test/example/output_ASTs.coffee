@@ -44,6 +44,8 @@ class MyASTs
    (VarDec (all_together (or (>= (+ (% a b) c) d) (and e (isnt f false)))))
    (= all_together (or (>= (+ (% a b) c) d) (and e (isnt f false))))))'
 
-  @program9_AST_string = '(Program (Block (For x [1, 2, 3] (Block ))))'
+  @program9_AST_string = '(Program (Block (VarDec (z "z"))
+   (For x "abc" (= z x))
+   (For y [a, b, c] (Block  out "hello, there" out y))))'
 
 module.exports = MyASTs

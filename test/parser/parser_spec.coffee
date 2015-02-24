@@ -17,8 +17,9 @@ describe 'Parser', ->
 
       it 'creates an accurate AST', (done) ->
         scan "#{validProgramsPath}/program6.tea", (err, tokens) ->
-          AST = parse tokens
-          expect(AST.toString()).to.equal outputASTs.program6_AST_string
+          {error, program} = parse tokens
+          expect(error).to.be.null
+          expect(program.toString()).to.equal outputASTs.program6_AST_string
           done()
 
     context 'when a variable is declared and assigned to a
@@ -26,8 +27,9 @@ describe 'Parser', ->
 
       it 'creates an accurate AST', (done) ->
         scan "#{validProgramsPath}/program7.tea", (err, tokens) ->
-          AST = parse tokens
-          expect(AST.toString()).to.eql outputASTs.program7_AST_string
+          {error, program} = parse tokens
+          expect(error).to.be.null
+          expect(program.toString()).to.eql outputASTs.program7_AST_string
           done()
 
     context 'when a variable is declared and assigned to a
@@ -35,8 +37,9 @@ describe 'Parser', ->
 
       it 'creates an accurate AST', (done) ->
         scan "#{validProgramsPath}/program8.tea", (err, tokens) ->
-          AST = parse tokens
-          expect(AST.toString()).to.eql outputASTs.program8_AST_string
+          {error, program} = parse tokens
+          expect(error).to.be.null
+          expect(program.toString()).to.eql outputASTs.program8_AST_string
           done()
 
   describe 'parsing a for statement', ->
@@ -44,6 +47,6 @@ describe 'Parser', ->
 
       it 'creates an accurate AST', (done) ->
         scan "#{validProgramsPath}/program9.tea", (err, tokens) ->
-          AST = parse tokens
-          expect(AST.toString()).to.eql outputASTs.program9_AST_string
+          {error, program} = parse tokens
+          expect(program.toString()).to.eql outputASTs.program9_AST_string
           done()
