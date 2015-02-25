@@ -7,7 +7,67 @@ Status](https://coveralls.io/repos/alexschneider/teascript/badge.svg)](https://c
 
 ![](https://raw.githubusercontent.com/alexschneider/teascript/master/teascript_logo.jpg)
 
-teascript is a language that compiles into JavaScript. 
+teascript is a language that compiles into JavaScript.
+
+### Grammar
+#### Microsyntax
+#### Macrosyntax
+```
+Program ::= Block
+Block   ::= (Stmt newline)*
+
+Stmt    ::= 'while' Exp ':' (newline Block 'end' | Exp)
+        | 'for' id 'in' Exp ':' (newline Block 'end' | Exp)
+        | Exp 
+
+Exp     ::= VarDeclaration
+        | ConditionalExp
+        | Class
+        | Function
+        | VarAssignment
+        | Exp0
+
+VarDeclaration ::= (id|TupLit) ':' Type? '=' Exp
+VarAssignment  ::= (id|TupLit) '=' Exp
+
+ConditionalExp ::= Exp0 ('if' Exp ('else' Exp)?)?
+               | 'if' Exp ':' newline Block ('else if' Exp ':' newline Block)* ('else:' newline Block 'end')?
+               | 'if' Exp ':' Exp
+
+Exp0    ::=  Exp1 ('or' Exp1)*
+Exp1    ::=  Exp2 ('and' Exp2)*
+Exp2    ::=  Exp3 (relop Exp3)?
+Exp3    ::=  Exp4 (addop Exp4)*
+Exp4    ::=  Exp5 (mulop Exp5)*
+Exp5    ::=  prefixop? Exp6
+Exp6    ::=  boolLit | intLit | id | '(' Exp ')' | StringLit | TupLit | SetLit | MapLit | ListLit 
+
+ExpList ::= Exp (',' Exp)*
+Binding ::= id ':' Exp
+BindingList ::= Binding (',' Binding)*
+
+TupLit  ::= '(' ExpList? ')'
+SetLit  ::= '<' ExpList? '>'
+ListLit ::= '[' ExpList? ']'
+MapLit ::= '{' BindingList? '}'
+
+Index   ::= Exp '[' Exp ']'
+Prop    ::= Exp '.' id 
+
+Range   ::= Exp '..' Exp ('by' Exp)?
+Slice   ::= Exp '[' range ']'
+
+Comprehension ::= '[' Exp ('if' Exp ('else' Exp)?)? 'for' id 'in' Exp ']'
+
+PropertySignature ::= id (ArgsDeclaration)?
+
+trait ::= 'trait:' newline (PropertySignature newline)* 'end'
+ArgsDeclaration ::= '(' (Arg (',' Arg )*)? ')'
+Class ::= 'class:' newline (Exp newline)* 'end'
+Arg ::= id (':' Type)? ('::=' Exp)?
+FunctionBlock ::= Exp | newline Block 'end'
+Function ::= ArgsDeclaration '->' FunctionBlock
+```
 
 ### Features
 
