@@ -1,8 +1,8 @@
 tokens = require '../scanner/tokens'
 class StartTokens
 
-  @varRefStart = [
-    '.', '[', '('
+  @unaryExpression = [
+    '--', '++', 'not', '-'
   ]
 
   @iterable = [
@@ -12,7 +12,8 @@ class StartTokens
   @expression = [
     'INTLIT', 'FLOATLIT', 'true', 'false', # Primitive literals
     'ID', '->', 'trait', 'class',          # Misc other tokens
-    @iterable, tokens.reservedWords
+    @iterable, tokens.reservedWords,
+    @unaryExpression
   ]
 
   @statement = [
