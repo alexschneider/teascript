@@ -12,10 +12,10 @@ class LineScanner
 
   scan: ->
     return {lineError: null, @lineTokens, @currentState} unless @line
-    unless (@currentState.multiline.comment or @currentState.multiline.string)
-      @addToken {kind: 'newline'}
-    while @position < @line.length
 
+    tokensInLine = false
+
+    while @position < @line.length
       # continue iterating over the line of characters
       # if we've been able to do one of the following:
       # 1. skip one or more insignificant characters (white space, comment, etc)
@@ -23,6 +23,7 @@ class LineScanner
       continue if @skippedSpaces()
       continue if @skippedMultiComments()
       continue if @skippedSingleComments()
+      tokensInLine = true
       continue if @extractedNumericLiterals()
       continue if @extractedTwoCharacterTokens()
       continue if @extractedOneCharacterTokens()
@@ -36,7 +37,7 @@ class LineScanner
         lineTokens: []
       }
 
-    # add newline token after each line
+    @addToken {kind: 'newline'} if tokensInLine
     return {lineError: null, @lineTokens, @currentState}
 
   addToken: ({kind, lexeme}) ->
@@ -99,6 +100,8 @@ class LineScanner
     return false
 
   extractedStringLiterals: ->
+    # TODO: distinguish b/w single quotes and double quotes
+    # for matching
     if @currentState.multiline.string
       @extractMultilineString()
       return true
