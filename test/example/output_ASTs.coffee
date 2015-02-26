@@ -74,9 +74,11 @@ class MyASTs
         (VarDec (string "here is a super cool string thing"))
         (Return (Invoke f (string, <first_arg, 1>, <another_arg>)))))))))))))'
 
-  @program12_AST_string = "(Program (Block
+  @program12_AST_string = '(Program (Block
     (Invoke f (1, 2, 3))
-    (. a (. (Subscript b 1) (. c (. (Subscript d 6)
-      (Invoke e ('arg1', 'arg2'))))))))"
+    (. a (. (Subscript b 1)
+      (. c (. (Subscript d 6)
+        (. (Invoke e (\'arg1\', \'arg2\'))
+          (Invoke a ()))))))))'
 
 module.exports = MyASTs
