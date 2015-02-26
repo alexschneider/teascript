@@ -11,6 +11,28 @@ teascript is a language that compiles into JavaScript.
 
 ### Grammar
 #### Microsyntax
+# TODO: order and finish
+Matches are attempted from top to bottom.
+```
+newline    = (\r*\n)+
+id         = [_a-zA-Z]\w*
+escape     = '\\' '"' | '\''
+punc       = '[\p{P}\p{S}-[\'"\\]]'
+char       = '[\s\w]' | punc | escape
+singlechar = char | '"' 
+doublechar = char | '\''
+StringLit  = ('"' doublechar* '"') | ('\'' singlechar* '\'')
+relop      = '<' | '<=' | '==' | '!=' | '>=' | '>'
+addop      = '+' | '-'
+mulop      = '*' | '/'
+intLit     = \d+
+floatLit   = intLit '.' intLit
+boolLit    = 'true' | 'false'
+keyword    = 'while' | 'for' | 'end' | 'or' | 'and' 
+           | 'true' | 'false' | 'none'
+comment    = '#' [^\n]* newline
+           | '##' .*? '##'
+```
 #### Macrosyntax
 ```
 Program ::= Block
@@ -43,7 +65,7 @@ Exp2    ::=  Exp3 (relop Exp3)?
 Exp3    ::=  Exp4 (addop Exp4)*
 Exp4    ::=  Exp5 (mulop Exp5)*
 Exp5    ::=  prefixop? Exp6
-Exp6    ::=  boolLit | intLit | id | '(' Exp ')' | StringLit 
+Exp6    ::=  boolLit | intLit | floatLit | id | '(' Exp ')' | StringLit 
            | TupLit | SetLit | MapLit | ListLit | Range | Slice
 
 ExpList     ::= Exp (',' Exp)*
