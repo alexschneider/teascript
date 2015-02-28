@@ -38,7 +38,7 @@ Unlike JavaScript, we don't have a variable declaration keyword like `var`.
 Unlike Python, we make a distinction between variable declaration and mutation.
 Additionally, variables must be assigned a value when they are declared.
 
-```
+```ruby
 # We use := to declare variables.
 # When we declare variables we can optionally specify their type.
 x : int = 420
@@ -56,17 +56,17 @@ lowercase. We also have 5 reference types: `String`,`List`,`Map`,`Set`, and
 `Tuple`. Note that the reference types all begin with an **uppercase** letter.
 We demonstrate how to create these types.
 
-```
-x := 4                               # Inferred to be an int
-y := 3.14                            # Inferred to be a double
-is_this_true = false                 # Inferred to be a bool
-z := none                            # You can assign none to a variable
+```ruby
+x := 4                                # Inferred to be an int
+y := 3.14                             # Inferred to be a double
+is_this_true := false                 # Inferred to be a bool
+z := none                             # You can assign none to a variable
 
-my_string := "Oh baby!"              # This is a string literal
-my_list := [1..5]                    # This is a list, which is mutable.
-my_tuple := (1,2,3,2,1)              # Immutable ordered lists
-my_set := <1,3,5,7>                  # Immutable unordered lists with NO REPEATS
-my_map := {"lat":51.24,"long":0.18}  # Ordered pair of key-values
+my_string := "Oh baby!"               # This is a string literal
+my_list := [1..5]                     # This is a list, which is mutable.
+my_tuple := (1,2,3,2,1)               # Immutable ordered lists
+my_set := <1,3,5,7>                   # Immutable unordered lists with NO REPEATS
+my_map := {"lat":51.24,"long":0.18}   # Ordered pair of key-values
 
 ```
 
@@ -75,16 +75,13 @@ A range is a list of integers at a regularly spaced interval, bounded by x
 inclusive on the low side, and y exclusive on the high side, i.e. `[x, y)`. A
 range can be described in two ways:
 
-```
-a .. b       # We go from a to b-1 in increments of 1.
-# OR
-a .. b by x  # We go from from a to b-1 in increments of x.
+```ruby
+a .. b         # We go from a to b-1 in increments of 1.
+a .. b by x    # We go from from a to b-1 in increments of x.
 
-1 .. 10       # This is [1,2,3,4,5,6,7,8,9]
-2 .. 10 by 2  # This is [2,4,6,8]
-1 .. 15 by 4  # This is [1,5,9,13]. The next numeber is
-              # 17, which is bigger than 17, so we finish
-              # our list at 13.
+1 .. 10        # This is [1,2,3,4,5,6,7,8,9]
+2 .. 10 by 2   # This is [2,4,6,8]
+1 .. 15 by 4   # This is [1,5,9,13]
 ```
 
 A slice is a one-to-one mapping of a range to an ordered collection of elements,
@@ -94,24 +91,23 @@ elements of an ordered iterabele. All reference types are iterables. All
 reference types except sets are ordered iterables. Since they are ordered, we
 can iterate over them in a predictable way and apply slices to them.  
 
-```
+```ruby
 instrument := "xylophone"
 instrument[0,1,2]        # We grab "xyl"
 instrument[0..3]         # Since [0..3] == [0,1,2] this is also "xyl"
 instrument[0..8 by 3]    # We grab "xoo"
-
 ```
 
-#### Assignments and Mutations Are Expressions
+#### Assignments and Mutations are Expressions
 
 In teascript, variable declarations and mutations are expressions.
 
-```
-x := 100     # We declare x and assign it the value of 10
+```ruby
+x := 100       # We declare x and assign it the value of 10
 
-y := (x = 4) # We assign the value of 4 to x. Since assignemnts
-             # are expressions, we return a value of 4, which gets
-             # assigned to y.
+y := (x = 4)   # We assign the value of 4 to x. Since assignemnts
+               # are expressions, we return a value of 4, which gets
+               # assigned to y.
 
 z := (y = (x = 2) + 4) + 10
 
@@ -129,7 +125,7 @@ conditional expressions return values. In our language, `if`s return whatever
 the last expression in the body of the `if` evaluated to. In some cases an `if`
 statement will evaluate to `none`.
 
-```
+```ruby
 # We have several syntaxes for ifs.
 # 1) expression1 if condition else expression2
 
@@ -169,14 +165,14 @@ else
     out("Come back some other time.")
 end
 ```
-#### for Loops
+#### For Loops
 In teascript we can iterate over anything that is an iterable. Of our five
 reference types, only four of them are ordered, ie lists, tuples, strings, and
-maps(we iterate over their keys in lexicographical order). Sets are unordered
+maps (we iterate over their keys in lexicographical order). Sets are unordered
 iterables, so while iterating over them is allowed, do not expect an explicit
 ordering when iterating over them.
 
-```
+```ruby
 # We can give the for loop a variable that is
 # a reference to an iterable or pass an
 # iterable.
@@ -204,7 +200,8 @@ end
 
 #### while loops
 While loops can be used one of two ways.
-```
+
+```ruby
 # If the while loop has a single expression in its
 # body it can be written into a single line.
 counter := 0
@@ -221,8 +218,9 @@ out('Happy New Year!')
 ```
 
 #### Functions
-Functions in teascript look a lot like the functions in coffeescript. Functions are 
-first-level objects.
+
+Functions in teascript look a lot like the functions in CoffeeScript. Functions are 
+first-class objects.
 
 ```
 repeat = (str, n) ->
@@ -236,7 +234,9 @@ end
 # We can also have anonymous functions.
 times((x) -> 2*x, 5, 10)
 ```
+
 ### Example Programs
+
 teascript on left, JavaScript on right.
 #### Hello World
 
