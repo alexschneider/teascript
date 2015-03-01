@@ -13,16 +13,19 @@ bool1 := true
 bool2 := false
 
 set1 := <1, 2, 3>
+
 set2 := <1, 2, 3, <4, 5, 6>, <7, 8, <9, 10, 11>>>
 
 combo := [<a, b, c>, {foo: "bar", foobar: <1, a>}]
 
 multiline_combo := [
   {
-    a: b
+    a: b,
     c: d
-  }
-  <1, 2, 3>
+  },
+  <1, 2, 3>,
+  {e:f, g:h},
+  [5, 6, [7, [8,9]]]
 ]
 
 pre_incremented_x := ++x

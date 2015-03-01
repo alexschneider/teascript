@@ -44,7 +44,7 @@ parseBlock = ->
   statements = []
   loop
     statements.push parseStatement()
-    match 'newline' if at 'newline'
+    match 'newline'
     break unless ((at StartTokens.statement) and
                    not (at 'end'))
   new Block statements
@@ -62,6 +62,12 @@ parseStatement = ->
 parseExpression = ->
   if next ':='
     parseVarDec()
+  else if ((at '(') and areParams())
+    parseFunctionExpression()
+  # else if at 'class'
+  #   parseClassExpression()
+  # else if at 'trait'
+  #   parseTraitExpression()
   else if next '='
     parseVarAssig()
   else if at 'if'
@@ -91,11 +97,15 @@ parseArgs = ->
   match ')'
   new Args args
 
-parseFunction = ->
+parseFunctionExpression = ->
   params = parseParams()
   match '->'
-  match 'newline'
-  body = parseBlock()
+  if at 'newline'
+    match 'newline'
+    body = parseBlock()
+    match 'end'
+  else
+    body = parseExpression()
   new Function params, body
 
 parseForLoop = ->
@@ -110,7 +120,6 @@ parseForLoop = ->
     match 'end'
   else
     body = parseExpression()
-    match 'newline'
   new ForStatement id, iterable, body
 
 parseWhileLoop = ->
@@ -123,19 +132,14 @@ parseWhileLoop = ->
     match 'end'
   else
     body = parseExpression()
-    match 'newline'
   new WhileStatement condition, body
 
 parseVarDec = ->
   typeOfDec = 'Var'
   id = match 'ID'
   match ':='
-  if inStatement '->'
-    typeOfDec = 'Func'
-    exp = parseFunction()
-  else
-    exp = parseExpression()
-  new VariableDeclaration typeOfDec, id, exp
+  exp = parseExpression()
+  new VariableDeclaration id, exp
 
 parseVarAssig = ->
   id = match 'ID'
@@ -272,9 +276,10 @@ parseListLiteral = ->
   while not at ']'
     match 'newline' if at 'newline'
     elements.push parseExpression()
-    match ',' if at ','
     match 'newline' if at 'newline'
+    match ',' unless at ']'
 
+  match 'newline' if at 'newline'
   match ']'
   new ListLiteral elements
 
@@ -282,12 +287,13 @@ parseSetLiteral = ->
   elements = []
   match '<'
 
-  while not (at '>')
+  while not at '>'
     match 'newline' if at 'newline'
     elements.push parseExpression()
-    match ',' if at ','
     match 'newline' if at 'newline'
+    match ',' unless at '>'
 
+  match 'newline' if at 'newline'
   match '>'
   new SetLiteral elements
 
@@ -296,16 +302,17 @@ parseMapLiteral = ->
   values = []
   match '{'
 
-  while not (at '}')
+  while not at '}'
     match 'newline' if at 'newline'
     key = match 'ID'
     keys.push key
     match ':'
     value = parseExpression()
     values.push value
-    match ',' if at ','
     match 'newline' if at 'newline'
+    match ',' unless at '}'
 
+  match 'newline' if at 'newline'
   match '}'
   new MapLiteral keys, values
 
@@ -330,15 +337,15 @@ findIndexOfNext = (kind) ->
     return i if token.kind is kind
     i++
 
-inStatement = (kind) ->
-  endingPosOfCurrentStatement = findIndexOfNext 'newline'
-  currentStatement = tokens[..endingPosOfCurrentStatement]
-  if tokens.length is 0
-    false
-  else if Array.isArray kind
-    kind.some at
-  else
-    kind in (token.kind for token in currentStatement)
+areParams = ->
+  parens = 0
+  position = 0
+  for token in tokens
+    parens++ if token.kind is '('
+    parens-- if token.kind is ')'
+    position++
+    break if parens is 0
+  tokens[position].kind is '->'
 
 match = (kind) ->
   if tokens.length is 0
