@@ -16,18 +16,21 @@ Matches are attempted from top to bottom.
 ```
 newline    = (\r*\n)+
 id         = [_a-zA-Z]\w*
-escape     = '\\' '"' | '\''
+escape     = '\\' '"' | '\'' | 'n' | 'r'
 punc       = '[\p{P}\p{S}-[\'"\\]]'
 char       = '[\s\w]' | punc | escape
 singlechar = char | '"' 
 doublechar = char | '\''
 StringLit  = ('"' doublechar* '"') | ('\'' singlechar* '\'')
-relop      = '<' | '<=' | '==' | '!=' | '>=' | '>'
+relop      = '<' | '<=' | 'is' | 'isnt' | '>=' | '>'
 addop      = '+' | '-'
-mulop      = '*' | '/'
+prefixop   = '-' | 'not'
+mulop      = '*' | '/' | '%'
+unary      = '++' | '--'
 intLit     = \d+
 floatLit   = intLit '.' intLit
 boolLit    = 'true' | 'false'
+noneLit    = 'none'
 keyword    = 'while' | 'for' | 'end' | 'or' | 'and' 
            | 'true' | 'false' | 'none'
 comment    = '#' [^\n]* newline
@@ -65,8 +68,10 @@ Exp2    ::=  Exp3 (relop Exp3)?
 Exp3    ::=  Exp4 (addop Exp4)*
 Exp4    ::=  Exp5 (mulop Exp5)*
 Exp5    ::=  prefixop? Exp6
-Exp6    ::=  boolLit | intLit | floatLit | id | '(' Exp ')' | StringLit 
-           | TupLit | SetLit | MapLit | ListLit | Range | Slice
+Exp6    ::=  (Exp7 unary?) | (unary Exp7)
+Exp7    ::=  Exp8 (('.' Exp8) | ('[' Exp8 ']') | ('(' arglist ')'))*
+Exp8    ::=  boolLit | intLit | floatLit | id | '(' Exp ')' | StringLit 
+           | TupLit | SetLit | MapLit | ListLit | Range | Slice | nonelit
 
 ExpList     ::= Exp (',' Exp)*
 Binding     ::= id ':' Exp
@@ -76,9 +81,6 @@ TupLit  ::= '(' ExpList? ')'
 SetLit  ::= '<' ExpList? '>'
 ListLit ::= '[' ExpList? ']'
 MapLit  ::= '{' BindingList? '}'
-
-Index   ::= Exp6 '[' Exp ']'
-Prop    ::= Exp6 '.' id 
 
 Range   ::= Exp6 '..' Exp6 ('by' Exp6)?
 Slice   ::= Exp6 '[' Range ']'
