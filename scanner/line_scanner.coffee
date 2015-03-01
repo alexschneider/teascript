@@ -5,9 +5,7 @@ class LineScanner
     @currentState ?=
       multiline:
         comment: false
-        string:
-          toggleOn: true
-          type: 'double'
+        string: false
     @start = 0
     @position = 0
     @lineTokens = []
