@@ -7,7 +7,95 @@ Status](https://coveralls.io/repos/alexschneider/teascript/badge.svg)](https://c
 
 ![](https://raw.githubusercontent.com/alexschneider/teascript/master/teascript_logo.jpg)
 
-teascript is a language that compiles into JavaScript. 
+teascript is a language that compiles into JavaScript.
+
+### Grammar
+#### Microsyntax
+# TODO: order and finish
+Matches are attempted from top to bottom.
+```
+newline    = (\r*\n)+
+id         = [_a-zA-Z]\w*
+escape     = '\\' '"' | '\'' | 'n' | 'r'
+punc       = '[\p{P}\p{S}-[\'"\\]]'
+char       = '[\s\w]' | punc | escape
+singlechar = char | '"' 
+doublechar = char | '\''
+StringLit  = ('"' doublechar* '"') | ('\'' singlechar* '\'')
+relop      = '<' | '<=' | 'is' | 'isnt' | '>=' | '>'
+addop      = '+' | '-'
+prefixop   = '-' | 'not'
+mulop      = '*' | '/' | '%'
+unary      = '++' | '--'
+intLit     = \d+
+floatLit   = intLit '.' intLit
+boolLit    = 'true' | 'false'
+noneLit    = 'none'
+keyword    = 'while' | 'for' | 'end' | 'or' | 'and' 
+           | 'true' | 'false' | 'none'
+comment    = '#' [^\n]* newline
+           | '##' .*? '##'
+```
+#### Macrosyntax
+```
+Program ::= Block
+Block   ::= (Stmt newline)* (ReturnStmt newline)?
+
+Stmt    ::= 'while' Exp ':' (newline Block 'end' | Exp)
+        | 'for' id 'in' Exp ':' (newline Block 'end' | Exp)
+        | Exp 
+
+ReturnStmt ::= 'return' Exp
+
+Exp     ::= VarDeclaration
+        | ConditionalExp
+        | Class
+        | Function
+        | VarAssignment
+        | TernExp
+        | Trait
+
+VarDeclaration ::= (id|TupLit) ':' Type? '=' Exp
+VarAssignment  ::= (id|TupLit) '=' Exp
+
+ConditionalExp ::= 'if' Exp0 ':' newline Block ('else if' Exp0 ':' newline Block)* ('else:' newline Block 'end')?
+                 | 'if' Exp0 ':' Exp
+
+TernExp ::=  Exp0 ('if' Exp0 ('else' Exp0)?)?
+Exp0    ::=  Exp1 ('or' Exp1)*
+Exp1    ::=  Exp2 ('and' Exp2)*
+Exp2    ::=  Exp3 (relop Exp3)?
+Exp3    ::=  Exp4 (addop Exp4)*
+Exp4    ::=  Exp5 (mulop Exp5)*
+Exp5    ::=  prefixop? Exp6
+Exp6    ::=  (Exp7 unary?) | (unary Exp7)
+Exp7    ::=  Exp8 (('.' Exp8) | ('[' Exp8 ']') | ('(' arglist ')'))*
+Exp8    ::=  boolLit | intLit | floatLit | id | '(' Exp ')' | StringLit 
+           | TupLit | SetLit | MapLit | ListLit | Range | Slice | nonelit
+
+ExpList     ::= Exp (',' Exp)*
+Binding     ::= id ':' Exp
+BindingList ::= Binding (',' Binding)*
+
+TupLit  ::= '(' ExpList? ')'
+SetLit  ::= '<' ExpList? '>'
+ListLit ::= '[' ExpList? ']'
+MapLit  ::= '{' BindingList? '}'
+
+Range   ::= Exp6 '..' Exp6 ('by' Exp6)?
+Slice   ::= Exp6 '[' Range ']'
+
+Comprehension ::= '[' TernExp 'for' id 'in' Exp ']'
+
+PropertySignature ::= id (ArgsDeclaration)?
+
+Trait ::= 'trait:' newline (PropertySignature newline)* 'end'
+ArgsDeclaration ::= '(' (Arg (',' Arg )*)? ')'
+Class ::= 'class:' newline (Exp newline)* 'end'
+Arg ::= id ':' (Type)? ('=' Exp)?
+FunctionBlock ::= (Exp newline) | (newline Block 'end')
+Function ::= ArgsDeclaration '->' FunctionBlock
+```
 
 ### Features
 
