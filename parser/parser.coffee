@@ -22,6 +22,7 @@ Parameters = require '../entities/parameters'
 Args = require '../entities/args'
 ListSubscript = require '../entities/list_subscript'
 MemberAccess = require '../entities/member_access'
+NoneLiteral = require '../entities/none_literal'
 FunctionInvocation = require '../entities/function_invocation'
 ReturnStatement = require '../entities/return_statement'
 Tokens = require '../scanner/tokens'
@@ -242,6 +243,8 @@ parseExp7 = ->
 parseExp8 = ->
   if at ['true', 'false']
     new BooleanLiteral match()
+  else if at 'none'
+    new NoneLiteral match()
   else if at 'INTLIT'
     new IntegerLiteral match()
   else if at 'FLOATLIT'
