@@ -223,8 +223,7 @@ parseExp6 = ->
 parseExp7 = ->
   exp = parseExp8()
 
-  while ((at ['.', '[', '(']) and
-  (next StartTokens.expression))
+  while (at ['.', '[', '('])
     if at '.'
       match '.'
       exp = new MemberAccess exp, parseExpression()
