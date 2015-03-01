@@ -107,6 +107,15 @@ class MyTokens
     {lexeme: '0.18', kind: 'FLOATLIT', start: 30, lineNumber: 22},
     {lexeme: '}', kind: '}', start: 34, lineNumber: 22},
     {lexeme: 'newline', kind: 'newline', start: 36, lineNumber: 22},
+    {lexeme: '++', kind: '++', start: 0, lineNumber:23},
+    {lexeme: 'x', kind: 'ID', start: 2, lineNumber: 23},
+    {lexeme: '**', kind: '**', start: 3, lineNumber: 23},
+    {lexeme: '3', kind: 'INTLIT', start: 5, lineNumber: 23},
+    {lexeme: 'newline', kind: 'newline', start: 5, lineNumber: 23},    
+    {lexeme: 'x', kind: 'ID', start: 0, lineNumber: 24},
+    {lexeme: '**', kind: '**', start: 1, lineNumber: 24},
+    {lexeme: '3', kind: 'INTLIT', start: 3, lineNumber: 24},
+    {lexeme: 'newline', kind: 'newline', start: 3, lineNumber: 24},            
     {kind: 'EOF', lexeme: 'EOF', start: 0}
   ]
 

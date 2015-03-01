@@ -15,6 +15,7 @@ class Tokens
 
   @twoCharacterTokens = [
     '+=', '-=', '*=', '/=', '++', '--',  # mutators
+    '**'                                 # exponent
     '<=', '>=',                          # relational operators
     '->',                                # function
     '..',                                # range
