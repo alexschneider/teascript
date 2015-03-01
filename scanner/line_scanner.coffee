@@ -115,7 +115,7 @@ class LineScanner
       return false
 
   extractMultilineString: ->
-    stringGroup = /([^'"\\]|\\['"\\rn])*("|')/.exec @line[@position..]
+    stringGroup = /([^'"\\]|\\['"\\rns])*("|')/.exec @line[@position..]
 
     if stringGroup
       # found trailing quote
@@ -128,7 +128,7 @@ class LineScanner
 
   extractedWords: ->
     @start = @position
-    if /[a-zA-Z]/.test @line[@position]
+    if /[a-zA-Z_]/.test @line[@position]
       @position++ while /\w/.test(@line[@position]) and @position < @line.length
       @addWord @line[@start...@position]
       return true

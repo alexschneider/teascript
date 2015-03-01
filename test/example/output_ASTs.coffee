@@ -11,7 +11,10 @@ class MyASTs
    (VarDec (set1 <1, 2, 3>))
    (VarDec (set2 <1, 2, 3, <4, 5, 6>, <7, 8, <9, 10, 11>>>))
    (VarDec (combo [<a, b, c>, {foo: "bar", foobar: <1, a>}]))
-   (VarDec (multiline_combo [{a: b, c: d}, <1, 2, 3>]))
+   (VarDec (multiline_combo [{a: b, c: d},
+                             <1, 2, 3>,
+                             {e: f, g: h},
+                             [5, 6, [7, [8, 9]]]]))
    (VarDec (pre_incremented_x (++ x)))
    (VarDec (post_incremented_x (x ++)))
    (VarDec (nil none))
@@ -65,24 +68,23 @@ class MyASTs
              (= b save)))))"
 
   @program11_AST_string = '(Program (Block
-    (FuncDec (f ((a, b, c)
-      (Block (VarDec (x (+ a 100)))
+    (* 1 8)
+    (VarDec (f (Func (a, b, c)
+      (Block
+        (VarDec (x (+ a 100)))
         (= a b)
-        (-- x)
-        (++ y)
-        (- 5)
-        (not true)
-        (Return x)
-    (FuncDec (g ((first_arg, another_arg)
-      (Block (Invoke out (\'hi\'))
+        (Return x)))))
+    (VarDec (g (Func (first_arg, another_arg)
+      (Block
+        (Invoke out (\'hi\'))
         (VarDec (string "here is a super cool string thing"))
-        (Return (Invoke f (string, <first_arg, 1>, <another_arg>)))))))))))))'
+        (Return (Invoke f (string, <first_arg, 1>, <another_arg>)))))))
+    (Func (\'anonymous functions\') (Invoke are (\'cool\')))))'
 
-  @program12_AST_string = '(Program (Block
+  @program12_AST_string = "(Program (Block
     (Invoke f (1, 2, 3))
-    (. a (. (Subscript b 1)
-      (. c (. (Subscript d 6)
-        (. (Invoke e (\'arg1\', \'arg2\'))
-          (Invoke a ()))))))))'
+    (. a (. (Subscript b 1) (. c (. (Subscript d 6)
+      (Invoke e ('arg1', 'arg2'))))))
+      (Invoke (Invoke f (a, b)) (c))))"
 
 module.exports = MyASTs
