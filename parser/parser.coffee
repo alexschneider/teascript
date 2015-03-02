@@ -253,7 +253,7 @@ parseExp8 = ->
     new FloatLiteral match()
   else if at 'STRLIT'
     new StringLiteral match()
-  else if at ['ID', Tokens.reservedWords]
+  else if at ['ID', Tokens.beginnings]
     new VariableReference match()
   else if at '['
     parseListLiteral()
