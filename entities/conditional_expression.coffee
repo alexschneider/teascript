@@ -5,11 +5,12 @@ class ConditionalExpression
 
   toString: ->
     sb = []
-    for [condition, body] in _.zip @conditions, @bodies
+    sb.push "if #{@conditions[0]} #{@bodies[0]}"
+    for [condition, body] in _.zip @conditions[1..], @bodies[1..]
       if condition?
-        sb.push "if #{condition} #{body} else"
+        sb.push "else if #{condition} #{body}"
       else
-        sb.push body
+        sb.push "else #{body}"
     "(#{sb.join ' '})"
 
   analyze: (context) ->
