@@ -12,7 +12,7 @@ class StartTokens
   @expression = [
     'INTLIT', 'FLOATLIT', 'true', 'false', # Primitive literals
     'ID', '->', 'trait', 'class',          # Misc other tokens
-    @iterable, tokens.reservedWords,
+    @iterable, tokens.beginnings,
     @unaryExpression
   ]
 
