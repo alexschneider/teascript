@@ -1,9 +1,9 @@
 class VariableDeclaration
 
-  constructor: (@type, @id, @value) ->
+  constructor: (@id, @value) ->
 
   toString: ->
-    "(#{@type}Dec (#{@id.lexeme} #{@value}))"
+    "(VarDec (#{@id.lexeme} #{@value}))"
 
   analyze: (context) ->
     #TODO

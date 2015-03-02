@@ -3,7 +3,7 @@ class Function
   constructor: (@params, @body) ->
 
   toString: ->
-    "(#{@params} #{@body})"
+    "(Func #{@params} #{@body})"
 
   analyze: (context) ->
     #TODO
