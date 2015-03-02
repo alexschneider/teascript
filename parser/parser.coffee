@@ -24,6 +24,7 @@ ListSubscript = require '../entities/list_subscript'
 MemberAccess = require '../entities/member_access'
 FunctionInvocation = require '../entities/function_invocation'
 ReturnStatement = require '../entities/return_statement'
+ConditionalExpression = require '../entities/conditional_expression'
 Tokens = require '../scanner/tokens'
 StartTokens = require './start_tokens'
 
@@ -147,19 +148,35 @@ parseVarAssig = ->
   exp = parseExpression()
   new VariableAssignment id, exp
 
+parseConditionalBody = ->
+  if at 'newline'
+    match()
+    console.log tokens
+    block = parseBlock()
+    if at ['else', 'end']
+      match()
+    else
+      match 'end'
+    block
+  else if at 'return'
+    parseReturnStatement()
+  else
+    parseExp0()
+
 parseConditional = ->
-  # TODO
-  # if at 'if'
-  #   match()
-  #   condition = parseExpression()
-  #   match ':'
-  # else
-  #   ifExp = parseExpression()
-  #   match 'if'
-  #   condition = parseExpression()
-  #   if at 'else'
-  #     match()
-  #     elseExp = parseExpression()
+  conditions = []
+  bodies = []
+  while at 'if'
+    match()
+    conditions.push parseExp0()
+    match ':'
+    bodies.push parseConditionalBody()
+    continue if at 'if'
+    break unless at ':'
+    match()
+    bodies.push parseConditionalBody()
+    break
+  new ConditionalExpression conditions, bodies
 
 
 parseExp0 = ->
@@ -353,5 +370,7 @@ match = (kind) ->
   else if kind is undefined or kind is tokens[0].kind
     tokens.shift()
   else
+    console.log "Expected #{kind}, found #{tokens[0].kind}", tokens[0].lineNumber
+    console.trace()
     error = new CustomError "Expected #{kind}, found #{tokens[0].kind}",
                 tokens[0].lineNumber
