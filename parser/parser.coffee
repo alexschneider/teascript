@@ -28,14 +28,14 @@ Tokens = require '../scanner/tokens'
 StartTokens = require './start_tokens'
 
 tokens = []
-error = null
+errors = []
 
 module.exports = (scannerOutput) ->
   tokens = scannerOutput
   program = parseProgram()
   match 'EOF'
-  return {error} if error?
-  return {error, program}
+  return {errors} if errors.length isnt 0
+  return {errors, program}
 
 parseProgram = ->
   new Program parseBlock()
@@ -349,9 +349,9 @@ areParams = ->
 
 match = (kind) ->
   if tokens.length is 0
-    error = new CustomError 'Unexpected end of program', 0
+    errors.push new CustomError 'Unexpected end of program', 0
   else if kind is undefined or kind is tokens[0].kind
     tokens.shift()
   else
-    error = new CustomError "Expected #{kind}, found #{tokens[0].kind}",
+    errors.push new CustomError "Expected #{kind}, found #{tokens[0].kind}",
                 tokens[0].lineNumber

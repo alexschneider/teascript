@@ -17,7 +17,7 @@ describe 'Parser', ->
       it 'parses correctly', (done) ->
         scan "#{validProgramsPath}/program6.tea", (err, tokens) ->
           {error, program} = parse tokens
-          expect(error).to.be.null
+          expect(error).to.be.empty
           expect(program.toString()).to.equal outputASTs.program6_AST_string
           done()
 
@@ -27,7 +27,7 @@ describe 'Parser', ->
       it 'parses correctly', (done) ->
         scan "#{validProgramsPath}/program7.tea", (err, tokens) ->
           {error, program} = parse tokens
-          expect(error).to.be.null
+          expect(error).to.be.empty
           expect(program.toString()).to.eql outputASTs.program7_AST_string
           done()
 
@@ -37,7 +37,7 @@ describe 'Parser', ->
       it 'parses correctly', (done) ->
         scan "#{validProgramsPath}/program8.tea", (err, tokens) ->
           {error, program} = parse tokens
-          expect(error).to.be.null
+          expect(error).to.be.empty
           expect(program.toString()).to.eql outputASTs.program8_AST_string
           done()
 
@@ -47,7 +47,7 @@ describe 'Parser', ->
       it 'parses correctly', (done) ->
         scan "#{validProgramsPath}/program9.tea", (err, tokens) ->
           {error, program} = parse tokens
-          expect(error).to.be.null
+          expect(error).to.be.empty
           expect(program.toString()).to.eql outputASTs.program9_AST_string
           done()
 
@@ -57,7 +57,7 @@ describe 'Parser', ->
       it 'parses correctly', (done) ->
         scan "#{validProgramsPath}/program10.tea", (err, tokens) ->
           {error, program} = parse tokens
-          expect(error).to.be.null
+          expect(error).to.be.empty
           expect(program.toString()).to.eql outputASTs.program10_AST_string
           done()
 
@@ -68,7 +68,7 @@ describe 'Parser', ->
       it 'parses correctly', (done) ->
         scan "#{validProgramsPath}/program11.tea", (err, tokens) ->
           {error, program} = parse tokens
-          expect(error).to.be.null
+          expect(error).to.be.empty
           expect(program.toString()).to.eql outputASTs.program11_AST_string
           done()
 
@@ -79,7 +79,7 @@ describe 'Parser', ->
       it 'parses correctly', (done) ->
         scan "#{validProgramsPath}/program12.tea", (err, tokens) ->
           {error, program} = parse tokens
-          expect(error).to.be.null
+          expect(error).to.be.empty
           expect(program.toString()).to.eql outputASTs.program12_AST_string
           done()
 
