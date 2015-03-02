@@ -21,8 +21,9 @@ scan argv._[0], (err, tokens) ->
     console.log tokens
   try
     p = parse tokens
-    console.log "#{p}"
-    return if argv.a
+    if argv.a
+      console.log "#{p}"
+      return
   catch err
     console.log err.message
     return
