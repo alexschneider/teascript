@@ -213,6 +213,7 @@ parseExp5 = ->
   else
     parseExp6()
 
+
 parseExp6 = ->
   exp = left = parseExp7()
   if((at ['**']) and (next StartTokens.expression))
