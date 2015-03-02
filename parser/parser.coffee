@@ -151,7 +151,6 @@ parseVarAssig = ->
 parseConditionalBody = ->
   if at 'newline'
     match()
-    console.log tokens
     block = parseBlock()
     if at ['else', 'end']
       match()
@@ -370,7 +369,5 @@ match = (kind) ->
   else if kind is undefined or kind is tokens[0].kind
     tokens.shift()
   else
-    console.log "Expected #{kind}, found #{tokens[0].kind}", tokens[0].lineNumber
-    console.trace()
     error = new CustomError "Expected #{kind}, found #{tokens[0].kind}",
                 tokens[0].lineNumber
