@@ -2,7 +2,7 @@ tokens = require '../scanner/tokens'
 class StartTokens
 
   @unaryExpression = [
-    '--', '++', 'not', '-'
+    'not', '-'
   ]
 
   @iterable = [

@@ -214,12 +214,15 @@ parseExp5 = ->
     parseExp6()
 
 parseExp6 = ->
-  if (at ['++', '--'])
+  exp = left = parseExp7()
+  if((at ['**']) and (next StartTokens.expression))
     op = match()
-    operand = parseExp7()
-    new PreUnaryExpression op, operand
-  else
-    parseExp7()
+    right = parseExp7()
+    if((at ['**']) and (next StartTokens.expression))
+      op = match()
+      right = new BinaryExpression op, right, parseExp5()
+    exp = new BinaryExpression op, left, right  
+  exp
 
 parseExp7 = ->
   exp = parseExp8()

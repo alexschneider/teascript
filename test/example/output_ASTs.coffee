@@ -12,8 +12,6 @@ class MyASTs
    (VarDec (set2 <1, 2, 3, <4, 5, 6>, <7, 8, <9, 10, 11>>>))
    (VarDec (combo [<a, b, c>, {foo: "bar", foobar: <1, a>}]))
    (VarDec (multiline_combo [{a: b, c: d}, <1, 2, 3>]))
-   (VarDec (pre_incremented_x (++ x)))
-   (VarDec (post_incremented_x (x ++)))
    (VarDec (nil none))
    (VarDec (a [1, (* x 5), 12]))
    (VarDec (b {a: 123, b: (* 55 123), c: 33}))
@@ -33,7 +31,10 @@ class MyASTs
    (VarDec (foobar (not (- 3))))
    (= foo (- 100))
    (= bar (not foo))
-   (= foobar (not (- foo)))))'
+   (= foobar (not (- foo)))
+   (+ (** 3 4) 5)
+   (** 3 (** 4 5))
+   (+ (** 2 (** 1 (- 3))) 1)))'
 
   @program8_AST_string = '(Program (Block
    (VarDec (x (or a b)))
@@ -68,8 +69,6 @@ class MyASTs
     (FuncDec (f ((a, b, c)
       (Block (VarDec (x (+ a 100)))
         (= a b)
-        (-- x)
-        (++ y)
         (- 5)
         (not true)
         (Return x)
