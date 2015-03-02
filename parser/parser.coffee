@@ -242,10 +242,6 @@ parseExp7 = ->
       match ']'
     else
       exp = new FunctionInvocation exp, parseArgs()
-
-  if at([ '++', '--' ])
-    op = match()
-    exp = new PostUnaryExpression op, exp
   exp
 
 parseExp8 = ->
