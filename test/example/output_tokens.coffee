@@ -106,7 +106,7 @@ class MyTokens
     {lexeme: ':', kind: ':', start: 29, lineNumber: 22},
     {lexeme: '0.18', kind: 'FLOATLIT', start: 30, lineNumber: 22},
     {lexeme: '}', kind: '}', start: 34, lineNumber: 22},
-    {lexeme: 'newline', kind: 'newline', start: 36, lineNumber: 22},         
+    {lexeme: 'newline', kind: 'newline', start: 36, lineNumber: 22},
     {kind: 'EOF', lexeme: 'EOF', start: 0}
   ]
 
