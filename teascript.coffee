@@ -1,12 +1,28 @@
 #!/usr/bin/env coffee
 
 argv = require 'yargs'
-  .usage '$0 filename'
+  .usage '$0 [-t] [-a] filename'
+  .boolean ['t', 'a']
+  .describe 't', 'show tokens after scanning then stop'
+  .describe 'a', 'show abstract syntax tree after parsing then stop'
+#  .describe 'o', 'do optimizations'
+#  .describe 'i', 'generate and show the intermediate code then stop'
   .demand 1
   .argv
 
 scan = require './scanner/scanner'
+parse = require './parser/parser'
 
 scan argv._[0], (err, tokens) ->
-  console.log err if err
-  console.log tokens
+  if err
+    console.log err
+    return
+  if argv.t
+    console.log tokens
+  try
+    p = parse tokens
+    console.log "#{p}"
+    return if argv.a
+  catch err
+    console.log err.message
+    return
