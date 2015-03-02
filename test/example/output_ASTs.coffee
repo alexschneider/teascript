@@ -15,8 +15,6 @@ class MyASTs
                              <1, 2, 3>,
                              {e: f, g: h},
                              [5, 6, [7, [8, 9]]]]))
-   (VarDec (pre_incremented_x (++ x)))
-   (VarDec (post_incremented_x (x ++)))
    (VarDec (nil none))
    (VarDec (a [1, (* x 5), 12]))
    (VarDec (b {a: 123, b: (* 55 123), c: 33}))
