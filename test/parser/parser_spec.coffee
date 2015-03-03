@@ -87,11 +87,26 @@ describe 'Parser', ->
           program = parse tokens
           expect(program.toString()).to.eql outputASTs.program12_AST_string
           done()
+  
+  describe 'parsing a valid conditional expression', ->
+    context 'when a conditional has if, else, and else if branches', ->
+
+      it 'parses correctly', (done) ->
+        scan "#{validProgramsPath}/program13.tea", (err, tokens) ->
+          program = parse tokens
+          expect(program.toString()).to.eql outputASTs.program13_AST_string
+          done()
+
 
   describe 'parsing an invalid program', ->
     context 'when an invalid program is scanned, but not parsed', ->
       it 'throws an exception', (done) ->
         scan "#{invalidProgramsPath}/program2.tea", (err, tokens) ->
-          fn = -> parse tokens
-          expect(fn).to.throw 'line 0: Expected newline, found ID'
+          expect(-> parse tokens).to.throw 'line 0: Expected newline, found ID'
+          done()
+
+    context 'when the first statement of a block is invalid', ->
+      it 'throws an exception', (done) ->
+        scan "#{invalidProgramsPath}/program3.tea", (err, tokens) ->
+          expect(-> parse tokens).to.throw 'is invalid start for a statement'
           done()

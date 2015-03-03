@@ -85,11 +85,24 @@ class MyASTs
       (Invoke e (\'arg1\', \'arg2\'))))))
       (Invoke (Invoke f (a, b)) (c))))'
 
+  @program13_AST_string = '(Program (Block
+    (if true (Block (Invoke out ("hello")))
+     else if false (Block (Invoke out ("goodbye")))
+     else (Block (Invoke out ("go away"))))
+
+    (if true (Block (Invoke out ("hello")))
+     else if false (Invoke out ("goodbye")))
+
+    (if true (Block (Invoke out ("hello"))))
+    
+    (if true (Return true))))'
+
   @program14_AST_string = '(Program (Block
     (+ (** 3 4) 5)
     (+ (- (** 2 4)) 5)
     (** 3 (** 4 5))
     (+ (** 2 (** 1 (- 3))) 1)
     (** 2 (- (** 3 (- 4))))))'
+
 
 module.exports = MyASTs
