@@ -135,8 +135,7 @@ class LineScanner
     return false
 
   addWord: (word) ->
-    if word in tokens.beginnings or
-       word in tokens.otherReservedWords
+    if word in tokens.reservedWords
       @addToken {kind: word}
     else
       @addToken {kind: 'ID', lexeme: word}

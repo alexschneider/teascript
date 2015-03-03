@@ -17,26 +17,21 @@ class Tokens
     '+=', '-=', '*=', '/=', '++', '--',  # mutators
     '<=', '>=',                          # relational operators
     '->',                                # function
-    '..', 'by',                          # range
+    '..',                                # range
     ':='                                 # declaration
   ]
 
-  @beginnings = [
+  @reservedWords = [
     'int', 'double', 'bool', 'none',     # primitive types
     'class', 'trait',                    # reference types
-    'for', 'while',                      # loops/blocks/range keywords
-    'if',                                # if/then
+    'for', 'in', 'by', 'while', 'end',   # loops/blocks/range keywords
+    'and', 'or',                         # logical operators
+    'is', 'isnt',                        # relational operators
+    'if', 'else',                        # if/then
     'not',                               # negation
     'true', 'false',                     # boolean literals
     'new',                               # instantiate a class/create an object
     'return'                             # we need to return from functions
-  ]
-
-  @otherReservedWords = [
-    'and', 'or',                         # logical operators
-    'is', 'isnt',                        # relational operators
-    'else',                              # if/then
-    'in', 'end'                          # loops/blocks/range keywords
   ]
 
 module.exports = Tokens
