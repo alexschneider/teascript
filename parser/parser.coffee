@@ -13,6 +13,7 @@ VariableAssignment = require '../entities/variable_assignment'
 ListLiteral = require '../entities/list_literal'
 SetLiteral = require '../entities/set_literal'
 MapLiteral = require '../entities/map_literal'
+NoneLiteral = require '../entities/none_literal'
 PreUnaryExpression = require '../entities/pre_unary_expression'
 PostUnaryExpression = require '../entities/post_unary_expression'
 BinaryExpression = require '../entities/binary_expression'
@@ -247,13 +248,15 @@ parseExp7 = ->
 parseExp8 = ->
   if at ['true', 'false']
     new BooleanLiteral match()
+  else if at 'none'
+    new NoneLiteral match()
   else if at 'INTLIT'
     new IntegerLiteral match()
   else if at 'FLOATLIT'
     new FloatLiteral match()
   else if at 'STRLIT'
     new StringLiteral match()
-  else if at ['ID', Tokens.reservedWords]
+  else if at 'ID'
     new VariableReference match()
   else if at '['
     parseListLiteral()
