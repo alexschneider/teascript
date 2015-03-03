@@ -96,7 +96,6 @@ Arg ::= id ':' (Type)? ('=' Exp)?
 FunctionBlock ::= (Exp newline) | (newline Block 'end')
 Function ::= ArgsDeclaration '->' FunctionBlock
 ```
->>>>>>> master
 
 ### Features
 
@@ -306,12 +305,8 @@ out('Happy New Year!')
 ```
 
 #### Functions
-<<<<<<< HEAD
-Functions in teascript look a lot like the functions in coffeescript. Functions are
-=======
 
 Functions in teascript look a lot like the functions in CoffeeScript. Functions are
->>>>>>> master
 first-class objects.
 
 ```
