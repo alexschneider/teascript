@@ -59,8 +59,8 @@ class MyASTs
    (While (VarDec (x true)) \"vardec expressions are da bomb\")
    (While true (Block (Invoke out (\"I am in an infinite loop!!\"))))
    (While (or (or (or (or a b) c) d) <1, 2, 3, (> 5 6)>)
-      (Block (VarDec (a 'a'))
-             (VarDec (b 'b'))
+      (Block (VarDec (a \'a\'))
+             (VarDec (b \'b\'))
              (VarDec (save a))
              (= a b)
              (= b save)))))'
@@ -82,7 +82,7 @@ class MyASTs
   @program12_AST_string = '(Program (Block
     (Invoke f (1, 2, 3))
     (. a (. (Subscript b 1) (. c (. (Subscript d 6)
-      (Invoke e ('arg1', 'arg2'))))))
+      (Invoke e (\'arg1\', \'arg2\'))))))
       (Invoke (Invoke f (a, b)) (c))))'
 
   @program14_AST_string = '(Program (Block
