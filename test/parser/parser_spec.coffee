@@ -55,8 +55,7 @@ describe 'Parser', ->
 
       it 'parses correctly', (done) ->
         scan "#{validProgramsPath}/program14.tea", (err, tokens) ->
-          {error, program} = parse tokens
-          expect(error).to.be.null
+          program = parse tokens
           expect(program.toString()).to.eql outputASTs.program14_AST_string
           done()
 
