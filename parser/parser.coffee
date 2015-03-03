@@ -241,7 +241,7 @@ parseExp6 = ->
   left = parseExp7()
   if((at ['**']) and (next StartTokens.expression))
     op = match()
-    left = new BinaryExpression op, left, parseExp5()    
+    left = new BinaryExpression op, left, parseExp5() 
   left
 
 parseExp7 = ->
