@@ -84,3 +84,4 @@ describe 'Parser', ->
         scan "#{invalidProgramsPath}/program2.tea", (err, tokens) ->
           fn = -> parse tokens
           expect(fn).to.throw 'line 0: Expected newline, found ID'
+          done()
