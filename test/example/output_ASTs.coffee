@@ -34,12 +34,7 @@ class MyASTs
    (VarDec (foobar (not (- 3))))
    (= foo (- 100))
    (= bar (not foo))
-   (= foobar (not (- foo)))
-   (+ (** 3 4) 5)
-   (+ (- (** 2 4)) 5)
-   (** 3 (** 4 5))
-   (+ (** 2 (** 1 (- 3))) 1)
-   (** 2 (- (** 3 (- 4))))))'
+   (= foobar (not (- foo)))))'
 
   @program8_AST_string = '(Program (Block
    (VarDec (x (or a b)))
@@ -89,5 +84,12 @@ class MyASTs
     (. a (. (Subscript b 1) (. c (. (Subscript d 6)
       (Invoke e ('arg1', 'arg2'))))))
       (Invoke (Invoke f (a, b)) (c))))"
+
+  @program14_AST_string = "(Program (Block
+    (+ (** 3 4) 5)
+    (+ (- (** 2 4)) 5)
+    (** 3 (** 4 5))
+    (+ (** 2 (** 1 (- 3))) 1)
+    (** 2 (- (** 3 (- 4))))))"
 
 module.exports = MyASTs
