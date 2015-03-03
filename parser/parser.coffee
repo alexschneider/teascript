@@ -49,7 +49,7 @@ parseBlock = ->
   while at StartTokens.statement
     statements.push parseStatement()
     match 'newline'
-  if not at ['EOF', 'end']
+  if not at ['EOF', 'end', 'else']
     message = "#{tokens[0].kind} is invalid start for a statement"
     errors.push new CustomError message, tokens[0].lineNumber
   new Block statements
