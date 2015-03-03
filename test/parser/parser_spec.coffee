@@ -49,7 +49,7 @@ describe 'Parser', ->
           expect(program.toString()).to.eql outputASTs.program9_AST_string
           done()
 
-  describe 'parsing a valid while statement', ->
+    describe 'parsing a valid while statement', ->
     context 'when parsing single line and multiline while statements', ->
 
       it 'parses correctly', (done) ->
@@ -77,6 +77,16 @@ describe 'Parser', ->
           program = parse tokens
           expect(program.toString()).to.eql outputASTs.program12_AST_string
           done()
+  
+  describe 'parsing a valid conditional expression', ->
+    context 'when a conditional has if, else, and else if branches', ->
+
+      it 'parses correctly', (done) ->
+        scan "#{validProgramsPath}/program13.tea", (err, tokens) ->
+          program = parse tokens
+          expect(program.toString()).to.eql outputASTs.program13_AST_string
+          done()
+
 
   describe 'parsing an invalid program', ->
     context 'when an invalid program is scanned, but not parsed', ->
