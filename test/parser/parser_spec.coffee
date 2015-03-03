@@ -51,7 +51,7 @@ describe 'Parser', ->
           expect(program.toString()).to.eql outputASTs.program9_AST_string
           done()
 
-    context 'when we have exponentsm they are right associative and 
+    context 'when we have exponentsm they are right associative and
               unary negation has different precedence on the left and right
               of the ** operator', ->
 
