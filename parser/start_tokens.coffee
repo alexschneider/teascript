@@ -6,18 +6,18 @@ class StartTokens
   ]
 
   @iterable = [
-    '(', '<', '[', '{', 'STRLIT'          # Reference type literals
+    '(', '<', '[', '{', 'STRLIT'                   # Reference type literals
   ]
 
   @expression = [
-    'INTLIT', 'FLOATLIT', 'true', 'false', # Primitive literals
-    'ID', '->', 'trait', 'class',          # Misc other tokens
-    @iterable, tokens.reservedWords,
+    'INTLIT', 'FLOATLIT', 'true', 'false', 'none', # Primitive literals
+    'if', 'ID', '->', 'trait', 'class', 'new',     # Misc other tokens
+    @iterable,
     @unaryExpression
   ]
 
   @statement = [
-    'for', 'while',                        # Start of statement
+    'for', 'while', 'return',                      # Start of statement
     @expression
   ]
 

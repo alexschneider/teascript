@@ -1,4 +1,5 @@
 CustomError = require '../error/custom_error'
+ParseError = require '../error/parse_error'
 Program = require '../entities/program'
 Block = require '../entities/block'
 ForStatement = require '../entities/for_statement'
@@ -13,6 +14,7 @@ VariableAssignment = require '../entities/variable_assignment'
 ListLiteral = require '../entities/list_literal'
 SetLiteral = require '../entities/set_literal'
 MapLiteral = require '../entities/map_literal'
+NoneLiteral = require '../entities/none_literal'
 PreUnaryExpression = require '../entities/pre_unary_expression'
 PostUnaryExpression = require '../entities/post_unary_expression'
 BinaryExpression = require '../entities/binary_expression'
@@ -28,14 +30,15 @@ Tokens = require '../scanner/tokens'
 StartTokens = require './start_tokens'
 
 tokens = []
-error = null
+errors = []
 
 module.exports = (scannerOutput) ->
   tokens = scannerOutput
   program = parseProgram()
   match 'EOF'
-  return {error} if error?
-  return {error, program}
+  if errors.length > 0
+    throw new ParseError errors
+  return program
 
 parseProgram = ->
   new Program parseBlock()
@@ -247,13 +250,15 @@ parseExp7 = ->
 parseExp8 = ->
   if at ['true', 'false']
     new BooleanLiteral match()
+  else if at 'none'
+    new NoneLiteral match()
   else if at 'INTLIT'
     new IntegerLiteral match()
   else if at 'FLOATLIT'
     new FloatLiteral match()
   else if at 'STRLIT'
     new StringLiteral match()
-  else if at ['ID', Tokens.reservedWords]
+  else if at 'ID'
     new VariableReference match()
   else if at '['
     parseListLiteral()
@@ -349,9 +354,9 @@ areParams = ->
 
 match = (kind) ->
   if tokens.length is 0
-    error = new CustomError 'Unexpected end of program', 0
+    errors.push new CustomError 'Unexpected end of program', 0
   else if kind is undefined or kind is tokens[0].kind
     tokens.shift()
   else
-    error = new CustomError "Expected #{kind}, found #{tokens[0].kind}",
+    errors.push new CustomError "Expected #{kind}, found #{tokens[0].kind}",
                 tokens[0].lineNumber
