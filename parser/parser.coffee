@@ -238,15 +238,11 @@ parseExp5 = ->
 
 
 parseExp6 = ->
-  exp = left = parseExp7()
+  left = parseExp7()
   if((at ['**']) and (next StartTokens.expression))
     op = match()
-    right = parseExp5()
-    if((at ['**']) and (next StartTokens.expression))
-      op = match()
-      right = new BinaryExpression op, right, parseExp5()
-    exp = new BinaryExpression op, left, right
-  exp
+    left = new BinaryExpression op, left, parseExp5()    
+  left
 
 parseExp7 = ->
   exp = parseExp8()
