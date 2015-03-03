@@ -2,7 +2,9 @@ chai = require 'chai'
 expect = chai.expect
 parse = require '../../parser/parser'
 scan = require '../../scanner/scanner'
+ParseError = require '../../error/parse_error'
 validProgramsPath = "#{__dirname}/../example/input_programs/valid_programs"
+invalidProgramsPath = "#{__dirname}/../example/input_programs/invalid_programs"
 outputASTs = require "#{__dirname}/../example/output_ASTs"
 
 
@@ -76,3 +78,9 @@ describe 'Parser', ->
           expect(program.toString()).to.eql outputASTs.program12_AST_string
           done()
 
+  describe 'parsing an invalid program', ->
+    context 'when an invalid program is scanned, but not parsed', ->
+      it 'throws an exception', (done) ->
+        scan "#{invalidProgramsPath}/program2.tea", (err, tokens) ->
+          fn = -> parse tokens
+          expect(fn).to.throw 'line 0: Expected newline, found ID'
