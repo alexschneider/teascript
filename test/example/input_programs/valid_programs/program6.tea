@@ -1,0 +1,53 @@
+# declarations
+x := 5
+foo := 123456789
+
+bar := 11
+abc := "string literal"
+defg := "strlit with \' escaped stuff"
+
+y := 1.23
+z := 0.345
+
+bool1 := true
+bool2 := false
+
+set1 := <1, 2, 3>
+
+set2 := <1, 2, 3, <4, 5, 6>, <7, 8, <9, 10, 11>>>
+
+combo := [<a, b, c>, {foo: "bar", foobar: <1, a>}]
+
+multiline_combo := [
+  {
+    a: b,
+    c: d
+  },
+  <1, 2, 3>,
+  {e:f, g:h},
+  [5, 6, [7, [8,9]]]
+]
+
+pre_incremented_x := ++x
+post_incremented_x := x++
+
+nil := none
+
+a := [1, x*5, 12]
+b := {a: 123, b: 55*123, c: 33}
+# TODO: implement set/tuple literals
+
+# assignments
+x = 1
+foo = 987654321
+
+bar = 22
+abc = "NEW string literal"
+defg = "NEW strlit with \' escaped stuff"
+
+y = 32.1
+
+bool1 = false
+
+nil = 2
+nil = none

@@ -14,18 +14,20 @@ module.exports = (filePath, callback) ->
       string: false
   lineNumber = 0
   isValid = true
+  scanningError = null
 
   stream.on 'readable', ->
     lineScanner = new LineScanner stream.read(), currentScannerState, lineNumber
-    {error, lineTokens, currentState} = lineScanner.scan()
-    if error
-      isValid = false
-      return callback (new CustomError(error, lineNumber)).getMessage()
+    {lineError, lineTokens, currentState} = lineScanner.scan()
+
+    if lineError
+      scanningError = new CustomError(lineError, lineNumber).getMessage()
+      baseStream.close()
+
     lineNumber++
-    allTokens = allTokens.concat lineTokens
+    allTokens.push.apply allTokens, lineTokens
     currentScannerState = currentState
 
   stream.once 'end', ->
     allTokens.push {kind: 'EOF', lexeme: 'EOF', start: 0}
-    # don't include preceding newline character
-    callback null, allTokens[1..] if isValid
+    callback scanningError, allTokens
