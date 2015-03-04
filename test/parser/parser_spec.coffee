@@ -96,6 +96,14 @@ describe 'Parser', ->
           expect(program.toString()).to.eql outputASTs.program14_AST_string
           done()
 
+  describe 'parsing a valid program', ->
+    context 'when there is a recursive function call', ->
+
+      it 'parses correctly', (done) ->
+        scan "#{validProgramsPath}/program15.tea", (err, tokens) ->
+          program = parse tokens
+          expect(program.toString()).to.eql outputASTs.program15_AST_string
+          done()
 
   describe 'parsing an invalid program', ->
     context 'when an invalid program is scanned, but not parsed', ->

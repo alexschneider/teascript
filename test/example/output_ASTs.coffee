@@ -107,5 +107,16 @@ class MyASTs
     (For x a (Block
       (Invoke funcB (x))))))'
 
+  @program15_AST_string = '(Program (Block
+    (VarDec (a 100))
+    (VarDec (b 50))
+    (VarDec (c 150))
+    (VarDec (funcA (Func (a, b, c) (Block
+      (if (or (<= a b)(<= (c a)) (Block
+        (Invoke out (a)))
+      else (Block
+        (= c (c --))
+        (Invoke funcA (a, b, c))))))))))'
+
 
 module.exports = MyASTs
