@@ -1,0 +1,15 @@
+a := (p, q) ->
+    z := []
+    index := 0
+    for m in p:
+        for n in q:
+            z[index] = m * n
+            index++
+        end
+    end
+    return z
+end
+
+x := [1, 2, 3, 4, 5]
+y := [9, 8, 7, 6, 5]
+out(a(x, y))
