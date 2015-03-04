@@ -98,5 +98,14 @@ class MyASTs
     
     (if true (Return true))))'
 
+  @program14_AST_string = "(Program (Block
+    (VarDec (funcB (Func (n)
+      (Block
+        (if (isnt n 0) (Block
+         (Return n))))))) 
+    (VarDec (a [1, 2, 3])) 
+    (For x a (Block 
+      (Invoke funcB (x))))))"
+
 
 module.exports = MyASTs

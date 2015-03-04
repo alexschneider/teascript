@@ -87,6 +87,15 @@ describe 'Parser', ->
           expect(program.toString()).to.eql outputASTs.program13_AST_string
           done()
 
+  describe 'parsing a valid program with function declaration and for statement', ->
+    context 'when a for statement calls a function', ->
+
+      it 'parses correctly', (done) ->
+        scan "#{validProgramsPath}/program14.tea", (err, tokens) ->
+          program = parse tokens
+          expect(program.toString()).to.eql outputASTs.program14_AST_string
+          done()
+
 
   describe 'parsing an invalid program', ->
     context 'when an invalid program is scanned, but not parsed', ->
