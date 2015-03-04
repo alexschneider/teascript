@@ -87,7 +87,7 @@ describe 'Parser', ->
           expect(program.toString()).to.eql outputASTs.program13_AST_string
           done()
 
-  describe 'parsing a valid program with function declaration and for statement', ->
+  describe 'parsing a valid program with func declaration and for statement', ->
     context 'when a for statement calls a function', ->
 
       it 'parses correctly', (done) ->
