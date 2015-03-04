@@ -7,7 +7,7 @@ Status](https://coveralls.io/repos/alexschneider/teascript/badge.svg)](https://c
 
 ![](https://raw.githubusercontent.com/alexschneider/teascript/master/teascript_logo.jpg)
 
-teascript is a language that compiles into JavaScript.
+teascript is a gorgeous little language that compiles into JavaScript. teascript is expressive and powerful, allowing you to not only do exactly what you want, but do so in a clear and concise manner.
 
 ### Grammar
 #### Microsyntax
@@ -19,7 +19,7 @@ id         = [_a-zA-Z]\w*
 escape     = '\\' '"' | '\'' | 'n' | 'r'
 punc       = '[\p{P}\p{S}-[\'"\\]]'
 char       = '[\s\w]' | punc | escape
-singlechar = char | '"' 
+singlechar = char | '"'
 doublechar = char | '\''
 StringLit  = ('"' doublechar* '"') | ('\'' singlechar* '\'')
 relop      = '<' | '<=' | 'is' | 'isnt' | '>=' | '>'
@@ -31,7 +31,7 @@ intLit     = \d+
 floatLit   = intLit '.' intLit
 boolLit    = 'true' | 'false'
 noneLit    = 'none'
-keyword    = 'while' | 'for' | 'end' | 'or' | 'and' 
+keyword    = 'while' | 'for' | 'end' | 'or' | 'and'
            | 'true' | 'false' | 'none'
 comment    = '#' [^\n]* newline
            | '##' .*? '##'
@@ -43,7 +43,7 @@ Block   ::= (Stmt newline)* (ReturnStmt newline)?
 
 Stmt    ::= 'while' Exp ':' (newline Block 'end' | Exp)
         | 'for' id 'in' Exp ':' (newline Block 'end' | Exp)
-        | Exp 
+        | Exp
 
 ReturnStmt ::= 'return' Exp
 
@@ -70,7 +70,7 @@ Exp4    ::=  Exp5 (mulop Exp5)*
 Exp5    ::=  prefixop? Exp6
 Exp6    ::=  Exp7 ('**' Exp5)?
 Exp7    ::=  Exp8 (('.' Exp8) | ('[' Exp8 ']') | ('(' arglist ')'))*
-Exp8    ::=  boolLit | intLit | floatLit | id | '(' Exp ')' | StringLit 
+Exp8    ::=  boolLit | intLit | floatLit | id | '(' Exp ')' | StringLit
            | TupLit | SetLit | MapLit | ListLit | Range | Slice | nonelit
 
 ExpList     ::= Exp (',' Exp)*
@@ -101,8 +101,7 @@ Function ::= ArgsDeclaration '->' FunctionBlock
 
 #### Comments
 
-Like most programming languages, teascript has **comments**. Single line
-comments are created with an octothorpe/hashtag/tic-tac-toe arena (#).
+Single line comments are created with an octothorpe/hashtag/tic-tac-toe arena (`#`).
 Multiline comments begin and end with double octothorpes.
 
 ```
@@ -177,7 +176,7 @@ such that the index of an element in a slice corresponds to a number given by
 the range. This means that we use a range to select a specific subset of the
 elements of an ordered iterabele. All reference types are iterables. All
 reference types except sets are ordered iterables. Since they are ordered, we
-can iterate over them in a predictable way and apply slices to them.  
+can iterate over them in a predictable way and apply slices to them.
 
 ```ruby
 instrument := "xylophone"
@@ -307,7 +306,7 @@ out('Happy New Year!')
 
 #### Functions
 
-Functions in teascript look a lot like the functions in CoffeeScript. Functions are 
+Functions in teascript look a lot like the functions in CoffeeScript. Functions are
 first-class objects.
 
 ```
