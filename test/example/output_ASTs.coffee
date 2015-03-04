@@ -15,8 +15,6 @@ class MyASTs
                              <1, 2, 3>,
                              {e: f, g: h},
                              [5, 6, [7, [8, 9]]]]))
-   (VarDec (pre_incremented_x (++ x)))
-   (VarDec (post_incremented_x (x ++)))
    (VarDec (nil none))
    (VarDec (a [1, (* x 5), 12]))
    (VarDec (b {a: 123, b: (* 55 123), c: 33}))
@@ -56,16 +54,16 @@ class MyASTs
                            (Invoke out (y))))
    (For var some_variable (Block (= z var)))))'
 
-  @program10_AST_string = "(Program (Block
+  @program10_AST_string = '(Program (Block
    (While (and (is (+ (/ x 10) 5) 2) (> y x)) (= x (+ x 1)))
    (While (VarDec (x true)) \"vardec expressions are da bomb\")
    (While true (Block (Invoke out (\"I am in an infinite loop!!\"))))
    (While (or (or (or (or a b) c) d) <1, 2, 3, (> 5 6)>)
-      (Block (VarDec (a 'a'))
-             (VarDec (b 'b'))
+      (Block (VarDec (a \'a\'))
+             (VarDec (b \'b\'))
              (VarDec (save a))
              (= a b)
-             (= b save)))))"
+             (= b save)))))'
 
   @program11_AST_string = '(Program (Block
     (* 1 8)
@@ -81,11 +79,12 @@ class MyASTs
         (Return (Invoke f (string, <first_arg, 1>, <another_arg>)))))))
     (Func (\'anonymous functions\') (Invoke are (\'cool\')))))'
 
-  @program12_AST_string = "(Program (Block
+  @program12_AST_string = '(Program (Block
     (Invoke f (1, 2, 3))
     (. a (. (Subscript b 1) (. c (. (Subscript d 6)
-      (Invoke e ('arg1', 'arg2'))))))
-      (Invoke (Invoke f (a, b)) (c))))"
+      (Invoke e (\'arg1\', \'arg2\'))))))
+      (Invoke (Invoke f (a, b)) (c))))'
+
   @program13_AST_string = '(Program (Block
     (if true (Block (Invoke out ("hello")))
      else if false (Block (Invoke out ("goodbye")))
@@ -97,6 +96,13 @@ class MyASTs
     (if true (Block (Invoke out ("hello"))))
     
     (if true (Return true))))'
+
+  @program14_AST_string = '(Program (Block
+    (+ (** 3 4) 5)
+    (+ (- (** 2 4)) 5)
+    (** 3 (** 4 5))
+    (+ (** 2 (** 1 (- 3))) 1)
+    (** 2 (- (** 3 (- 4))))))'
 
 
 module.exports = MyASTs

@@ -236,13 +236,13 @@ parseExp5 = ->
   else
     parseExp6()
 
+
 parseExp6 = ->
-  if (at ['++', '--'])
+  left = parseExp7()
+  if((at ['**']) and (next StartTokens.expression))
     op = match()
-    operand = parseExp7()
-    new PreUnaryExpression op, operand
-  else
-    parseExp7()
+    left = new BinaryExpression op, left, parseExp5()
+  left
 
 parseExp7 = ->
   exp = parseExp8()
@@ -258,10 +258,6 @@ parseExp7 = ->
       match ']'
     else
       exp = new FunctionInvocation exp, parseArgs()
-
-  if at([ '++', '--' ])
-    op = match()
-    exp = new PostUnaryExpression op, exp
   exp
 
 parseExp8 = ->

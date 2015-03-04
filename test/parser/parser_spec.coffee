@@ -49,7 +49,17 @@ describe 'Parser', ->
           expect(program.toString()).to.eql outputASTs.program9_AST_string
           done()
 
-    describe 'parsing a valid while statement', ->
+    context 'when we have exponentsm they are right associative and
+              unary negation has different precedence on the left and right
+              of the ** operator', ->
+
+      it 'parses correctly', (done) ->
+        scan "#{validProgramsPath}/program14.tea", (err, tokens) ->
+          program = parse tokens
+          expect(program.toString()).to.eql outputASTs.program14_AST_string
+          done()
+
+  describe 'parsing a valid while statement', ->
     context 'when parsing single line and multiline while statements', ->
 
       it 'parses correctly', (done) ->
