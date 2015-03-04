@@ -112,7 +112,7 @@ class MyASTs
     (VarDec (b 50))
     (VarDec (c 150))
     (VarDec (funcA (Func (a, b, c) (Block
-      (if (or (<= a b)(<= (c a)) (Block
+      (if (or (<= a b) (<= c a)) (Block
         (Invoke out (a)))
       else (Block
         (= c (c --))
