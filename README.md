@@ -130,9 +130,8 @@ Additionally, variables must be assigned a value when they are declared.
 
 ```ruby
 # We use := to declare variables.
-# When we declare variables we can optionally specify their type.
-x : int = 420
-y := 'MLG status'  # We also allow for type inference.
+x := 420
+y := 'MLG status' 
 
 # We use the = operator to mutate variables
 x = 127001 # x has been defined, so it's cool
@@ -295,14 +294,14 @@ While loops can be used one of two ways.
 # If the while loop has a single expression in its
 # body it can be written into a single line.
 counter := 0
-while counter < 28: out(++counter)
+while counter < 28: out(counter+=)
 
 # Otherwise, we apply the traditional model. Don't forget
 # the 'end' at the bottom!
 
 counter = 10
 while counter > 0:
-    out(--counter)
+    out(counter-=1)
 end
 out('Happy New Year!')
 ```
@@ -343,7 +342,7 @@ x := 'Xylophones'                           var x = 'Xylophones';
 ##### teascript
 ```
 collatz := (starting, iterations:=0) ->
-  return iterations if starting == 1
+  if starting == 1: return iterations 
   new_num := starting / 2 if starting % 2 == 0 else starting * 3 + 1
   return collatz(new_num, ++iterations) # The return is optional, but encouraged
 end
