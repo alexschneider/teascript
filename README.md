@@ -76,8 +76,8 @@ Exp7           ::=  Exp8 (('.' Exp8) | ('[' Exp8 ']') | ('(' arglist ')'))*
 Exp8           ::=  boollit | intlit | floatlit | id | '(' Exp ')' | stringlit
                  | TupLit | SetLit | MapLit | ListLit | Range | Slice | nonelit
 
-ExpList        ::= Exp (',' Exp)*
-Binding        ::= id ':' Exp
+ExpList        ::= newline? Exp (newline? ',' Exp)* newline?
+Binding        ::= newline? id ':' Exp newline?
 BindingList    ::= Binding (',' Binding)*
 
 TupLit         ::= '(' ExpList? ')'
@@ -93,7 +93,7 @@ Comprehension  ::= '[' TernExp 'for' id 'in' Exp ']'
 PropSignature  ::= id (ArgsDeclaration)?
 
 Trait          ::= 'trait:' newline (PropSignature newline)* 'end'
-ArgsDeclaration::= '(' (Arg (',' Arg )*)? ')'
+ArgsDeclaration::= '(' newline? (Arg (newline? ',' Arg )*)? newline? ')'
 Class          ::= 'class:' newline (Exp newline)* 'end'
 Arg            ::= id ':' (Type)? ('=' Exp)?
 FunctionBlock  ::= (Exp newline) | (newline Block 'end')
