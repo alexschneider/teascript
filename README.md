@@ -41,22 +41,22 @@ comment    ::= '#' [^\n]* newline
 ```
 #### Macrosyntax
 ```
-Program ::= Block
-Block   ::= (Stmt newline)* (ReturnStmt newline)?
+Program        ::= Block
+Block          ::= (Stmt newline)* (ReturnStmt newline)?
 
-Stmt    ::= 'while' Exp ':' (newline Block 'end' | Exp)
-        | 'for' id 'in' Exp ':' (newline Block 'end' | Exp)
-        | Exp
+Stmt           ::= 'while' Exp ':' (newline Block 'end' | Exp)
+               | 'for' id 'in' Exp ':' (newline Block 'end' | Exp)
+               | Exp
 
-ReturnStmt ::= 'return' Exp
+ReturnStmt     ::= 'return' Exp
 
-Exp     ::= VarDeclaration
-        | ConditionalExp
-        | Class
-        | Function
-        | VarAssignment
-        | TernExp
-        | Trait
+Exp            ::= VarDeclaration
+               | ConditionalExp
+               | Class
+               | Function
+               | VarAssignment
+               | TernExp
+               | Trait
 
 VarDeclaration ::= (id|TupLit) ':=' Exp
 VarAssignment  ::= (id|TupLit) '=' Exp
