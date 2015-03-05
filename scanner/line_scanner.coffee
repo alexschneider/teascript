@@ -143,7 +143,7 @@ class LineScanner
   extractedNumericLiterals: ->
     @start = @position
     if /\d/.test @line[@position]
-      numberGroups = /(\d*)(\.\d+)?/.exec @line[@position..]
+      numberGroups = /(\d+)(\.\d+)?/.exec @line[@position..]
       # if we grouped anything in the second group
       # (numbers after the decimal point), then it is a floatlit
       # if we didn't, it is a intlit
