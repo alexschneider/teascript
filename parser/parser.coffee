@@ -70,12 +70,13 @@ parseExpression = ->
   else if ((at '(') and areParams())
     parseFunctionExpression()
   # else if at 'class'
-  #   parseClassExpression()
+  #   TODO: parse class expression
   # else if at 'trait'
-  #   parseTraitExpression()
+  #   TODO: parse trait expression
   else if next '='
     parseVarAssig()
   else if at 'if'
+    # TODO: parse ternary expression
     parseConditional()
   else
     parseExp0()
@@ -164,7 +165,7 @@ parseConditionalBody = ->
   else if at 'return'
     parseReturnStatement()
   else
-    parseExp0()
+    parseExpression()
 
 parseConditional = ->
   conditions = []

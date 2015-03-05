@@ -87,7 +87,7 @@ describe 'Parser', ->
           program = parse tokens
           expect(program.toString()).to.eql outputASTs.program12_AST_string
           done()
-  
+
   describe 'parsing a valid conditional expression', ->
     context 'when a conditional has if, else, and else if branches', ->
 
@@ -110,3 +110,4 @@ describe 'Parser', ->
         scan "#{invalidProgramsPath}/program3.tea", (err, tokens) ->
           expect(-> parse tokens).to.throw 'is invalid start for a statement'
           done()
+

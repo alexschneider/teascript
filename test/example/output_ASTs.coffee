@@ -10,6 +10,9 @@ class MyASTs
    (VarDec (bool2 false))
    (VarDec (set1 <1, 2, 3>))
    (VarDec (set2 <1, 2, 3, <4, 5, 6>, <7, 8, <9, 10, 11>>>))
+   (VarDec (comma_example1 {a: 1, b: 2}))
+   (VarDec (comma_example2 <1, 2>))
+   (VarDec (comma_example3 [1, 2]))
    (VarDec (combo [<a, b, c>, {foo: "bar", foobar: <1, a>}]))
    (VarDec (multiline_combo [{a: b, c: d},
                              <1, 2, 3>,
@@ -87,15 +90,17 @@ class MyASTs
 
   @program13_AST_string = '(Program (Block
     (if true (Block (Invoke out ("hello")))
-     else if false (Block (Invoke out ("goodbye")))
-     else (Block (Invoke out ("go away"))))
-
+      else if false (Block (Invoke out ("goodbye")))
+      else (Block (Invoke out ("go away"))))
     (if true (Block (Invoke out ("hello")))
-     else if false (Invoke out ("goodbye")))
-
+      else if false (Invoke out ("goodbye")))
     (if true (Block (Invoke out ("hello"))))
-    
-    (if true (Return true))))'
+    (if true (Return true))
+      (if true (Invoke out (\'hi\')))
+        (if a
+          (if b
+            (if c
+              (if d (VarDec (x true))))))))'
 
   @program14_AST_string = '(Program (Block
     (+ (** 3 4) 5)
