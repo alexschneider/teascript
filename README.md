@@ -96,7 +96,7 @@ Trait          ::= 'trait:' newline (PropSignature newline)* 'end'
 ArgsDeclaration::= '(' newline? (Arg (newline? ',' Arg )*)? newline? ')'
 Class          ::= 'class:' newline (Exp newline)* 'end'
 Arg            ::= id ':' (Type)? ('=' Exp)?
-FunctionBlock  ::= (Exp newline) | (newline Block 'end')
+FunctionBlock  ::= (Exp) | (newline Block 'end')
 Function       ::= ArgsDeclaration '->' FunctionBlock
 ```
 
