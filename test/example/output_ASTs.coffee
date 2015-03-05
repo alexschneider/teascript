@@ -115,7 +115,7 @@ class MyASTs
       (if (or (<= a b) (<= c a)) (Block
         (Invoke out (a)))
       else (Block
-        (= c (c --))
+        (c --)
         (Invoke funcA (a, b, c))))))))))'
 
 
