@@ -11,30 +11,33 @@ teascript is a gorgeous little language that compiles into JavaScript. teascript
 
 ### Grammar
 #### Microsyntax
-# TODO: order and finish
-Matches are attempted from top to bottom.
+
+The rules here are _ordered_. Matches are attempted from top to bottom.
 ```
 newline    = (\r*\n)+
-id         = [_a-zA-Z]\w*
-escape     = '\\' '"' | '\'' | 'n' | 'r'
-punc       = '[\p{P}\p{S}-[\'"\\]]'
-char       = '[\s\w]' | punc | escape
-singlechar = char | '"'
-doublechar = char | '\''
-StringLit  = ('"' doublechar* '"') | ('\'' singlechar* '\'')
+letter     = [a-zA-Z]
+digit      = \p{Nd}
+keyword    = 'class' | 'trait' 
+             | 'for' | 'in' | 'by' | 'while' | 'end' 
+             | 'and' | 'or' | 'is' | 'isnt' 
+             | 'if'  | 'else' 
+             | 'not' | 'true' | 'false'
+             | 'new' | 'return'
+id         = (letter | '_') (letter | digit | '_')*
+intlit     = digit+
+floatlit   = digit+ '.' digit+
 relop      = '<' | '<=' | 'is' | 'isnt' | '>=' | '>'
 addop      = '+' | '-'
-prefixop   = '-' | 'not'
 mulop      = '*' | '/' | '%'
-unary      = '++' | '--'
-intLit     = \d+
-floatLit   = intLit '.' intLit
-boolLit    = 'true' | 'false'
-noneLit    = 'none'
-keyword    = 'while' | 'for' | 'end' | 'or' | 'and'
-           | 'true' | 'false' | 'none'
+prefixop   = '-' | 'not'
+boollit    = 'true' | 'false'
+nonelit    = 'none'
+escape     = [\\] ([rnst'"\\] 
+char       = [^\p{Cc}'"\\] | escape
+stringlit  = ('"' char* '"') | (\x27 char* \x27)
 comment    = '#' [^\n]* newline
            | '##' .*? '##'
+
 ```
 #### Macrosyntax
 ```
