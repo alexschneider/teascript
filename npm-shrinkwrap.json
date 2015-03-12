@@ -2,16 +2,6 @@
   "name": "teascript",
   "version": "0.0.0",
   "dependencies": {
-    "async": {
-      "version": "0.9.0",
-      "from": "https://registry.npmjs.org/async/-/async-0.9.0.tgz",
-      "resolved": "https://registry.npmjs.org/async/-/async-0.9.0.tgz"
-    },
-    "byline": {
-      "version": "4.2.1",
-      "from": "https://registry.npmjs.org/byline/-/byline-4.2.1.tgz",
-      "resolved": "https://registry.npmjs.org/byline/-/byline-4.2.1.tgz"
-    },
     "chai": {
       "version": "1.10.0",
       "from": "https://registry.npmjs.org/chai/-/chai-1.10.0.tgz",
@@ -58,17 +48,17 @@
             }
           }
         },
+        "coffee-script": {
+          "version": "1.9.0",
+          "from": "https://registry.npmjs.org/coffee-script/-/coffee-script-1.9.0.tgz",
+          "resolved": "https://registry.npmjs.org/coffee-script/-/coffee-script-1.9.0.tgz"
+        },
         "pkginfo": {
           "version": "0.3.0",
           "from": "https://registry.npmjs.org/pkginfo/-/pkginfo-0.3.0.tgz",
           "resolved": "https://registry.npmjs.org/pkginfo/-/pkginfo-0.3.0.tgz"
         }
       }
-    },
-    "coffee-script": {
-      "version": "1.9.0",
-      "from": "https://registry.npmjs.org/coffee-script/-/coffee-script-1.9.0.tgz",
-      "resolved": "https://registry.npmjs.org/coffee-script/-/coffee-script-1.9.0.tgz"
     },
     "coffeelint": {
       "version": "1.8.1",
@@ -283,6 +273,11 @@
                   "version": "1.2.11",
                   "from": "https://registry.npmjs.org/mime/-/mime-1.2.11.tgz",
                   "resolved": "https://registry.npmjs.org/mime/-/mime-1.2.11.tgz"
+                },
+                "async": {
+                  "version": "0.9.0",
+                  "from": "https://registry.npmjs.org/async/-/async-0.9.0.tgz",
+                  "resolved": "https://registry.npmjs.org/async/-/async-0.9.0.tgz"
                 }
               }
             },
@@ -597,6 +592,11 @@
       "from": "https://registry.npmjs.org/mocha-lcov-reporter/-/mocha-lcov-reporter-0.0.1.tgz",
       "resolved": "https://registry.npmjs.org/mocha-lcov-reporter/-/mocha-lcov-reporter-0.0.1.tgz"
     },
+    "require-dir": {
+      "version": "0.1.0",
+      "from": "require-dir@*",
+      "resolved": "https://registry.npmjs.org/require-dir/-/require-dir-0.1.0.tgz"
+    },
     "sinon": {
       "version": "1.12.2",
       "from": "https://registry.npmjs.org/sinon/-/sinon-1.12.2.tgz",
@@ -637,38 +637,6 @@
       "version": "2.6.0",
       "from": "https://registry.npmjs.org/sinon-chai/-/sinon-chai-2.6.0.tgz",
       "resolved": "https://registry.npmjs.org/sinon-chai/-/sinon-chai-2.6.0.tgz"
-    },
-    "underscore": {
-      "version": "1.8.2",
-      "from": "underscore@>=1.8.2 <2.0.0",
-      "resolved": "https://registry.npmjs.org/underscore/-/underscore-1.8.2.tgz"
-    },
-    "yargs": {
-      "version": "3.4.5",
-      "from": "yargs@>=3.0.4 <4.0.0",
-      "resolved": "https://registry.npmjs.org/yargs/-/yargs-3.4.5.tgz",
-      "dependencies": {
-        "camelcase": {
-          "version": "1.0.2",
-          "from": "camelcase@>=1.0.2 <2.0.0",
-          "resolved": "https://registry.npmjs.org/camelcase/-/camelcase-1.0.2.tgz"
-        },
-        "decamelize": {
-          "version": "1.0.0",
-          "from": "decamelize@>=1.0.0 <2.0.0",
-          "resolved": "https://registry.npmjs.org/decamelize/-/decamelize-1.0.0.tgz"
-        },
-        "window-size": {
-          "version": "0.1.0",
-          "from": "window-size@0.1.0",
-          "resolved": "https://registry.npmjs.org/window-size/-/window-size-0.1.0.tgz"
-        },
-        "wordwrap": {
-          "version": "0.0.2",
-          "from": "wordwrap@0.0.2",
-          "resolved": "https://registry.npmjs.org/wordwrap/-/wordwrap-0.0.2.tgz"
-        }
-      }
     }
   }
 }
