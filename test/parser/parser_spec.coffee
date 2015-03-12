@@ -97,6 +97,20 @@ describe 'Parser', ->
           expect(program.toString()).to.eql outputASTs.program13_AST_string
           done()
 
+  describe 'parsing a valid ternary expression', ->
+    context 'when there is an if and else part of the ternary', ->
+      it 'parses correctly', (done) ->
+        scan "#{validProgramsPath}/program15.tea", (err, tokens) ->
+          program = parse tokens
+          expect(program.toString()).to.eql outputASTs.program15_AST_string
+          done()
+
+    context 'when there is an if part of the ternary only', ->
+      it 'parses correctly', (done) ->
+        scan "#{validProgramsPath}/program16.tea", (err, tokens) ->
+          program = parse tokens
+          expect(program.toString()).to.eql outputASTs.program16_AST_string
+          done()
 
   describe 'parsing an invalid program', ->
     context 'when an invalid program is scanned, but not parsed', ->
