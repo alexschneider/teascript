@@ -48,17 +48,17 @@
             }
           }
         },
-        "coffee-script": {
-          "version": "1.9.0",
-          "from": "https://registry.npmjs.org/coffee-script/-/coffee-script-1.9.0.tgz",
-          "resolved": "https://registry.npmjs.org/coffee-script/-/coffee-script-1.9.0.tgz"
-        },
         "pkginfo": {
           "version": "0.3.0",
           "from": "https://registry.npmjs.org/pkginfo/-/pkginfo-0.3.0.tgz",
           "resolved": "https://registry.npmjs.org/pkginfo/-/pkginfo-0.3.0.tgz"
         }
       }
+    },
+    "coffee-script": {
+      "version": "1.9.0",
+      "from": "https://registry.npmjs.org/coffee-script/-/coffee-script-1.9.0.tgz",
+      "resolved": "https://registry.npmjs.org/coffee-script/-/coffee-script-1.9.0.tgz"
     },
     "coffeelint": {
       "version": "1.8.1",
