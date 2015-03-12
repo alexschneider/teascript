@@ -19,6 +19,7 @@ scan argv._[0], (err, tokens) ->
     return
   if argv.t
     console.log tokens
+    return
   try
     p = parse tokens
     if argv.a

@@ -1,4 +1,6 @@
 tokens = require './tokens'
+format = require 'string-format'
+format.extend String.prototype
 
 class LineScanner
   constructor: (@line, @currentState, @lineNumber) ->
@@ -6,6 +8,8 @@ class LineScanner
       multiline:
         comment: false
         string: false
+      string:
+        doubleQuote: false
     @start = 0
     @position = 0
     @lineTokens = []
@@ -100,12 +104,11 @@ class LineScanner
     return false
 
   extractedStringLiterals: ->
-    # TODO: distinguish b/w single quotes and double quotes
-    # for matching
     if @currentState.multiline.string
       @extractMultilineString()
       return true
     else if /\"|\'/.test @line[@position]
+      @currentState.string.doubleQuote = /\"/.test @line[@position]
       @position++
       # strings multiline by default
       @currentState.multiline.string = true
@@ -115,7 +118,12 @@ class LineScanner
       return false
 
   extractMultilineString: ->
-    stringGroup = /([^'"\\]|\\['"\\rnst])*("|')/.exec @line[@position..]
+    quotes = if @currentState.string.doubleQuote then '"' else "'"
+
+
+    regexp = '([^{0}\\\\]|\\\\[\'"\\\\rnst])*({0})'.format quotes
+    compiledRegexp = new RegExp regexp
+    stringGroup = compiledRegexp.exec @line[@position..]
 
     if stringGroup
       # found trailing quote

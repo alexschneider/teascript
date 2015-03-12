@@ -7,6 +7,9 @@ validProgramsPath = "#{__dirname}/../example/input_programs/valid_programs"
 invalidProgramsPath = "#{__dirname}/../example/input_programs/invalid_programs"
 outputASTs = require "#{__dirname}/../example/output_ASTs"
 
+# Ensure this test runs after the scanner test
+require '../scanner/scanner_spec'
+
 
 describe 'Parser', ->
 
