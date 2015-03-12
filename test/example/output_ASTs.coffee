@@ -59,8 +59,8 @@ class MyASTs
 
   @program10_AST_string = '(Program (Block
    (While (and (is (+ (/ x 10) 5) 2) (> y x)) (= x (+ x 1)))
-   (While (VarDec (x true)) \"vardec expressions are da bomb\")
-   (While true (Block (Invoke out (\"I am in an infinite loop!!\"))))
+   (While (VarDec (x true)) "vardec expressions are da bomb")
+   (While true (Block (Invoke out ("I am in an infinite loop!!"))))
    (While (or (or (or (or a b) c) d) <1, 2, 3, (> 5 6)>)
       (Block (VarDec (a \'a\'))
              (VarDec (b \'b\'))
@@ -82,11 +82,11 @@ class MyASTs
         (Return (Invoke f (string, <first_arg, 1>, <another_arg>)))))))
     (Func (\'anonymous functions\') (Invoke are (\'cool\')))))'
 
-  @program12_AST_string = '(Program (Block
+  @program12_AST_string = "(Program (Block
     (Invoke f (1, 2, 3))
     (. a (. (Subscript b 1) (. c (. (Subscript d 6)
-      (Invoke e (\'arg1\', \'arg2\'))))))
-      (Invoke (Invoke f (a, b)) (c))))'
+      (Invoke e ('arg1', 'arg2'))))))
+      (Invoke (Invoke f (a, b)) (c))))"
 
   @program13_AST_string = '(Program (Block
     (if true (Block (Invoke out ("hello")))
@@ -108,6 +108,11 @@ class MyASTs
     (** 3 (** 4 5))
     (+ (** 2 (** 1 (- 3))) 1)
     (** 2 (- (** 3 (- 4))))))'
+
+  @program15_AST_string = '(Program (Block (if b a else c)))'
+
+  @program16_AST_string = '(Program (Block (if b a)))'
+
 
 
 module.exports = MyASTs

@@ -76,10 +76,9 @@ parseExpression = ->
   else if next '='
     parseVarAssig()
   else if at 'if'
-    # TODO: parse ternary expression
     parseConditional()
   else
-    parseExp0()
+    parseTernExp()
 
 parseReturnStatement = ->
   match 'return'
@@ -182,6 +181,18 @@ parseConditional = ->
     break
   new ConditionalExpression conditions, bodies
 
+parseTernExp = ->
+  val = parseExp0()
+  if at 'if'
+    match()
+    bodies = [val]
+    conditions = [parseExp0()]
+    if at 'else'
+      match()
+      bodies.push parseExp0()
+    new ConditionalExpression conditions, bodies
+  else
+    val
 
 parseExp0 = ->
   left = parseExp1()
