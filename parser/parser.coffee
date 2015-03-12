@@ -372,5 +372,6 @@ match = (kind) ->
   else if kind is undefined or kind is tokens[0].kind
     tokens.shift()
   else
-    errors.push new CustomError "Expected #{kind}, found #{tokens[0].kind}",
-                tokens[0].lineNumber
+    badToken = tokens.shift()
+    errors.push new CustomError "Expected #{kind}, found #{badToken.kind}",
+                badToken.lineNumber
