@@ -26,7 +26,11 @@ describe 'LineScanner', ->
           expect(result).to.be.true
 
       context 'when the scanner is in the middle of a multiline string', ->
-        currentScannerState = multiline: string: true
+        currentScannerState =
+          multiline:
+            string: true
+          string:
+            doubleQuote: false
         lineScanner = new LineScanner 'this is the continuation of a multiline
                                        string begun elsewhere \''
                                       , currentScannerState
@@ -73,3 +77,51 @@ describe 'LineScanner', ->
 
         it 'returns true since part of a multiline string was extracted', ->
           expect(result).to.be.true
+
+      context 'when there is a multiline string that begins with double quotes
+               and "ends" with single', ->
+        lineScanner = new LineScanner '"this is a string that begins with double
+                                       quotes and ends with single\''
+        res = lineScanner.extractedStringLiterals()
+        it "doesn't toggle the current state of the multiline string of the
+            scanner back to false", ->
+          expect(lineScanner.currentState.multiline.string).to.be.true
+
+        it 'is in the double quote state', ->
+          expect(lineScanner.currentState.string.doubleQuote).to.be.true
+
+       context 'when there is a multiline string that begins with single quotes
+               and "ends" with double', ->
+        lineScanner = new LineScanner '\'this is a string that begins with
+                                       single quotes and ends with double"'
+        res = lineScanner.extractedStringLiterals()
+        it "doesn't toggle the current state of the multiline string of the
+            scanner back to false", ->
+          expect(lineScanner.currentState.multiline.string).to.be.true
+
+        it 'is in the double quote state', ->
+          expect(lineScanner.currentState.string.doubleQuote).to.be.false
+
+      context 'when a double quoted string contains single quotes', ->
+        lineScanner = new LineScanner '"I contain \'single\' quotes!"'
+        res = lineScanner.extractedStringLiterals()
+        it 'scans correctly', ->
+          expect(lineScanner.lineTokens).to
+            .eql [{
+              start: 0,
+              kind: 'STRLIT',
+              lexeme: '"I contain \'single\' quotes!"'
+            }]
+
+      context 'when a single quoted string contains double quotes', ->
+        lineScanner = new LineScanner "'I contain \"double\" quotes!'"
+        res = lineScanner.extractedStringLiterals()
+        it 'scans correctly', ->
+          expect(lineScanner.lineTokens).to
+            .eql [{
+              start: 0,
+              kind: 'STRLIT',
+              lexeme: "'I contain \"double\" quotes!'"
+            }]
+
+            

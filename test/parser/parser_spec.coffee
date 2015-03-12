@@ -7,6 +7,9 @@ validProgramsPath = "#{__dirname}/../example/input_programs/valid_programs"
 invalidProgramsPath = "#{__dirname}/../example/input_programs/invalid_programs"
 outputASTs = require "#{__dirname}/../example/output_ASTs"
 
+# Ensure this test runs after the scanner test
+require '../scanner/scanner_spec'
+
 
 describe 'Parser', ->
 
@@ -106,6 +109,20 @@ describe 'Parser', ->
           expect(program.toString()).to.eql outputASTs.program17_AST_string
           done()
 
+  describe 'parsing a valid ternary expression', ->
+    context 'when there is an if and else part of the ternary', ->
+      it 'parses correctly', (done) ->
+        scan "#{validProgramsPath}/program15.tea", (err, tokens) ->
+          program = parse tokens
+          expect(program.toString()).to.eql outputASTs.program15_AST_string
+          done()
+
+    context 'when there is an if part of the ternary only', ->
+      it 'parses correctly', (done) ->
+        scan "#{validProgramsPath}/program16.tea", (err, tokens) ->
+          program = parse tokens
+          expect(program.toString()).to.eql outputASTs.program16_AST_string
+          done()
 
   describe 'parsing an invalid program', ->
     context 'when an invalid program is scanned, but not parsed', ->
@@ -119,4 +136,3 @@ describe 'Parser', ->
         scan "#{invalidProgramsPath}/program3.tea", (err, tokens) ->
           expect(-> parse tokens).to.throw 'is invalid start for a statement'
           done()
-

@@ -5,6 +5,10 @@ outputTokens = require '../example/output_tokens'
 validProgramsPath = "#{__dirname}/../example/input_programs/valid_programs"
 invalidProgramsPath = "#{__dirname}/../example/input_programs/invalid_programs"
 
+# Ensure that this test is executed after the line scanner
+requireDir = require 'require-dir'
+requireDir "#{__dirname}/line_scanner"
+
 
 describe 'Scanner', ->
 
