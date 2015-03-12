@@ -12,6 +12,8 @@ module.exports = (filePath, callback) ->
     multiline:
       comment: false
       string: false
+    string:
+      doubleQuote: false
   lineNumber = 0
   isValid = true
   scanningError = null
