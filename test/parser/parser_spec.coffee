@@ -100,6 +100,15 @@ describe 'Parser', ->
           expect(program.toString()).to.eql outputASTs.program13_AST_string
           done()
 
+  describe 'parsing a valid class expression', ->
+    context 'when a class is declared with functions,
+             properties, and a constructor', ->
+      it 'parses correctly', (done) ->
+        scan "#{validProgramsPath}/program17.tea", (err, tokens) ->
+          program = parse tokens
+          expect(program.toString()).to.eql outputASTs.program17_AST_string
+          done()
+
   describe 'parsing a valid ternary expression', ->
     context 'when there is an if and else part of the ternary', ->
       it 'parses correctly', (done) ->
@@ -127,4 +136,3 @@ describe 'Parser', ->
         scan "#{invalidProgramsPath}/program3.tea", (err, tokens) ->
           expect(-> parse tokens).to.throw 'is invalid start for a statement'
           done()
-

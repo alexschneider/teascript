@@ -113,6 +113,12 @@ class MyASTs
 
   @program16_AST_string = '(Program (Block (if b a)))'
 
+  @program17_AST_string = '(Program (Block
+    (= x (Class
+      (VarDec (a none))
+      (= init (Func (arg) (Block (= a "Yo"))))
+      (= x (Func (arg) (Block (** arg 2))))
+      (= y (Func (arg) (Block (** arg 0.5))))))))'
 
 
 module.exports = MyASTs

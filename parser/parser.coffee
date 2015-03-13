@@ -20,6 +20,7 @@ PostUnaryExpression = require '../entities/post_unary_expression'
 BinaryExpression = require '../entities/binary_expression'
 Function = require '../entities/function'
 FunctionInvocation = require '../entities/function_invocation'
+Class = require '../entities/class'
 Parameters = require '../entities/parameters'
 Args = require '../entities/args'
 ListSubscript = require '../entities/list_subscript'
@@ -69,7 +70,8 @@ parseExpression = ->
     parseVarDec()
   else if ((at '(') and areParams())
     parseFunctionExpression()
-  # else if at 'class'
+  else if at 'class'
+    parseClassExpression()
   #   TODO: parse class expression
   # else if at 'trait'
   #   TODO: parse trait expression
@@ -112,6 +114,18 @@ parseFunctionExpression = ->
   else
     body = parseExpression()
   new Function params, body
+
+parseClassExpression = ->
+  match 'class'
+  match ':'
+  match 'newline'
+  expressions = []
+  while not at 'end'
+    expressions.push parseExpression()
+    match 'newline'
+  match 'end'
+  new Class expressions
+
 
 parseForLoop = ->
   match 'for'
