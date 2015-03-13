@@ -20,6 +20,7 @@ PostUnaryExpression = require '../entities/post_unary_expression'
 BinaryExpression = require '../entities/binary_expression'
 Function = require '../entities/function'
 FunctionInvocation = require '../entities/function_invocation'
+Class = require '../entities/class'
 Parameters = require '../entities/parameters'
 Args = require '../entities/args'
 ListSubscript = require '../entities/list_subscript'
@@ -69,16 +70,17 @@ parseExpression = ->
     parseVarDec()
   else if ((at '(') and areParams())
     parseFunctionExpression()
-  # else if at 'class'
-  #   parseClassExpression()
+  else if at 'class'
+    parseClassExpression()
+  #   TODO: parse class expression
   # else if at 'trait'
-  #   parseTraitExpression()
+  #   TODO: parse trait expression
   else if next '='
     parseVarAssig()
   else if at 'if'
     parseConditional()
   else
-    parseExp0()
+    parseTernExp()
 
 parseReturnStatement = ->
   match 'return'
@@ -112,6 +114,18 @@ parseFunctionExpression = ->
   else
     body = parseExpression()
   new Function params, body
+
+parseClassExpression = ->
+  match 'class'
+  match ':'
+  match 'newline'
+  expressions = []
+  while not at 'end'
+    expressions.push parseExpression()
+    match 'newline'
+  match 'end'
+  new Class expressions
+
 
 parseForLoop = ->
   match 'for'
@@ -164,7 +178,7 @@ parseConditionalBody = ->
   else if at 'return'
     parseReturnStatement()
   else
-    parseExp0()
+    parseExpression()
 
 parseConditional = ->
   conditions = []
@@ -181,6 +195,18 @@ parseConditional = ->
     break
   new ConditionalExpression conditions, bodies
 
+parseTernExp = ->
+  val = parseExp0()
+  if at 'if'
+    match()
+    bodies = [val]
+    conditions = [parseExp0()]
+    if at 'else'
+      match()
+      bodies.push parseExp0()
+    new ConditionalExpression conditions, bodies
+  else
+    val
 
 parseExp0 = ->
   left = parseExp1()
@@ -236,13 +262,13 @@ parseExp5 = ->
   else
     parseExp6()
 
+
 parseExp6 = ->
-  if (at ['++', '--'])
+  left = parseExp7()
+  if((at ['**']) and (next StartTokens.expression))
     op = match()
-    operand = parseExp7()
-    new PreUnaryExpression op, operand
-  else
-    parseExp7()
+    left = new BinaryExpression op, left, parseExp5()
+  left
 
 parseExp7 = ->
   exp = parseExp8()
@@ -258,10 +284,6 @@ parseExp7 = ->
       match ']'
     else
       exp = new FunctionInvocation exp, parseArgs()
-
-  if at([ '++', '--' ])
-    op = match()
-    exp = new PostUnaryExpression op, exp
   exp
 
 parseExp8 = ->
@@ -375,5 +397,6 @@ match = (kind) ->
   else if kind is undefined or kind is tokens[0].kind
     tokens.shift()
   else
-    errors.push new CustomError "Expected #{kind}, found #{tokens[0].kind}",
-                tokens[0].lineNumber
+    badToken = tokens.shift()
+    errors.push new CustomError "Expected #{kind}, found #{badToken.kind}",
+                badToken.lineNumber

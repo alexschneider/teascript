@@ -7,102 +7,104 @@ Status](https://coveralls.io/repos/alexschneider/teascript/badge.svg)](https://c
 
 ![](https://raw.githubusercontent.com/alexschneider/teascript/master/teascript_logo.jpg)
 
-teascript is a language that compiles into JavaScript.
+teascript is a gorgeous little language that compiles into JavaScript. teascript is expressive and powerful, allowing you to not only do exactly what you want, but do so in a clear and concise manner.
 
 ### Grammar
 #### Microsyntax
-# TODO: order and finish
-Matches are attempted from top to bottom.
+
+The rules here are _ordered_. Matches are attempted from top to bottom.
 ```
-newline    = (\r*\n)+
-id         = [_a-zA-Z]\w*
-escape     = '\\' '"' | '\'' | 'n' | 'r'
-punc       = '[\p{P}\p{S}-[\'"\\]]'
-char       = '[\s\w]' | punc | escape
-singlechar = char | '"' 
-doublechar = char | '\''
-StringLit  = ('"' doublechar* '"') | ('\'' singlechar* '\'')
-relop      = '<' | '<=' | 'is' | 'isnt' | '>=' | '>'
-addop      = '+' | '-'
-prefixop   = '-' | 'not'
-mulop      = '*' | '/' | '%'
-unary      = '++' | '--'
-intLit     = \d+
-floatLit   = intLit '.' intLit
-boolLit    = 'true' | 'false'
-noneLit    = 'none'
-keyword    = 'while' | 'for' | 'end' | 'or' | 'and' 
-           | 'true' | 'false' | 'none'
-comment    = '#' [^\n]* newline
+newline    ::= (\r*\n)+
+letter     ::= [a-zA-Z]
+digit      ::= \p{Nd}
+keyword    ::= 'class' | 'trait' 
+             | 'for' | 'in' | 'by' | 'while' | 'end' 
+             | 'and' | 'or' | 'is' | 'isnt' 
+             | 'if'  | 'else' 
+             | 'not' | 'true' | 'false'
+             | 'new' | 'return'
+id         ::= (letter | '_') (letter | digit | '_')*
+intlit     ::= digit+
+floatlit   ::= digit+ '.' digit+
+relop      ::= '<' | '<=' | 'is' | 'isnt' | '>=' | '>'
+addop      ::= '+' | '-'
+mulop      ::= '*' | '/' | '%'
+prefixop   ::= '-' | 'not'
+boollit    ::= 'true' | 'false'
+nonelit    ::= 'none'
+escape     ::= [\\] ([rnst'"\\] 
+char       ::= [^\p{Cc}'"\\] | escape
+stringlit  ::= ('"' char* '"') | (\x27 char* \x27)
+comment    ::= '#' [^\n]* newline
            | '##' .*? '##'
+
 ```
 #### Macrosyntax
 ```
-Program ::= Block
-Block   ::= (Stmt newline)* (ReturnStmt newline)?
+Program        ::= Block
+Block          ::= (Stmt newline)* (ReturnStmt newline)?
 
-Stmt    ::= 'while' Exp ':' (newline Block 'end' | Exp)
-        | 'for' id 'in' Exp ':' (newline Block 'end' | Exp)
-        | Exp 
+Stmt           ::= 'while' Exp ':' (newline Block 'end' | Exp)
+               | 'for' id 'in' Exp ':' (newline Block 'end' | Exp)
+               | Exp
 
-ReturnStmt ::= 'return' Exp
+ReturnStmt     ::= 'return' Exp
 
-Exp     ::= VarDeclaration
-        | ConditionalExp
-        | Class
-        | Function
-        | VarAssignment
-        | TernExp
-        | Trait
+Exp            ::= VarDeclaration
+               | ConditionalExp
+               | Class
+               | Function
+               | VarAssignment
+               | TernExp
+               | Trait
 
-VarDeclaration ::= (id|TupLit) ':' Type? '=' Exp
+VarDeclaration ::= (id|TupLit) ':=' Exp
 VarAssignment  ::= (id|TupLit) '=' Exp
 
 ConditionalExp ::= 'if' Exp0 ':' newline Block ('else if' Exp0 ':' newline Block)* ('else:' newline Block 'end')?
                  | 'if' Exp0 ':' Exp
 
-TernExp ::=  Exp0 ('if' Exp0 ('else' Exp0)?)?
-Exp0    ::=  Exp1 ('or' Exp1)*
-Exp1    ::=  Exp2 ('and' Exp2)*
-Exp2    ::=  Exp3 (relop Exp3)?
-Exp3    ::=  Exp4 (addop Exp4)*
-Exp4    ::=  Exp5 (mulop Exp5)*
-Exp5    ::=  prefixop? Exp6
-Exp6    ::=  (Exp7 unary?) | (unary Exp7)
-Exp7    ::=  Exp8 (('.' Exp8) | ('[' Exp8 ']') | ('(' arglist ')'))*
-Exp8    ::=  boolLit | intLit | floatLit | id | '(' Exp ')' | StringLit 
-           | TupLit | SetLit | MapLit | ListLit | Range | Slice | nonelit
+TernExp        ::=  Exp0 ('if' Exp0 ('else' Exp0)?)?
+Exp0           ::=  Exp1 ('or' Exp1)*
+Exp1           ::=  Exp2 ('and' Exp2)*
+Exp2           ::=  Exp3 (relop Exp3)?
+Exp3           ::=  Exp4 (addop Exp4)*
+Exp4           ::=  Exp5 (mulop Exp5)*
+Exp5           ::=  prefixop? Exp6
+Exp6           ::=  Exp7 ('**' Exp5)?
+Exp7           ::=  Exp8 (('.' Exp8) | ('[' Exp8 ']') | ('(' arglist ')'))*
+Exp8           ::=  boollit | intlit | floatlit | id | '(' Exp ')' | stringlit
+                 | TupLit | SetLit | MapLit | ListLit | Range | Slice | nonelit
 
-ExpList     ::= Exp (',' Exp)*
-Binding     ::= id ':' Exp
-BindingList ::= Binding (',' Binding)*
+ExpList        ::= newline? Exp (newline? ',' Exp)* newline?
+Binding        ::= newline? id ':' Exp newline?
+BindingList    ::= Binding (',' Binding)*
 
-TupLit  ::= '(' ExpList? ')'
-SetLit  ::= '<' ExpList? '>'
-ListLit ::= '[' ExpList? ']'
-MapLit  ::= '{' BindingList? '}'
+TupLit         ::= '(' ExpList? ')'
+SetLit         ::= '<' ExpList? '>'
+ListLit        ::= '[' ExpList? ']'
+MapLit         ::= '{' BindingList? '}'
 
-Range   ::= Exp6 '..' Exp6 ('by' Exp6)?
-Slice   ::= Exp6 '[' Range ']'
+Range          ::= Exp6 '..' Exp6 ('by' Exp6)?
+Slice          ::= Exp6 '[' Range ']'
 
-Comprehension ::= '[' TernExp 'for' id 'in' Exp ']'
+Comprehension  ::= '[' TernExp 'for' id 'in' Exp ']'
 
-PropertySignature ::= id (ArgsDeclaration)?
+PropSignature  ::= id (ArgsDeclaration)?
 
-Trait ::= 'trait:' newline (PropertySignature newline)* 'end'
-ArgsDeclaration ::= '(' (Arg (',' Arg )*)? ')'
-Class ::= 'class:' newline (Exp newline)* 'end'
-Arg ::= id ':' (Type)? ('=' Exp)?
-FunctionBlock ::= (Exp newline) | (newline Block 'end')
-Function ::= ArgsDeclaration '->' FunctionBlock
+Trait          ::= 'trait:' newline (PropSignature newline)* 'end'
+ArgsDeclaration::= '(' newline? (Arg (newline? ',' Arg )*)? newline? ')'
+Class          ::= 'class:' newline (Exp newline)* 'end'
+Arg            ::= id ':' (Type)? ('=' Exp)?
+FunctionBlock  ::= (Exp) | (newline Block 'end')
+Function       ::= ArgsDeclaration '->' FunctionBlock
 ```
 
 ### Features
 
 #### Comments
 
-Like most programming languages, teascript has **comments**. Single line
-comments are created with an octothorpe/hashtag/tic-tac-toe arena (#).
+Single line comments are created with an octothorpe/hashtag/tic-tac-toe arena (`#`).
 Multiline comments begin and end with double octothorpes.
 
 ```
@@ -128,9 +130,8 @@ Additionally, variables must be assigned a value when they are declared.
 
 ```ruby
 # We use := to declare variables.
-# When we declare variables we can optionally specify their type.
-x : int = 420
-y := 'MLG status'  # We also allow for type inference.
+x := 420
+y := 'MLG status' 
 
 # We use the = operator to mutate variables
 x = 127001 # x has been defined, so it's cool
@@ -177,7 +178,7 @@ such that the index of an element in a slice corresponds to a number given by
 the range. This means that we use a range to select a specific subset of the
 elements of an ordered iterabele. All reference types are iterables. All
 reference types except sets are ordered iterables. Since they are ordered, we
-can iterate over them in a predictable way and apply slices to them.  
+can iterate over them in a predictable way and apply slices to them.
 
 ```ruby
 instrument := "xylophone"
@@ -293,21 +294,21 @@ While loops can be used one of two ways.
 # If the while loop has a single expression in its
 # body it can be written into a single line.
 counter := 0
-while counter < 28: out(++counter)
+while counter < 28: out(counter+=)
 
 # Otherwise, we apply the traditional model. Don't forget
 # the 'end' at the bottom!
 
 counter = 10
 while counter > 0:
-    out(--counter)
+    out(counter-=1)
 end
 out('Happy New Year!')
 ```
 
 #### Functions
 
-Functions in teascript look a lot like the functions in CoffeeScript. Functions are 
+Functions in teascript look a lot like the functions in CoffeeScript. Functions are
 first-class objects.
 
 ```
@@ -341,7 +342,7 @@ x := 'Xylophones'                           var x = 'Xylophones';
 ##### teascript
 ```
 collatz := (starting, iterations:=0) ->
-  return iterations if starting == 1
+  if starting == 1: return iterations 
   new_num := starting / 2 if starting % 2 == 0 else starting * 3 + 1
   return collatz(new_num, ++iterations) # The return is optional, but encouraged
 end

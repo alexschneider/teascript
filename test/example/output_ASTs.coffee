@@ -10,13 +10,14 @@ class MyASTs
    (VarDec (bool2 false))
    (VarDec (set1 <1, 2, 3>))
    (VarDec (set2 <1, 2, 3, <4, 5, 6>, <7, 8, <9, 10, 11>>>))
+   (VarDec (comma_example1 {a: 1, b: 2}))
+   (VarDec (comma_example2 <1, 2>))
+   (VarDec (comma_example3 [1, 2]))
    (VarDec (combo [<a, b, c>, {foo: "bar", foobar: <1, a>}]))
    (VarDec (multiline_combo [{a: b, c: d},
                              <1, 2, 3>,
                              {e: f, g: h},
                              [5, 6, [7, [8, 9]]]]))
-   (VarDec (pre_incremented_x (++ x)))
-   (VarDec (post_incremented_x (x ++)))
    (VarDec (nil none))
    (VarDec (a [1, (* x 5), 12]))
    (VarDec (b {a: 123, b: (* 55 123), c: 33}))
@@ -56,16 +57,16 @@ class MyASTs
                            (Invoke out (y))))
    (For var some_variable (Block (= z var)))))'
 
-  @program10_AST_string = "(Program (Block
+  @program10_AST_string = '(Program (Block
    (While (and (is (+ (/ x 10) 5) 2) (> y x)) (= x (+ x 1)))
-   (While (VarDec (x true)) \"vardec expressions are da bomb\")
-   (While true (Block (Invoke out (\"I am in an infinite loop!!\"))))
+   (While (VarDec (x true)) "vardec expressions are da bomb")
+   (While true (Block (Invoke out ("I am in an infinite loop!!"))))
    (While (or (or (or (or a b) c) d) <1, 2, 3, (> 5 6)>)
-      (Block (VarDec (a 'a'))
-             (VarDec (b 'b'))
+      (Block (VarDec (a \'a\'))
+             (VarDec (b \'b\'))
              (VarDec (save a))
              (= a b)
-             (= b save)))))"
+             (= b save)))))'
 
   @program11_AST_string = '(Program (Block
     (* 1 8)
@@ -86,28 +87,40 @@ class MyASTs
     (. a (. (Subscript b 1) (. c (. (Subscript d 6)
       (Invoke e ('arg1', 'arg2'))))))
       (Invoke (Invoke f (a, b)) (c))))"
+
   @program13_AST_string = '(Program (Block
     (if true (Block (Invoke out ("hello")))
-     else if false (Block (Invoke out ("goodbye")))
-     else (Block (Invoke out ("go away"))))
-
+      else if false (Block (Invoke out ("goodbye")))
+      else (Block (Invoke out ("go away"))))
     (if true (Block (Invoke out ("hello")))
-     else if false (Invoke out ("goodbye")))
-
+      else if false (Invoke out ("goodbye")))
     (if true (Block (Invoke out ("hello"))))
-    
-    (if true (Return true))))'
+    (if true (Return true))
+      (if true (Invoke out (\'hi\')))
+        (if a
+          (if b
+            (if c
+              (if d (VarDec (x true))))))))'
 
   @program14_AST_string = '(Program (Block
-    (VarDec (funcB (Func (n)
-      (Block
-        (if (isnt n 0) (Block
-         (Return n)))))))
-    (VarDec (a [1, 2, 3]))
-    (For x a (Block
-      (Invoke funcB (x))))))'
+    (+ (** 3 4) 5)
+    (+ (- (** 2 4)) 5)
+    (** 3 (** 4 5))
+    (+ (** 2 (** 1 (- 3))) 1)
+    (** 2 (- (** 3 (- 4))))))'
 
-  @program15_AST_string = '(Program (Block
+  @program15_AST_string = '(Program (Block (if b a else c)))'
+
+  @program16_AST_string = '(Program (Block (if b a)))'
+
+  @program17_AST_string = '(Program (Block
+    (= x (Class
+      (VarDec (a none))
+      (= init (Func (arg) (Block (= a "Yo"))))
+      (= x (Func (arg) (Block (** arg 2))))
+      (= y (Func (arg) (Block (** arg 0.5))))))))'
+
+  @program18_AST_string = '(Program (Block
     (VarDec (a 100))
     (VarDec (b 50))
     (VarDec (c 150))
@@ -115,8 +128,17 @@ class MyASTs
       (if (or (<= a b) (<= c a)) (Block
         (Invoke out (a)))
       else (Block
-        (c --)
+        (= c (- c 1))
         (Invoke funcA (a, b, c))))))))))'
+
+  @program19_AST_string = '(Program (Block
+      (VarDec (funcB (Func (n)
+        (Block
+          (if (isnt n 0) (Block
+           (Return n)))))))
+      (VarDec (a [1, 2, 3]))
+      (For x a (Block
+        (Invoke funcB (x))))))'
 
 
 module.exports = MyASTs

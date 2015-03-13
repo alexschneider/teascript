@@ -1,12 +1,13 @@
+_ = require 'underscore'
+
 class MapLiteral
 
   constructor: (@keys, @values) ->
 
   toString: ->
-    resultString = []
-    for i in [0...@keys.length]
-      resultString.push "#{@keys[i].lexeme}: #{@values[i]}"
-    "{#{resultString.join(', ')}}"
+    '{' + _.zip(@keys, @values).map((val) ->
+      "#{val[0].lexeme}: #{val[1]}"
+    ).join(', ') + '}'
 
   analyze: (context) ->
     #TODO
