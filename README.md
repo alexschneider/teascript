@@ -72,7 +72,7 @@ Exp3           ::=  Exp4 (addop Exp4)*
 Exp4           ::=  Exp5 (mulop Exp5)*
 Exp5           ::=  prefixop? Exp6
 Exp6           ::=  Exp7 ('**' Exp5)?
-Exp7           ::=  Exp8 (('.' Exp8) | ('[' Exp8 ']') | ('(' arglist ')'))*
+Exp7           ::=  Exp8 (('.' Exp8) | ('[' Exp3 ']') | ('(' arglist ')'))*
 Exp8           ::=  boollit | intlit | floatlit | id | '(' Exp ')' | stringlit
                  | TupLit | SetLit | MapLit | ListLit | Range | Slice | nonelit
 
