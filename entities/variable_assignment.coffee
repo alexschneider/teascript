@@ -3,7 +3,7 @@ class AssignmentStatement
   constructor: (@target, @source) ->
 
   toString: ->
-    "(= #{@target.lexeme} #{@source})"
+    "(= #{@target} #{@source})"
 
   analyze: (context) ->
     #TODO

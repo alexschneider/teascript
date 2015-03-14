@@ -72,15 +72,14 @@ parseExpression = ->
     parseFunctionExpression()
   else if at 'class'
     parseClassExpression()
-  #   TODO: parse class expression
   # else if at 'trait'
   #   TODO: parse trait expression
-  else if next '='
-    parseVarAssig()
+  # else if next '='
+  #   parseVarAssig()
   else if at 'if'
     parseConditional()
   else
-    parseTernExp()
+    parseVarAssig()
 
 parseReturnStatement = ->
   match 'return'
@@ -161,10 +160,11 @@ parseVarDec = ->
   new VariableDeclaration id, exp
 
 parseVarAssig = ->
-  id = match 'ID'
-  match '='
-  exp = parseExpression()
-  new VariableAssignment id, exp
+  left = parseTernExp()
+  while((at ['=']))
+    op = match()
+    left = new VariableAssignment left, parseExpression()
+  left
 
 parseConditionalBody = ->
   if at 'newline'
@@ -218,6 +218,7 @@ parseExp0 = ->
   left
 
 parseExp1 = ->
+
   left = parseExp2()
   while ((at 'and') and
   (next StartTokens.expression))
@@ -262,7 +263,6 @@ parseExp5 = ->
   else
     parseExp6()
 
-
 parseExp6 = ->
   left = parseExp7()
   if((at ['**']) and (next StartTokens.expression))
@@ -277,10 +277,10 @@ parseExp7 = ->
   (next StartTokens.expression))
     if at '.'
       match '.'
-      exp = new MemberAccess exp, parseExpression()
+      exp = new MemberAccess exp, parseExp3()
     else if at '['
       match '['
-      exp = new ListSubscript exp, parseExpression()
+      exp = new ListSubscript exp, parseExp3()
       match ']'
     else
       exp = new FunctionInvocation exp, parseArgs()

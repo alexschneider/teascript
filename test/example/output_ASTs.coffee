@@ -29,7 +29,10 @@ class MyASTs
    (= y 32.1)
    (= bool1 false)
    (= nil 2)
-   (= nil none)))'
+   (= nil none)
+   (= (. (Subscript g 4) f) 3)
+   (= (Subscript g (** 3 9))
+   (if b a else c))))'
 
   @program7_AST_string = '(Program (Block
    (VarDec (foo (- 1)))
