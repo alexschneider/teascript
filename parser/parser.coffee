@@ -15,6 +15,7 @@ ListLiteral = require '../entities/list_literal'
 SetLiteral = require '../entities/set_literal'
 MapLiteral = require '../entities/map_literal'
 NoneLiteral = require '../entities/none_literal'
+TupleLiteral = require '../entities/tuple_literal'
 PreUnaryExpression = require '../entities/pre_unary_expression'
 PostUnaryExpression = require '../entities/post_unary_expression'
 BinaryExpression = require '../entities/binary_expression'
@@ -317,6 +318,8 @@ parseExp9 = ->
     parseListLiteral()
   else if at '<'
     parseSetLiteral()
+  else if at '|'
+    parseTupleLiteral()
   else if at '{'
     parseMapLiteral()
   else if at '('
@@ -354,6 +357,21 @@ parseSetLiteral = ->
   match 'newline' if at 'newline'
   match '>'
   new SetLiteral elements
+
+parseTupleLiteral = ->
+  elements = []
+  match '|'
+
+  while not at '|'
+    match 'newline' if at 'newline'
+    elements.push parseExpression()
+    match 'newline' if at 'newline'
+    match ',' unless at '|'
+
+  match 'newline' if at 'newline'
+  match '|'
+  new TupleLiteral elements
+
 
 parseMapLiteral = ->
   keys = []

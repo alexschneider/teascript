@@ -13,36 +13,36 @@ describe 'Parser', ->
     it 'parses correctly', (done) ->
       scan "#{validParserProgramsPath}/program1.tea", (err, tokens) ->
         program = parse tokens
-        console.log program.toString()
+        expect(program.toString()).to.equal outputASTs.program1_AST_string
         done()
 
   describe 'parsing a valid program', ->
     it 'parses correctly', (done) ->
       scan "#{validParserProgramsPath}/program2.tea", (err, tokens) ->
         program = parse tokens
-        console.log program.toString()
+        expect(program.toString()).to.equal outputASTs.program2_AST_string
         done()
 
-  describe 'parsing a valid program', ->
-    it 'parses correctly', (done) ->
-      scan "#{validParserProgramsPath}/program3.tea", (err, tokens) ->
-        program = parse tokens
-        console.log program.toString()
-        done()
+  # describe 'parsing a valid program', ->
+  #   it 'parses correctly', (done) ->
+  #     scan "#{validParserProgramsPath}/program3.tea", (err, tokens) ->
+  #       program = parse tokens
+  #       expect(program.toString()).to.equal outputASTs.program3_AST_string
+  #       done()
 
-  describe 'parsing a valid program', ->
-    it 'parses correctly', (done) ->
-      scan "#{validParserProgramsPath}/program4.tea", (err, tokens) ->
-        program = parse tokens
-        console.log program.toString()
-        done()
+  # describe 'parsing a valid program', ->
+  #   it 'parses correctly', (done) ->
+  #     scan "#{validParserProgramsPath}/program4.tea", (err, tokens) ->
+  #       program = parse tokens
+  #       console.log program.toString()
+  #       done()
 
-  describe 'parsing a valid program', ->
-    it 'parses correctly', (done) ->
-      scan "#{validParserProgramsPath}/program5.tea", (err, tokens) ->
-        program = parse tokens
-        console.log program.toString()
-        done()
+  # describe 'parsing a valid program', ->
+  #   it 'parses correctly', (done) ->
+  #     scan "#{validParserProgramsPath}/program5.tea", (err, tokens) ->
+  #       program = parse tokens
+  #       console.log program.toString()
+  #       done()
 
   describe 'parsing a valid variable declaration/assignment', ->
     context 'when a variable is declared and assigned to a

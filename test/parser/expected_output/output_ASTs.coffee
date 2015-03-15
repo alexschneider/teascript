@@ -1,4 +1,21 @@
 class MyASTs
+  @program1_AST_string = '(Program (Block
+   (VarDec (x (* 2 3)))
+   (VarDec (y (/ 8 4)))
+   (= x (* x y))
+   (VarDec (newFunc
+    (Func (x, y)
+      (Block (Return (if (>= x y) x else true))))))
+   (VarDec (x 4))
+   (VarDec (y 3.14))
+   (= is_this_true false)
+   (VarDec (z none))
+   (VarDec (my_string "Oh baby!"))
+   (VarDec (my_list [(1..5 by 1)]))
+   (VarDec (my_tuple |1, 2, 3, 2, 1|))
+   (VarDec (my_set <1, 3, 5, 7>))
+   (VarDec (my_map {lat: 51.24, long: 0.18}))))'
+
   @program6_AST_string = '(Program (Block (VarDec (x 5))
    (VarDec (foo 123456789))
    (VarDec (bar 11))
@@ -33,6 +50,19 @@ class MyASTs
    (= (. (Subscript g 4) f) 3)
    (= (Subscript g (** 3 9))
    (if b a else c))))'
+
+  @program2_AST_string = '(Program (Block
+    (VarDec (x 2))
+    (** x 2)
+    (= x (+ x 2))
+    (VarDec (collatz
+      (Func (x)
+        (Block
+          (Invoke out (x))
+          (Return (if (is x 1) x else (if (is (% x 2) 0)
+                    (Invoke collatz ((/ x 2)))
+                  else
+                    (Invoke collatz ((+ (* 3 x) 1))))))))))))'
 
   @program7_AST_string = '(Program (Block
    (VarDec (foo (- 1)))

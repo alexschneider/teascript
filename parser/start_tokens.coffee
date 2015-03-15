@@ -6,7 +6,8 @@ class StartTokens
   ]
 
   @iterable = [
-    '(', '<', '[', '{', 'STRLIT'                   # Reference type literals
+    '(',
+    '|', '<', '[', '{', 'STRLIT'                   # Reference type literals
   ]
 
   @expression = [
