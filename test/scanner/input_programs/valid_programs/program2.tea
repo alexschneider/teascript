@@ -1,0 +1,7 @@
+x := 2
+x**2
+x += 2
+
+collatz := (x) ->
+    out(x)
+    return x if x is 1 else ( collatz(x/2) if x % 2 is 0 else collatz(3*x+1))
