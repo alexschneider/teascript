@@ -4,10 +4,7 @@ parse = require '../../parser/parser'
 scan = require '../../scanner/scanner'
 validParserProgramsPath = "#{__dirname}/input_programs/valid_programs"
 invalidParserProgramsPath = "#{__dirname}/input_programs/invalid_programs"
-outputASTs = require "#{__dirname}/../example/output_ASTs"
-
-# Ensure this test runs after the scanner test
-# require '../scanner/scanner_spec'
+outputASTs = require "#{__dirname}/expected_output/output_ASTs"
 
 
 describe 'Parser', ->
@@ -139,15 +136,3 @@ describe 'Parser', ->
           expect(program.toString()).to.eql outputASTs.program19_AST_string
           done()
 
-  # describe 'parsing an invalid program', ->
-  #   context 'when an invalid program is scanned, but not parsed', ->
-  #     it 'throws an exception', (done) ->
-  #       scan "#{invalidParserProgramsPath}/program2.tea", (err, tokens) ->
-  #         expect(-> parse tokens).to.throw 'line 0: Expected newline, found ID'
-  #         done()
-
-  #   context 'when the first statement of a block is invalid', ->
-  #     it 'throws an exception', (done) ->
-  #       scan "#{invalidParserProgramsPath}/program3.tea", (err, tokens) ->
-  #         expect(-> parse tokens).to.throw 'is invalid start for a statement'
-  #         done()
