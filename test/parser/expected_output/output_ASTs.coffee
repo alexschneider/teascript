@@ -81,6 +81,7 @@ class MyASTs
    (VarDec (nil none))
    (VarDec (a [1, (* x 5), 12]))
    (VarDec (b {a: 123, b: (* 55 123), c: 33}))
+   (VarDec (c |1, 2, 3|))
    (= x 1)
    (= foo 987654321)
    (= bar 22)

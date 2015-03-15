@@ -22,6 +22,7 @@ BinaryExpression = require '../entities/binary_expression'
 Function = require '../entities/function'
 FunctionInvocation = require '../entities/function_invocation'
 Class = require '../entities/class'
+Trait = require '../entities/trait'
 Parameters = require '../entities/parameters'
 Args = require '../entities/args'
 Range = require '../entities/range'
@@ -74,10 +75,8 @@ parseExpression = ->
     parseFunctionExpression()
   else if at 'class'
     parseClassExpression()
-  # else if at 'trait'
-  #   TODO: parse trait expression
-  # else if next '='
-  #   parseVarAssig()
+  else if at 'trait'
+    parseTraitExpression()
   else if at 'if'
     parseConditional()
   else
@@ -126,6 +125,18 @@ parseClassExpression = ->
     match 'newline'
   match 'end'
   new Class expressions
+
+
+parseTraitExpression = ->
+  match 'trait'
+  match ':'
+  match 'newline'
+  expressions = []
+  while not at 'end'
+    expressions.push parseExpression()
+    match 'newline'
+  match 'end'
+  new Trait expressions
 
 
 parseForLoop = ->

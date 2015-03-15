@@ -49,7 +49,6 @@ describe 'Parser', ->
              primitive or reference literal
              (int/float/bool/none or string/map/list/set/tuple)', ->
 
-      # TODO: IMPLEMENT AND TEST TUPLE LITERALS
       it 'parses correctly', (done) ->
         scan "#{validParserProgramsPath}/program6.tea", (err, tokens) ->
           program = parse tokens
