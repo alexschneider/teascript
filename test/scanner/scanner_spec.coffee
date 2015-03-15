@@ -66,3 +66,12 @@ describe 'Scanner', ->
           scan "#{invalidScannerPrograms}/program1.tea", (err, tokens) ->
             expect(err).to.equal 'line 0: invalid token at position 21'
             done()
+
+    describe 'invalid teascript program #2', ->
+      context 'when test program2.tea is passed through the scanner', ->
+
+        it 'returns the appropriate error', (done) ->
+          scan "#{invalidScannerPrograms}/program2.tea", (err, tokens) ->
+            expect(err).to.equal 'line 0: invalid token at position 23'
+            done()
+
