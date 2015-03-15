@@ -3,8 +3,13 @@ numbers up to the given max ##
 print_fib := (max) ->
   # multiple assignment allowed through tuple packing/unpacking
   # a, b = 1, 1
+  a := 1
+  b := 1
   while b < max :
     out(x)
+    save = a
+    a = a + b
+    b = save
     #a, b = b, a+b
   end
 end
