@@ -23,6 +23,7 @@ FunctionInvocation = require '../entities/function_invocation'
 Class = require '../entities/class'
 Parameters = require '../entities/parameters'
 Args = require '../entities/args'
+Range = require '../entities/range'
 ListSubscript = require '../entities/list_subscript'
 MemberAccess = require '../entities/member_access'
 FunctionInvocation = require '../entities/function_invocation'
@@ -287,6 +288,19 @@ parseExp7 = ->
   exp
 
 parseExp8 = ->
+  left = parseExp9()
+  if ((at '..') or (at '...'))
+    op = match()
+    right = parseExp9()
+    if at 'by'
+      # include skip factor in range
+      match()
+      left = new Range op, left, right, parseExp9()
+    else
+      left = new Range op, left, right
+  left
+
+parseExp9 = ->
   if at ['true', 'false']
     new BooleanLiteral match()
   else if at 'none'
