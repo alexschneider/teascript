@@ -15,14 +15,17 @@ ListLiteral = require '../entities/list_literal'
 SetLiteral = require '../entities/set_literal'
 MapLiteral = require '../entities/map_literal'
 NoneLiteral = require '../entities/none_literal'
+TupleLiteral = require '../entities/tuple_literal'
 PreUnaryExpression = require '../entities/pre_unary_expression'
 PostUnaryExpression = require '../entities/post_unary_expression'
 BinaryExpression = require '../entities/binary_expression'
 Function = require '../entities/function'
 FunctionInvocation = require '../entities/function_invocation'
 Class = require '../entities/class'
+Trait = require '../entities/trait'
 Parameters = require '../entities/parameters'
 Args = require '../entities/args'
+Range = require '../entities/range'
 ListSubscript = require '../entities/list_subscript'
 MemberAccess = require '../entities/member_access'
 FunctionInvocation = require '../entities/function_invocation'
@@ -72,10 +75,8 @@ parseExpression = ->
     parseFunctionExpression()
   else if at 'class'
     parseClassExpression()
-  # else if at 'trait'
-  #   TODO: parse trait expression
-  # else if next '='
-  #   parseVarAssig()
+  else if at 'trait'
+    parseTraitExpression()
   else if at 'if'
     parseConditional()
   else
@@ -124,6 +125,18 @@ parseClassExpression = ->
     match 'newline'
   match 'end'
   new Class expressions
+
+
+parseTraitExpression = ->
+  match 'trait'
+  match ':'
+  match 'newline'
+  expressions = []
+  while not at 'end'
+    expressions.push parseExpression()
+    match 'newline'
+  match 'end'
+  new Trait expressions
 
 
 parseForLoop = ->
@@ -287,6 +300,19 @@ parseExp7 = ->
   exp
 
 parseExp8 = ->
+  left = parseExp9()
+  if ((at '..') or (at '...'))
+    op = match()
+    right = parseExp9()
+    if at 'by'
+      # include skip factor in range
+      match()
+      left = new Range op, left, right, parseExp9()
+    else
+      left = new Range op, left, right
+  left
+
+parseExp9 = ->
   if at ['true', 'false']
     new BooleanLiteral match()
   else if at 'none'
@@ -303,6 +329,8 @@ parseExp8 = ->
     parseListLiteral()
   else if at '<'
     parseSetLiteral()
+  else if at '|'
+    parseTupleLiteral()
   else if at '{'
     parseMapLiteral()
   else if at '('
@@ -340,6 +368,21 @@ parseSetLiteral = ->
   match 'newline' if at 'newline'
   match '>'
   new SetLiteral elements
+
+parseTupleLiteral = ->
+  elements = []
+  match '|'
+
+  while not at '|'
+    match 'newline' if at 'newline'
+    elements.push parseExpression()
+    match 'newline' if at 'newline'
+    match ',' unless at '|'
+
+  match 'newline' if at 'newline'
+  match '|'
+  new TupleLiteral elements
+
 
 parseMapLiteral = ->
   keys = []

@@ -33,7 +33,6 @@ class LineScanner
       continue if @extractedOneCharacterTokens()
       continue if @extractedWords()
       continue if @extractedStringLiterals()
-
       # return an error if we were not able to either extract
       # something from or skip the current character
       return {

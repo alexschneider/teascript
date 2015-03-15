@@ -1,12 +1,12 @@
 class Tokens
 
   @oneCharacterTokens = [
-    '^', '&', '|',                       # bitwise operators
     '+', '-', '*', '/', '%',             # arithmetic operators
-    '(', ')',                            # for tuple construction
+    '(', ')',                            # for arguments/parameters
     '[', ']',                            # for list construction
     '<', '>',                            # for set construction
     '{', '}',                            # for map construction
+    '|',                                 # for tuple construction
     '=',                                 # assignment
     '.',                                 # member access for objects
     ',',                                 # separating args/params

@@ -1,4 +1,64 @@
 class MyASTs
+  @program1_AST_string = '(Program (Block
+   (VarDec (x (* 2 3)))
+   (VarDec (y (/ 8 4)))
+   (= x (* x y))
+   (VarDec (newFunc
+    (Func (x, y)
+      (Block (Return (if (>= x y) x else true))))))
+   (VarDec (x 4))
+   (VarDec (y 3.14))
+   (= is_this_true false)
+   (VarDec (z none))
+   (VarDec (my_string "Oh baby!"))
+   (VarDec (my_list [(1..5 by 1)]))
+   (VarDec (my_tuple |1, 2, 3, 2, 1|))
+   (VarDec (my_set <1, 3, 5, 7>))
+   (VarDec (my_map {lat: 51.24, long: 0.18}))))'
+
+  @program2_AST_string = '(Program (Block
+    (VarDec (x 2))
+    (** x 2)
+    (= x (+ x 2))
+    (VarDec (collatz
+      (Func (x)
+        (Block
+          (Invoke out (x))
+          (Return (if (is x 1) x else (if (is (% x 2) 0)
+                    (Invoke collatz ((/ x 2)))
+                  else
+                    (Invoke collatz ((+ (* 3 x) 1))))))))))))'
+
+  @program3_AST_string = '(Program (Block
+    (VarDec (a (+ 4 5)))
+    (VarDec (b (/ 3 2)))
+    (For a x (Block (Invoke out (a))))))'
+
+  @program4_AST_string = '(Program (Block
+    (For i (0..5 by 1)
+      (Block (Invoke out (i))))
+    (For i (0..10 by 2)
+      (Block (Invoke out (i))))
+    (For i (Subscript \'xylophones\' (3..6 by 1))
+      (Block (Invoke out (i))))
+    (For i (Subscript "xylophones" (0..5 by 3))
+      (Block (Invoke out (i))))
+    (VarDec (x (Subscript "xylophones" (3..6 by 1))))
+    (VarDec (y (Subscript [1, 6, 3, 5, 8, 9] (1..6 by 2))))
+    (= string_with_escaped_characters "this is a string
+      that allows for escaped \\\' stuff \\" since teascript is
+      \\\\ so darn awesome!")))'
+
+  @program5_AST_string = '(Program (Block (VarDec
+    (print_fib (Func (max)
+      (Block (VarDec (a 1)) (VarDec (b 1))
+        (While (< b max)
+          (Block
+            (Invoke out (x))
+            (= save a)
+            (= a (+ a b))
+            (= b save)))))))))'
+
   @program6_AST_string = '(Program (Block (VarDec (x 5))
    (VarDec (foo 123456789))
    (VarDec (bar 11))
@@ -21,6 +81,7 @@ class MyASTs
    (VarDec (nil none))
    (VarDec (a [1, (* x 5), 12]))
    (VarDec (b {a: 123, b: (* 55 123), c: 33}))
+   (VarDec (c |1, 2, 3|))
    (= x 1)
    (= foo 987654321)
    (= bar 22)
