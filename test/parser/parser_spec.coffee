@@ -170,3 +170,12 @@ describe 'Parser', ->
           expect(program.toString()).to.eql outputASTs.program19_AST_string
           done()
 
+  describe 'parsing an invalid program', ->
+    context 'when test program4.tea is passed through the parser', ->
+      it 'returns the appropriate error', (done) ->
+        scan "#{invalidParserProgramsPath}/program4.tea", (err, tokens) ->
+          expect (err) ->
+            parse tokens
+          .to.throw 'line 2: Expected in, found if'
+          done()
+
