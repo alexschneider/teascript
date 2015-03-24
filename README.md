@@ -62,7 +62,7 @@ VarDeclaration ::= (id|TupLit) ':=' Exp
 VarAssignment  ::= VarExp '=' Exp
 VarExp         ::= id ( ('.' Exp8 
                         | '[' Exp3 ']' 
-                        | (Params ('.' Exp8 | '[' Exp3 ']')) )*
+                        | (Args ('.' Exp8 | '[' Exp3 ']')) )*
 
 ConditionalExp ::= 'if' Exp0 ':' newline Block ('else if' Exp0 ':' newline Block)* ('else:' newline Block 'end')?
                  | 'if' Exp0 ':' Exp
@@ -76,32 +76,31 @@ Exp4           ::=  Exp5 (addop Exp5)*
 Exp5           ::=  Exp6 (mulop Exp6)*
 Exp6           ::=  prefixop? Exp7
 Exp7           ::=  Exp8 ('**' Exp6)?
-Exp8           ::=  Exp9 ('.' Exp9 | '[' Exp3 ']' | Params)*
+Exp8           ::=  Exp9 ('.' Exp9 | '[' Exp3 ']' | Args)*
 Exp9           ::=  boollit | intlit | floatlit | id | '(' Exp ')' | stringlit
                  | TupLit | SetLit | MapLit | ListLit | Range | nonelit
 
 ExpList        ::= newline? Exp (newline? ',' Exp)* newline?
 
-Params         ::= '(' arglist ')'
+Args           ::= '(' ExpList ')'
+Params         ::= '(' ExpList ')'
 
-TupLit         ::= '(' ExpList? ')'
+TupLit         ::= '|' ExpList? '|'
 SetLit         ::= '<' ExpList? '>'
 ListLit        ::= '[' ExpList? ']'
 MapLit         ::= '{' BindingList? '}'
 Binding        ::= newline? id ':' Exp newline?
 BindingList    ::= Binding (',' Binding)*
 
-
 Comprehension  ::= '[' TernExp 'for' id 'in' Exp ']'
 
-PropSignature  ::= id (ArgsDeclaration)?
+PropSignature  ::= id (Params)?
 
 Trait          ::= 'trait:' newline (PropSignature newline)* 'end'
-ArgsDeclaration::= '(' newline? (Arg (newline? ',' Arg )*)? newline? ')'
 Class          ::= 'class:' newline (Exp newline)* 'end'
 Arg            ::= id ':' (Type)? ('=' Exp)?
 FunctionBlock  ::= Exp | (newline Block 'end')
-Function       ::= ArgsDeclaration '->' FunctionBlock
+Function       ::= Args '->' FunctionBlock
 ```
 
 ### Features
