@@ -60,10 +60,11 @@ comment    ::= '#' [^\n]* newline
 #### Macrosyntax
 ```
 Program        ::= Block
-Block          ::= (Stmt newline)* (ReturnStmt newline)?
+Block          ::= (Stmt newline)*
 
 Stmt           ::= 'while' Exp ':' (newline Block 'end' | Exp)
                | 'for' id 'in' Exp ':' (newline Block 'end' | Exp)
+               | ReturnStmt
                | Exp
 
 ReturnStmt     ::= 'return' Exp
