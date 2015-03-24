@@ -9,6 +9,22 @@ Status](https://coveralls.io/repos/alexschneider/teascript/badge.svg)](https://c
 
 teascript is a gorgeous little language that compiles into JavaScript. teascript is expressive and powerful, allowing you to not only do exactly what you want, but do so in a clear and concise manner.
 
+
+
+## Install
+  
+    $ git clone https://github.com/alexschneider/teascript
+    $ cd teascript
+    
+Test
+
+    $ npm test
+    
+Execute
+
+    $ tea <name_of_program.tea>
+
+
 ### Grammar
 #### Microsyntax
 
