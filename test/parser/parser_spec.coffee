@@ -171,6 +171,15 @@ describe 'Parser', ->
           done()
 
   describe 'parsing an invalid program', ->
+    context 'when test program5.tea is passed through the parser', ->
+      it 'returns the appropriate error', (done) ->
+        scan "#{invalidParserProgramsPath}/program5.tea", (err, tokens) ->
+          expect (err) ->
+            parse tokens
+          .to.throw 'line 2: Expected newline, found ID'
+          done()
+
+  describe 'parsing an invalid program', ->
     context 'when test program4.tea is passed through the parser', ->
       it 'returns the appropriate error', (done) ->
         scan "#{invalidParserProgramsPath}/program4.tea", (err, tokens) ->
@@ -178,4 +187,6 @@ describe 'Parser', ->
             parse tokens
           .to.throw 'line 2: Expected in, found if'
           done()
+
+  
 
