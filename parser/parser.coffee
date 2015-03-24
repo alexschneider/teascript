@@ -231,7 +231,6 @@ parseExp0 = ->
   left
 
 parseExp1 = ->
-
   left = parseExp2()
   while ((at 'and') and
   (next StartTokens.expression))
@@ -251,16 +250,20 @@ parseExp2 = ->
 
 parseExp3 = ->
   left = parseExp4()
-  while ((at ['+', '-']) and
-  (next StartTokens.expression))
+  if ((at '..') or (at '...'))
     op = match()
     right = parseExp4()
-    left = new BinaryExpression op, left, right
+    if at 'by'
+      # include skip factor in range
+      match()
+      left = new Range op, left, right, parseExp4()
+    else
+      left = new Range op, left, right
   left
 
 parseExp4 = ->
   left = parseExp5()
-  while ((at ['*', '/', '%']) and
+  while ((at ['+', '-']) and
   (next StartTokens.expression))
     op = match()
     right = parseExp5()
@@ -268,23 +271,32 @@ parseExp4 = ->
   left
 
 parseExp5 = ->
+  left = parseExp6()
+  while ((at ['*', '/', '%']) and
+  (next StartTokens.expression))
+    op = match()
+    right = parseExp6()
+    left = new BinaryExpression op, left, right
+  left
+
+parseExp6 = ->
   if ((at ['-', 'not']) and
   (next StartTokens.expression))
     op = match()
-    operand = parseExp6()
+    operand = parseExp7()
     new PreUnaryExpression op, operand
   else
-    parseExp6()
+    parseExp7()
 
-parseExp6 = ->
-  left = parseExp7()
+parseExp7 = ->
+  left = parseExp8()
   if((at ['**']) and (next StartTokens.expression))
     op = match()
     left = new BinaryExpression op, left, parseExp5()
   left
 
-parseExp7 = ->
-  exp = parseExp8()
+parseExp8 = ->
+  exp = parseExp9()
   while (at ['.', '[', '('])
     if at '.'
       match '.'
@@ -296,19 +308,6 @@ parseExp7 = ->
     else
       exp = new FunctionInvocation exp, parseArgs()
   exp
-
-parseExp8 = ->
-  left = parseExp9()
-  if ((at '..') or (at '...'))
-    op = match()
-    right = parseExp9()
-    if at 'by'
-      # include skip factor in range
-      match()
-      left = new Range op, left, right, parseExp9()
-    else
-      left = new Range op, left, right
-  left
 
 parseExp9 = ->
   if at ['true', 'false']
