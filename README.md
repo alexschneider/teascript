@@ -65,7 +65,7 @@ VarExp         ::= id (('.' Exp8 | '[' Exp3 ']')* | (('.' Exp8 | '[' Exp3 ']' | 
 ConditionalExp ::= 'if' Exp0 ':' newline Block ('else if' Exp0 ':' newline Block)* ('else:' newline Block 'end')?
                  | 'if' Exp0 ':' Exp
 
-TernExp        ::=  Exp0 ('if' Exp0 ('else' Exp0)?)?
+TernExp        ::=  Exp0 ('if' Exp0 ('else' TernExp)?)?
 Exp0           ::=  Exp1 ('or' Exp1)*
 Exp1           ::=  Exp2 ('and' Exp2)*
 Exp2           ::=  Exp3 (relop Exp3)?
