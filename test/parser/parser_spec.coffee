@@ -176,7 +176,7 @@ describe 'Parser', ->
         scan "#{invalidParserProgramsPath}/program5.tea", (err, tokens) ->
           expect (err) ->
             parse tokens
-          .to.throw 'line 2: Expected newline, found ID'
+          .to.throw 'line 3: Expected newline, found ID'
           done()
 
   describe 'parsing an invalid program', ->
@@ -185,7 +185,7 @@ describe 'Parser', ->
         scan "#{invalidParserProgramsPath}/program4.tea", (err, tokens) ->
           expect (err) ->
             parse tokens
-          .to.throw 'line 2: Expected in, found if'
+          .to.throw 'line 3: Expected in, found if'
           done()
 
   
