@@ -434,7 +434,7 @@ areParams = ->
   tokens[position].kind is '->'
 
 match = (kind) ->
-  if tokens.length is 0
+  if tokens.length <= 0
     errors.push new CustomError 'Unexpected end of program', 0
   else if kind is undefined or kind is tokens[0].kind
     tokens.shift()
