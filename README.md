@@ -51,12 +51,12 @@ Stmt           ::= 'while' Exp ':' (newline Block 'end' | Exp)
 ReturnStmt     ::= 'return' Exp
 
 Exp            ::= VarDeclaration
-               | ConditionalExp
-               | Class
-               | Function
                | VarAssignment
                | TernExp
-               | Trait
+               | ConditionalExp
+               | FunctionExp
+               | TraitExp
+               | ClassExp
 
 VarDeclaration ::= (id|TupLit) ':=' Exp
 VarAssignment  ::= VarExp '=' Exp
@@ -96,11 +96,10 @@ Comprehension  ::= '[' TernExp 'for' id 'in' Exp ']'
 
 PropSignature  ::= id (Params)?
 
-Trait          ::= 'trait:' newline (PropSignature newline)* 'end'
-Class          ::= 'class:' newline (Exp newline)* 'end'
-Arg            ::= id ':' (Type)? ('=' Exp)?
+TraitExp       ::= 'trait:' newline (PropSignature newline)* 'end'
+ClassExp       ::= 'class:' newline (Exp newline)* 'end'
 FunctionBlock  ::= Exp | (newline Block 'end')
-Function       ::= Args '->' FunctionBlock
+FunctionExp    ::= Params '->' FunctionBlock
 ```
 
 ### Features
