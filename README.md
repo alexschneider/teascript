@@ -96,7 +96,7 @@ Exp6           ::=  prefixop? Exp7
 Exp7           ::=  Exp8 ('**' Exp6)?
 Exp8           ::=  Exp9 ('.' Exp9 | '[' Exp3 ']' | Args)*
 Exp9           ::=  boollit | intlit | floatlit | id | '(' Exp ')' | stringlit
-                 | TupLit | SetLit | MapLit | ListLit | Range | nonelit
+                 | TupLit | SetLit | MapLit | ListLit | nonelit
 
 ExpList        ::= newline? Exp (newline? ',' Exp)* newline?
 
