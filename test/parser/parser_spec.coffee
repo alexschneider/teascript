@@ -181,53 +181,52 @@ describe 'Parser', ->
     context 'when test program1.tea is passed through the parser', ->
       it 'returns the appropriate error', (done) ->
         scan "#{invalidParserProgramsPath}/program1.tea", (err, tokens) ->
-          expect((err) ->  parse tokens).to.throw 'line 1: and is invalid start
-                                                   for a statement\n line 1:
-                                                   Expected EOF, found and\n'
+          error = 'line 1: and is invalid start for a statement\n
+                   line 1: Expected EOF, found and\n'
+          expect(() ->  parse tokens).to.throw error
           done()
 
   describe 'parsing an invalid program', ->
     context 'when test program2.tea is passed through the parser', ->
       it 'returns the appropriate error', (done) ->
         scan "#{invalidParserProgramsPath}/program2.tea", (err, tokens) ->
-          expect((err) -> parse tokens).to.throw 'line 1: and is invalid start
-                                                  for a statement\n line 1:
-                                                  Expected EOF, found and\n
-                                                  line 1: Expected newline,
-                                                  found ID\n line 1: newline is
-                                                  invalid start for a
-                                                  statement\n line 1: Expected
-                                                  EOF, found newline\n '
+          error = 'line 1: and is invalid start for a statement\n
+                   line 1: Expected EOF, found and\n
+                   line 1: Expected newline, found ID\n
+                   line 1: newline is invalid start for a statement\n
+                   line 1: Expected EOF, found newline\n '
+          expect(() -> parse tokens).to.throw error
           done()
 
   describe 'parsing an invalid program', ->
     context 'when test program3.tea is passed through the parser', ->
       it 'returns the appropriate error', (done) ->
         scan "#{invalidParserProgramsPath}/program3.tea", (err, tokens) ->
-          expect((err) -> parse tokens).to.throw 'line 2: Expected newline,
-                                                  found ->\n '
+          error = 'line 2: Expected newline, found ->'
+          expect(() -> parse tokens).to.throw error
           done()
 
   describe 'parsing an invalid program', ->
     context 'when test program4.tea is passed through the parser', ->
       it 'returns the appropriate error', (done) ->
         scan "#{invalidParserProgramsPath}/program4.tea", (err, tokens) ->
-          expect((err) -> parse tokens).to.throw 'line 3: Expected in, found if'
+          error = 'line 3: Expected in, found if'
+          expect(() -> parse tokens).to.throw error
           done()
 
   describe 'parsing an invalid program', ->
     context 'when test program5.tea is passed through the parser', ->
       it 'returns the appropriate error', (done) ->
         scan "#{invalidParserProgramsPath}/program5.tea", (err, tokens) ->
-          expect((err) -> parse tokens).to.throw 'line 3: Expected newline,
-                                                  found ID'
+          error = 'line 3: Expected newline, found ID'
+          expect((err) -> parse tokens).to.throw error
           done()
 
   describe 'parsing an invalid program', ->
     context 'when test program6.tea is passed through the parser', ->
       it 'returns the appropriate error', (done) ->
         scan "#{invalidParserProgramsPath}/program6.tea", (err, tokens) ->
-          expect((err) -> parse tokens).to.throw 'line 5: Expected newline,
-                                                  found **'
+          error = 'line 5: Expected newline, found **'
+          expect(() -> parse tokens).to.throw error
           done()
 
