@@ -177,39 +177,35 @@ describe 'Parser', ->
         expect(program.toString()).to.equal outputASTs.program20_AST_string
         done()
 
- describe 'parsing an invalid program', ->
+  describe 'parsing an invalid program', ->
     context 'when test program1.tea is passed through the parser', ->
       it 'returns the appropriate error', (done) ->
         scan "#{invalidParserProgramsPath}/program1.tea", (err, tokens) ->
-          expect (err) ->
-            parse tokens
-          .to.throw 'line 1: and is invalid start for a statement\n\nline 1: Expected EOF, found and\n\n'
+          expect((err) ->  parse tokens).to.throw 'line 1: and is invalid start
+                                                   for a statement\n\nline 1:
+                                                   Expected EOF, found and\n\n'
           done()
 
   describe 'parsing an invalid program', ->
     context 'when test program4.tea is passed through the parser', ->
       it 'returns the appropriate error', (done) ->
         scan "#{invalidParserProgramsPath}/program4.tea", (err, tokens) ->
-          expect (err) ->
-            parse tokens
-          .to.throw 'line 3: Expected in, found if'
+          expect((err) -> parse tokens).to.throw 'line 3: Expected in, found if'
           done()
 
   describe 'parsing an invalid program', ->
     context 'when test program5.tea is passed through the parser', ->
       it 'returns the appropriate error', (done) ->
         scan "#{invalidParserProgramsPath}/program5.tea", (err, tokens) ->
-          expect (err) ->
-            parse tokens
-          .to.throw 'line 3: Expected newline, found ID'
+          expect((err) -> parse tokens).to.throw 'line 3: Expected newline,
+                                                  found ID'
           done()
 
   describe 'parsing an invalid program', ->
     context 'when test program6.tea is passed through the parser', ->
       it 'returns the appropriate error', (done) ->
         scan "#{invalidParserProgramsPath}/program6.tea", (err, tokens) ->
-          expect (err) ->
-            parse tokens
-          .to.throw 'line 5: Expected newline, found **'
+          expect((err) -> parse tokens).to.throw 'line 5: Expected newline,
+                                                  found **'
           done()
 
