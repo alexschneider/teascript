@@ -1,5 +1,5 @@
 class MyASTs
-  @program1_AST_string = '(Program (Block
+  @program01_AST_string = '(Program (Block
    (VarDec (x (* 2 3)))
    (VarDec (y (/ 8 4)))
    (= x (* x y))
@@ -16,7 +16,7 @@ class MyASTs
    (VarDec (my_set <1, 3, 5, 7>))
    (VarDec (my_map {lat: 51.24, long: 0.18}))))'
 
-  @program2_AST_string = '(Program (Block
+  @program02_AST_string = '(Program (Block
     (VarDec (x 2))
     (** x 2)
     (= x (+ x 2))
@@ -29,12 +29,12 @@ class MyASTs
                   else
                     (Invoke collatz ((+ (* 3 x) 1))))))))))))'
 
-  @program3_AST_string = '(Program (Block
+  @program03_AST_string = '(Program (Block
     (VarDec (a (+ 4 5)))
     (VarDec (b (/ 3 2)))
     (For a x (Block (Invoke out (a))))))'
 
-  @program4_AST_string = '(Program (Block
+  @program04_AST_string = '(Program (Block
     (For i (0..5 by 1)
       (Block (Invoke out (i))))
     (For i (0..10 by 2)
@@ -49,7 +49,7 @@ class MyASTs
       that allows for escaped \\\' stuff \\" since teascript is
       \\\\ so darn awesome!")))'
 
-  @program5_AST_string = '(Program (Block (VarDec
+  @program05_AST_string = '(Program (Block (VarDec
     (print_fib (Func (max)
       (Block (VarDec (a 1)) (VarDec (b 1))
         (While (< b max)
@@ -59,7 +59,7 @@ class MyASTs
             (= a (+ a b))
             (= b save)))))))))'
 
-  @program6_AST_string = '(Program (Block (VarDec (x 5))
+  @program06_AST_string = '(Program (Block (VarDec (x 5))
    (VarDec (foo 123456789))
    (VarDec (bar 11))
    (VarDec (abc "string literal"))
@@ -95,7 +95,7 @@ class MyASTs
    (= (Subscript g (** 3 9))
    (if b a else c))))'
 
-  @program7_AST_string = '(Program (Block
+  @program07_AST_string = '(Program (Block
    (VarDec (foo (- 1)))
    (VarDec (bar (not x)))
    (VarDec (foobar (not (- 3))))
@@ -103,7 +103,7 @@ class MyASTs
    (= bar (not foo))
    (= foobar (not (- foo)))))'
 
-  @program8_AST_string = '(Program (Block
+  @program08_AST_string = '(Program (Block
    (VarDec (x (or a b)))
    (VarDec (y (or (and c d) (and e f))))
    (VarDec (foo (and (and (and (and (and a b) c) d) e) f)))
@@ -114,7 +114,7 @@ class MyASTs
    (VarDec (all_together (or (>= (+ (% a b) c) d) (and e (isnt f false)))))
    (= all_together (or (>= (+ (% a b) c) d) (and e (isnt f false))))))'
 
-  @program9_AST_string = '(Program (Block (VarDec (z "z"))
+  @program09_AST_string = '(Program (Block (VarDec (z "z"))
    (For x "abc" (= z x))
    (For y <1, 7, 9> (VarDec (a b)))
    (For y [a, b, c] (Block (Invoke f (\'strlit1\', \'strlit2\', 1, 2))
@@ -203,6 +203,11 @@ class MyASTs
       (VarDec (a [1, 2, 3]))
       (For x a (Block
         (Invoke funcB (x))))))'
+
+  @program20_AST_string = '(Program (Block
+    (VarDec (x (Func ()
+      (Block (Return none)))))
+    (Invoke x ())))'
 
 
 module.exports = MyASTs

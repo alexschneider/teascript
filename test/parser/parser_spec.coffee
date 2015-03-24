@@ -11,37 +11,37 @@ describe 'Parser', ->
 
   describe 'parsing a valid program', ->
     it 'parses correctly', (done) ->
-      scan "#{validParserProgramsPath}/program1.tea", (err, tokens) ->
+      scan "#{validParserProgramsPath}/program01.tea", (err, tokens) ->
         program = parse tokens
-        expect(program.toString()).to.equal outputASTs.program1_AST_string
+        expect(program.toString()).to.equal outputASTs.program01_AST_string
         done()
 
   describe 'parsing a valid program', ->
     it 'parses correctly', (done) ->
-      scan "#{validParserProgramsPath}/program2.tea", (err, tokens) ->
+      scan "#{validParserProgramsPath}/program02.tea", (err, tokens) ->
         program = parse tokens
-        expect(program.toString()).to.equal outputASTs.program2_AST_string
+        expect(program.toString()).to.equal outputASTs.program02_AST_string
         done()
 
   describe 'parsing a valid program', ->
     it 'parses correctly', (done) ->
-      scan "#{validParserProgramsPath}/program3.tea", (err, tokens) ->
+      scan "#{validParserProgramsPath}/program03.tea", (err, tokens) ->
         program = parse tokens
-        expect(program.toString()).to.equal outputASTs.program3_AST_string
+        expect(program.toString()).to.equal outputASTs.program03_AST_string
         done()
 
   describe 'parsing a valid program', ->
     it 'parses correctly', (done) ->
-      scan "#{validParserProgramsPath}/program4.tea", (err, tokens) ->
+      scan "#{validParserProgramsPath}/program04.tea", (err, tokens) ->
         program = parse tokens
-        expect(program.toString()).to.equal outputASTs.program4_AST_string
+        expect(program.toString()).to.equal outputASTs.program04_AST_string
         done()
 
   describe 'parsing a valid program', ->
     it 'parses correctly', (done) ->
-      scan "#{validParserProgramsPath}/program5.tea", (err, tokens) ->
+      scan "#{validParserProgramsPath}/program05.tea", (err, tokens) ->
         program = parse tokens
-        expect(program.toString()).to.equal outputASTs.program5_AST_string
+        expect(program.toString()).to.equal outputASTs.program05_AST_string
         done()
 
   describe 'parsing a valid variable declaration/assignment', ->
@@ -50,36 +50,36 @@ describe 'Parser', ->
              (int/float/bool/none or string/map/list/set/tuple)', ->
 
       it 'parses correctly', (done) ->
-        scan "#{validParserProgramsPath}/program6.tea", (err, tokens) ->
+        scan "#{validParserProgramsPath}/program06.tea", (err, tokens) ->
           program = parse tokens
-          expect(program.toString()).to.equal outputASTs.program6_AST_string
+          expect(program.toString()).to.equal outputASTs.program06_AST_string
           done()
 
     context 'when a variable is declared and assigned to a
              unary expression', ->
 
       it 'parses correctly', (done) ->
-        scan "#{validParserProgramsPath}/program7.tea", (err, tokens) ->
+        scan "#{validParserProgramsPath}/program07.tea", (err, tokens) ->
           program = parse tokens
-          expect(program.toString()).to.eql outputASTs.program7_AST_string
+          expect(program.toString()).to.eql outputASTs.program07_AST_string
           done()
 
     context 'when a variable is declared and assigned to a
              binary expression', ->
 
       it 'parses correctly', (done) ->
-        scan "#{validParserProgramsPath}/program8.tea", (err, tokens) ->
+        scan "#{validParserProgramsPath}/program08.tea", (err, tokens) ->
           program = parse tokens
-          expect(program.toString()).to.eql outputASTs.program8_AST_string
+          expect(program.toString()).to.eql outputASTs.program08_AST_string
           done()
 
   describe 'parsing a valid for statement', ->
     context 'when an iterable literal or ID is being iterated over', ->
 
       it 'parses correctly', (done) ->
-        scan "#{validParserProgramsPath}/program9.tea", (err, tokens) ->
+        scan "#{validParserProgramsPath}/program09.tea", (err, tokens) ->
           program = parse tokens
-          expect(program.toString()).to.eql outputASTs.program9_AST_string
+          expect(program.toString()).to.eql outputASTs.program09_AST_string
           done()
 
     context 'when we have exponentsm they are right associative and
@@ -169,6 +169,13 @@ describe 'Parser', ->
           program = parse tokens
           expect(program.toString()).to.eql outputASTs.program19_AST_string
           done()
+
+  describe 'parsing a valid program', ->
+    it 'parses correctly', (done) ->
+      scan "#{validParserProgramsPath}/program20.tea", (err, tokens) ->
+        program = parse tokens
+        expect(program.toString()).to.equal outputASTs.program20_AST_string
+        done()
 
   describe 'parsing an invalid program', ->
     context 'when test program4.tea is passed through the parser', ->
