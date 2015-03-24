@@ -59,7 +59,8 @@ Exp            ::= VarDeclaration
                | Trait
 
 VarDeclaration ::= (id|TupLit) ':=' Exp
-VarAssignment  ::= (id|TupLit) '=' Exp
+VarAssignment  ::= VarExp '=' Exp
+VarExp         ::= id (('.' Exp8 | '[' Exp3 ']')* | (('.' Exp8 | '[' Exp3 ']' | Params)* ('.' Exp8 | '[' Exp3 ']')) 
 
 ConditionalExp ::= 'if' Exp0 ':' newline Block ('else if' Exp0 ':' newline Block)* ('else:' newline Block 'end')?
                  | 'if' Exp0 ':' Exp
@@ -72,18 +73,20 @@ Exp3           ::=  Exp4 (addop Exp4)*
 Exp4           ::=  Exp5 (mulop Exp5)*
 Exp5           ::=  prefixop? Exp6
 Exp6           ::=  Exp7 ('**' Exp5)?
-Exp7           ::=  Exp8 (('.' Exp8) | ('[' Exp3 ']') | ('(' arglist ')'))*
+Exp7           ::=  Exp8 ('.' Exp8 | '[' Exp3 ']' | Params)*
 Exp8           ::=  boollit | intlit | floatlit | id | '(' Exp ')' | stringlit
                  | TupLit | SetLit | MapLit | ListLit | Range | Slice | nonelit
 
 ExpList        ::= newline? Exp (newline? ',' Exp)* newline?
-Binding        ::= newline? id ':' Exp newline?
-BindingList    ::= Binding (',' Binding)*
+
+Params         ::= '(' arglist ')'
 
 TupLit         ::= '(' ExpList? ')'
 SetLit         ::= '<' ExpList? '>'
 ListLit        ::= '[' ExpList? ']'
 MapLit         ::= '{' BindingList? '}'
+Binding        ::= newline? id ':' Exp newline?
+BindingList    ::= Binding (',' Binding)*
 
 Range          ::= Exp6 '..' Exp6 ('by' Exp6)?
 Slice          ::= Exp6 '[' Range ']'
