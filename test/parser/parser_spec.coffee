@@ -177,3 +177,31 @@ describe 'Parser', ->
         expect(program.toString()).to.equal outputASTs.program20_AST_string
         done()
 
+
+  describe 'parsing an invalid program', ->
+    context 'when test program4.tea is passed through the parser', ->
+      it 'returns the appropriate error', (done) ->
+        scan "#{invalidParserProgramsPath}/program4.tea", (err, tokens) ->
+          expect (err) ->
+            parse tokens
+          .to.throw 'line 3: Expected in, found if'
+          done()
+
+  describe 'parsing an invalid program', ->
+    context 'when test program5.tea is passed through the parser', ->
+      it 'returns the appropriate error', (done) ->
+        scan "#{invalidParserProgramsPath}/program5.tea", (err, tokens) ->
+          expect (err) ->
+            parse tokens
+          .to.throw 'line 3: Expected newline, found ID'
+          done()
+
+  describe 'parsing an invalid program', ->
+    context 'when test program6.tea is passed through the parser', ->
+      it 'returns the appropriate error', (done) ->
+        scan "#{invalidParserProgramsPath}/program6.tea", (err, tokens) ->
+          expect (err) ->
+            parse tokens
+          .to.throw 'line 5: Expected newline, found **'
+          done()
+
