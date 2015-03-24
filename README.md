@@ -16,14 +16,16 @@ teascript is a gorgeous little language that compiles into JavaScript. teascript
     $ git clone https://github.com/alexschneider/teascript
     $ cd teascript
     
-Test
+####Test
 
     $ npm test
     
-Execute
+####Execute
 
-    $ tea <name_of_program.tea>
+    $ coffee teascript.coffee [-t] [-a] filename.tea
 
+  - _t_ scans, prints the tokens, then exits
+  - _a_ scans, parses, prints the abstract syntax tree, then exits
 
 ### Grammar
 #### Microsyntax
