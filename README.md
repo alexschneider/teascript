@@ -14,9 +14,9 @@ teascript is a gorgeous little language that compiles into JavaScript. teascript
 
 The rules here are _ordered_. Matches are attempted from top to bottom.
 ```
-newline    ::= (\r*\n)+
+newline    ::= \s* (\r*\n)+
 letter     ::= [a-zA-Z]
-digit      ::= \p{Nd}
+digit      ::= [0-9]
 keyword    ::= 'class' | 'trait' 
              | 'for' | 'in' | 'by' | 'while' | 'end' 
              | 'and' | 'or' | 'is' | 'isnt' 
@@ -25,7 +25,7 @@ keyword    ::= 'class' | 'trait'
              | 'new' | 'return'
 id         ::= (letter | '_') (letter | digit | '_')*
 intlit     ::= digit+
-floatlit   ::= digit+ '.' digit+
+floatlit   ::= digit+ '.' digit+ ([Ee] [+-]? digit+)?
 relop      ::= '<' | '<=' | 'is' | 'isnt' | '>=' | '>'
 addop      ::= '+' | '-'
 mulop      ::= '*' | '/' | '%'
@@ -96,7 +96,7 @@ Trait          ::= 'trait:' newline (PropSignature newline)* 'end'
 ArgsDeclaration::= '(' newline? (Arg (newline? ',' Arg )*)? newline? ')'
 Class          ::= 'class:' newline (Exp newline)* 'end'
 Arg            ::= id ':' (Type)? ('=' Exp)?
-FunctionBlock  ::= (Exp) | (newline Block 'end')
+FunctionBlock  ::= Exp | (newline Block 'end')
 Function       ::= ArgsDeclaration '->' FunctionBlock
 ```
 
