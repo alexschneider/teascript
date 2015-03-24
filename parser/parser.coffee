@@ -400,7 +400,6 @@ parseMapLiteral = ->
   match '}'
   new MapLiteral keys, values
 
-
 at = (kind, theseTokens) ->
   unless Array.isArray theseTokens
     theseTokens = (if @tokens then @tokens else tokens)
@@ -408,6 +407,9 @@ at = (kind, theseTokens) ->
   if theseTokens.length is 0
     false
   else if Array.isArray kind
+    # search recursively to see if any of the
+    # kinds within the provided array match
+    # the kind we are looking for
     kind.some(at, {tokens: theseTokens})
   else
     kind is theseTokens[0].kind
