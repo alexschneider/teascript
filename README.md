@@ -60,7 +60,9 @@ Exp            ::= VarDeclaration
 
 VarDeclaration ::= (id|TupLit) ':=' Exp
 VarAssignment  ::= VarExp '=' Exp
-VarExp         ::= id (('.' Exp8 | '[' Exp3 ']' | (Params ('.' Exp8 | '[' Exp3 ']') )*
+VarExp         ::= id ( ('.' Exp8 
+                        | '[' Exp3 ']' 
+                        | (Params ('.' Exp8 | '[' Exp3 ']')) )*
 
 ConditionalExp ::= 'if' Exp0 ':' newline Block ('else if' Exp0 ':' newline Block)* ('else:' newline Block 'end')?
                  | 'if' Exp0 ':' Exp
