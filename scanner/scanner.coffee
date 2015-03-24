@@ -14,7 +14,7 @@ module.exports = (filePath, callback) ->
       string: false
     string:
       doubleQuote: false
-  lineNumber = 0
+  lineNumber = 1
   isValid = true
   scanningError = null
 
