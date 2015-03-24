@@ -33,7 +33,7 @@ prefixop   ::= '-' | 'not'
 boollit    ::= 'true' | 'false'
 nonelit    ::= 'none'
 escape     ::= [\\] ([rnst'"\\] 
-char       ::= [^\p{Cc}'"\\] | escape
+char       ::= [^\x00-\x1F'"\\] | escape
 stringlit  ::= ('"' char* '"') | (\x27 char* \x27)
 comment    ::= '#' [^\n]* newline
              | '##' .*? '##'
