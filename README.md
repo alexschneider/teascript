@@ -36,7 +36,7 @@ escape     ::= [\\] ([rnst'"\\]
 char       ::= [^\p{Cc}'"\\] | escape
 stringlit  ::= ('"' char* '"') | (\x27 char* \x27)
 comment    ::= '#' [^\n]* newline
-           | '##' .*? '##'
+             | '##' .*? '##'
 
 ```
 #### Macrosyntax
@@ -71,13 +71,14 @@ TernExp        ::=  Exp0 ('if' Exp0 ('else' TernExp)?)?
 Exp0           ::=  Exp1 ('or' Exp1)*
 Exp1           ::=  Exp2 ('and' Exp2)*
 Exp2           ::=  Exp3 (relop Exp3)?
-Exp3           ::=  Exp4 (addop Exp4)*
-Exp4           ::=  Exp5 (mulop Exp5)*
-Exp5           ::=  prefixop? Exp6
-Exp6           ::=  Exp7 ('**' Exp5)?
-Exp7           ::=  Exp8 ('.' Exp8 | '[' Exp3 ']' | Params)*
-Exp8           ::=  boollit | intlit | floatlit | id | '(' Exp ')' | stringlit
-                 | TupLit | SetLit | MapLit | ListLit | Range | Slice | nonelit
+Exp3           ::=  Exp4 ('..' Exp4 ('by' Exp4)?)?
+Exp4           ::=  Exp5 (addop Exp5)*
+Exp5           ::=  Exp6 (mulop Exp6)*
+Exp6           ::=  prefixop? Exp7
+Exp7           ::=  Exp8 ('**' Exp6)?
+Exp8           ::=  Exp9 ('.' Exp9 | '[' Exp3 ']' | Params)*
+Exp9           ::=  boollit | intlit | floatlit | id | '(' Exp ')' | stringlit
+                 | TupLit | SetLit | MapLit | ListLit | Range | nonelit
 
 ExpList        ::= newline? Exp (newline? ',' Exp)* newline?
 
@@ -90,8 +91,6 @@ MapLit         ::= '{' BindingList? '}'
 Binding        ::= newline? id ':' Exp newline?
 BindingList    ::= Binding (',' Binding)*
 
-Range          ::= Exp6 '..' Exp6 ('by' Exp6)?
-Slice          ::= Exp6 '[' Range ']'
 
 Comprehension  ::= '[' TernExp 'for' id 'in' Exp ']'
 
