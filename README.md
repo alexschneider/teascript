@@ -389,7 +389,7 @@ var collatz = function(starting, iterations) {
 #### Traits
 ```
 iterable := trait:                          var iterable = {
-  next()                                      trait: true,,
+  next()                                      trait: true,
   has_next()                                  next: 'function',
 end                                           has_next: 'function'
                                             };
