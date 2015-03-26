@@ -182,15 +182,16 @@ my_map := {"lat":51.24,"long":0.18}   # Ordered pair of key-values
 
 #### Ranges and Slices for iterables
 A range is a list of integers at a regularly spaced interval, bounded by x
-inclusive on the low side, and y exclusive on the high side, i.e. `[x, y)`. A
-range can be described in two ways:
+inclusive on the low side, and y exclusive (with 2 dots ```..```) on the high side, i.e. `[x, y)`. With 3 dots ```...```, both x and y are inclusive, i.e. `[x, y]`. For example:
 
 ```ruby
 a .. b         # We go from a to b-1 in increments of 1.
 a .. b by x    # We go from from a to b-1 in increments of x.
 
 1 .. 10        # This is [1,2,3,4,5,6,7,8,9]
+1 ... 10       # This is [1,2,3,4,5,6,7,8,9,10]
 2 .. 10 by 2   # This is [2,4,6,8]
+2 ... 10 by 2  # This is [2,4,6,8,10]
 1 .. 15 by 4   # This is [1,5,9,13]
 ```
 
