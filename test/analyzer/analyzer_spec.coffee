@@ -125,7 +125,20 @@ describe 'Semantic Analyzer', ->
         scan "#{invalidParserProgramsPath}/program08.tea", (err, tokens) ->
           program = parse tokens
 
-          error = 'line 4: Condition in "while" statement must be boolean'
+          error = 'line 19: Condition in "while" statement must be boolean'
+          expect(-> program.analyze()).to.throw error
+
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when a variable is declared to be
+             the value of a var assign exp', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program09.tea", (err, tokens) ->
+          program = parse tokens
+
+          error = 'line 6: Variable declaration and initialization
+                             to an assignment expression not allowed'
           expect(-> program.analyze()).to.throw error
 
           done()
