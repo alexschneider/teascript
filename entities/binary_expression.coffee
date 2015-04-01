@@ -28,17 +28,17 @@ class BinaryExpression
 
   mustHaveIntegerOperands: ->
     error = "#{@op.lexeme} must have integer or float operands"
-    @left.type.mustBeCompatibleWith(Type.INT, error, @op)
-    @right.type.mustBeCompatibleWith(Type.INT, error, @op)
+    @left.type.mustBeCompatibleWith(Type.INT, error, @op.lineNumber)
+    @right.type.mustBeCompatibleWith(Type.INT, error, @op.lineNumber)
 
   mustHaveBooleanOperands: ->
     error = "#{@op.lexeme} must have boolean operands"
-    @left.type.mustBeCompatibleWith(Type.BOOL, error, @op)
-    @right.type.mustBeCompatibleWith(Type.BOOL, error, @op)
+    @left.type.mustBeCompatibleWith(Type.BOOL, error, @op.lineNumber)
+    @right.type.mustBeCompatibleWith(Type.BOOL, error, @op.lineNumber)
 
   mustHaveCompatibleOperands: ->
     error = "#{@op.lexeme} must have mutually compatible operands"
-    @left.type.mustBeMutuallyCompatibleWith(@right.type, error, @op)
+    @left.type.mustBeMutuallyCompatibleWith(@right.type, error, @op.lineNumber)
 
   optimize: ->
     #TODO

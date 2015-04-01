@@ -21,18 +21,18 @@ class Type
   toString: -> @name
 
   mustBeInteger: (message, location) ->
-    @mustBeCompatibleWith Type.INT, message
+    @mustBeCompatibleWith Type.INT, message, location
 
   mustBeBoolean: (message, location) ->
-    @mustBeCompatibleWith Type.BOOL, message
+    @mustBeCompatibleWith Type.BOOL, message, location
 
   mustBeCompatibleWith: (otherType, message, location) ->
     unless @isCompatibleWith(otherType)
-      throw new CustomError(message, location.lineNumber)
+      throw new CustomError(message, location)
 
   mustBeMutuallyCompatibleWith: (otherType, message, location) ->
     if not (@isCompatibleWith otherType or otherType.isCompatibleWith(this))
-      throw new CustomError message, location.lineNumber
+      throw new CustomError message, location
 
   isCompatibleWith: (otherType) ->
     # In more sophisticated languages, comapatibility would be more complex

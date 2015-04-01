@@ -117,3 +117,15 @@ describe 'Semantic Analyzer', ->
           expect(-> program.analyze()).to.throw error
 
           done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when the condition of a while statement
+             is not a boolean', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program08.tea", (err, tokens) ->
+          program = parse tokens
+
+          error = 'line 4: Condition in "while" statement must be boolean'
+          expect(-> program.analyze()).to.throw error
+
+          done()
