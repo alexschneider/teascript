@@ -12,7 +12,7 @@ analyzedPrograms = require "#{__dirname}/expected_output/analyzed_programs"
 describe 'Semantic Analyzer', ->
 
   # For each test we have to compare the stringified versions
-  # of programs with expected output our 'program' variable
+  # of programs with expected output since our 'program' variable
   # is decorated with functions (analyze(), toString(), optimize())
   # and thus won't be considered deeply equal unless we decorate our
   # expected output with the same functions
