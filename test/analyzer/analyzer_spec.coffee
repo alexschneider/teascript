@@ -142,3 +142,27 @@ describe 'Semantic Analyzer', ->
           expect(-> program.analyze()).to.throw error
 
           done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when a unary minus does not have
+             an int/float operand', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program10.tea", (err, tokens) ->
+          program = parse tokens
+
+          error = 'line 10: Unary - must have integer or float operand'
+          expect(-> program.analyze()).to.throw error
+
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when a unary not does not have
+             a boolean operand', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program11.tea", (err, tokens) ->
+          program = parse tokens
+
+          error = 'line 10: not must have boolean operand'
+          expect(-> program.analyze()).to.throw error
+
+          done()

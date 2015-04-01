@@ -1,3 +1,5 @@
+Type = require './type'
+
 class PreUnaryExpression
 
   constructor: (@op, @operand) ->
@@ -6,9 +8,24 @@ class PreUnaryExpression
     "(#{@op.lexeme} #{@operand})"
 
   analyze: (context) ->
-    #TODO
+    @operand.analyze context
+    if @op.lexeme is '-'
+      @mustHaveIntegerOperand()
+      type = Type.INT
+    else if @op.lexeme is 'not'
+      @mustHaveBooleanOperand()
+      type = Type.BOOL
 
   optimize: ->
     #TODO
+
+  # similar methods in binary expression class -- TODO: make more DRY
+  mustHaveIntegerOperand: ->
+    error = "Unary #{@op.lexeme} must have integer or float operand"
+    @operand.type.mustBeCompatibleWith(Type.INT, error, @op.lineNumber)
+
+  mustHaveBooleanOperand: ->
+    error = "#{@op.lexeme} must have boolean operand"
+    @operand.type.mustBeCompatibleWith(Type.BOOL, error, @op.lineNumber)
 
 module.exports = PreUnaryExpression
