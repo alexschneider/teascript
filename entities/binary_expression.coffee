@@ -13,7 +13,7 @@ class BinaryExpression
     op = @op.lexeme
     switch op
       when '<', '<=', '>=', '>'
-        @mustHaveIntegerOperands()
+        @mustHaveNumericOperands()
         @type = Type.BOOL
       when 'is', 'isnt'
         @mustHaveCompatibleOperands()
@@ -23,13 +23,22 @@ class BinaryExpression
         @type = Type.BOOL
       else
         # All other binary operators are arithmetic
-        @mustHaveIntegerOperands()
-        @type = Type.INT
+        @mustHaveNumericOperands()
+        @type = @getNumericType()
 
-  mustHaveIntegerOperands: ->
+  getNumericType: ->
+    if @left.type is Type.FLOAT or @right.type is Type.FLOAT
+      # if either operand in the arithmetic expression is
+      # a float, then the expression evaluates to a float
+      return Type.FLOAT
+    else
+      # otherwise, the arithmetic expression evaluates to an int
+      return Type.INT
+
+  mustHaveNumericOperands: ->
     error = "#{@op.lexeme} must have integer or float operands"
-    @left.type.mustBeCompatibleWith(Type.INT, error, @op.lineNumber)
-    @right.type.mustBeCompatibleWith(Type.INT, error, @op.lineNumber)
+    @left.type.mustBeNumeric(error, @op.lineNumber)
+    @right.type.mustBeNumeric(error, @op.lineNumber)
 
   mustHaveBooleanOperands: ->
     error = "#{@op.lexeme} must have boolean operands"

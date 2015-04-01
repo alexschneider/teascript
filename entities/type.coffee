@@ -20,6 +20,10 @@ class Type
 
   toString: -> @name
 
+  mustBeNumeric: (message, location) ->
+    unless (this is Type.INT) or (this is Type.FLOAT)
+      throw new CustomError message, location
+
   mustBeInteger: (message, location) ->
     @mustBeCompatibleWith Type.INT, message, location
 
@@ -39,10 +43,7 @@ class Type
     return this is otherType or
 
            this is Type.ARBITRARY or
-           otherType is Type.ARBITRARY or
-
-           ((this is Type.INT and otherType is Type.FLOAT) or
-            (this is Type.FLOAT and otherType is Type.INT))
+           otherType is Type.ARBITRARY
 
 module.exports =
   BOOL: Type.BOOL

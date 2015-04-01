@@ -10,7 +10,7 @@ class PreUnaryExpression
   analyze: (context) ->
     @operand.analyze context
     if @op.lexeme is '-'
-      @mustHaveIntegerOperand()
+      @mustHaveNumericOperand()
       type = Type.INT
     else if @op.lexeme is 'not'
       @mustHaveBooleanOperand()
@@ -20,9 +20,9 @@ class PreUnaryExpression
     #TODO
 
   # similar methods in binary expression class -- TODO: make more DRY
-  mustHaveIntegerOperand: ->
+  mustHaveNumericOperand: ->
     error = "Unary #{@op.lexeme} must have integer or float operand"
-    @operand.type.mustBeCompatibleWith(Type.INT, error, @op.lineNumber)
+    @operand.type.mustBeNumeric(error, @op.lineNumber)
 
   mustHaveBooleanOperand: ->
     error = "#{@op.lexeme} must have boolean operand"
