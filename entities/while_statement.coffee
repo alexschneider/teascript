@@ -10,7 +10,8 @@ class WhileStatement
     location = @findLocation JSON.parse(JSON.stringify(@condition))
     @condition.analyze context
     #TODO: possibly change this to allow for truthy/flasy vals?
-    @condition.type.mustBeBoolean 'Condition in "while" statement must be boolean',
+    @condition.type.mustBeBoolean 'Condition in "while" statement
+                                   must be boolean',
                                   location
     @body.analyze context
 
