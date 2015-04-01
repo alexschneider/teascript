@@ -11,7 +11,7 @@ expectedAnalysis = require "#{__dirname}/expected_output/analyzed_programs"
 
 describe 'Semantic Analyzer', ->
 
-  # For each test we have to compare the stringified versions
+  # For each valid test we have to compare the stringified versions
   # of programs with expected output since our 'program' variable
   # is decorated with functions (analyze(), toString(), optimize())
   # and thus won't be considered deeply equal unless we decorate our
@@ -26,6 +26,15 @@ describe 'Semantic Analyzer', ->
           expect(JSON.stringify(program)).to.eql expectedAnalysis.program01
           done()
 
+  describe 'analyzing a valid program', ->
+    context 'when analyzing variable declarations', ->
+      it 'recursively analyzes the value on the right side
+          of the declaration and adds appropriate type annotations', (done) ->
+        scan "#{validParserProgramsPath}/program02.tea", (err, tokens) ->
+          program = parse tokens
+          program.analyze()
+          expect(JSON.stringify(program)).to.eql expectedAnalysis.program02
+          done()
 
   describe 'analyzing an invalid program', ->
     context 'when a variable has been declared multiple
@@ -40,9 +49,9 @@ describe 'Semantic Analyzer', ->
           done()
 
   describe 'analyzing an invalid program', ->
-    context 'when analyzing an arithmetic operation
-             that does not have two integer
-             (or int compatible) operands', ->
+    context 'when analyzing an arithmetic op
+             that does not have int/float
+             operands', ->
       it 'throws an error when the invalid operand is a literal', (done) ->
         scan "#{invalidParserProgramsPath}/program02.tea", (err, tokens) ->
           program = parse tokens
@@ -57,6 +66,28 @@ describe 'Semantic Analyzer', ->
           program = parse tokens
 
           error = 'line 5: + must have integer or float operands'
+          expect(-> program.analyze()).to.throw error
+
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when there are nested variable declarations', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program04.tea", (err, tokens) ->
+          program = parse tokens
+
+          error = 'line 1: Nested variable declarations not allowed'
+          expect(-> program.analyze()).to.throw error
+
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when a variable is used before it is declared', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program05.tea", (err, tokens) ->
+          program = parse tokens
+
+          error = 'line 5: Variable z not found'
           expect(-> program.analyze()).to.throw error
 
           done()

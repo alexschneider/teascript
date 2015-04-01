@@ -105,4 +105,33 @@ class MyAnalyzedPrograms
     }
   ]}})
 
+  @program02 = JSON.stringify({block: {statements: [
+    {
+      id: {lexeme: 'isSemanticallyValid', kind: 'ID', start: 0, lineNumber: 1},
+      value: {
+        value: {lexeme: 'true', kind: 'true', start: 23, lineNumber: 1},
+        type: {name: 'bool'}
+      },
+      type: {name: 'bool'}
+    }, {
+      id: {lexeme: 'a', kind: 'ID', start: 0, lineNumber: 2},
+      value: {
+        elements: [
+          {
+            value: {lexeme: "'analyze that'", kind: 'STRLIT', start: 6, lineNumber: 2},
+            type: {name: 'str'}
+          }, {
+            value: {lexeme: "'right side of vardec'", kind: 'STRLIT', start: 22, lineNumber: 2},
+            type: {name: 'str'}
+          }, {
+            token: {lexeme: 'isSemanticallyValid', kind: 'ID', start: 46, lineNumber: 2},
+            type: {name: 'bool'}
+          }
+        ],
+        type: {name: 'list'}
+      }
+      type: {name: 'list'}
+    }
+  ]}})
+
 module.exports = MyAnalyzedPrograms
