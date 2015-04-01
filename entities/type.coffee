@@ -27,7 +27,8 @@ class Type
     @mustBeCompatibleWith Type.BOOL, message
 
   mustBeCompatibleWith: (otherType, message, location) ->
-    throw new CustomError(message, location.lineNumber) if not @isCompatibleWith(otherType)
+    unless @isCompatibleWith(otherType)
+      throw new CustomError(message, location.lineNumber)
 
   mustBeMutuallyCompatibleWith: (otherType, message, location) ->
     if not (@isCompatibleWith otherType or otherType.isCompatibleWith(this))

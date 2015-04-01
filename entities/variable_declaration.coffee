@@ -19,8 +19,10 @@ class VariableDeclaration
 
   checkForNestedDeclarations: ->
     if @value instanceof VariableDeclaration
-      throw new CustomError 'Nested variable declarations not allowed', @id.lineNumber
+      throw new CustomError 'Nested variable declarations not allowed',
+                             @id.lineNumber
 
-VariableDeclaration.ARBITRARY = new VariableDeclaration '<arbitrary>', Type.ARBITRARY
+VariableDeclaration.ARBITRARY = new VariableDeclaration '<arbitrary>',
+                                                        Type.ARBITRARY
 
 module.exports = VariableDeclaration
