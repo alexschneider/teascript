@@ -36,6 +36,8 @@ describe 'Semantic Analyzer', ->
           expect(JSON.stringify(program)).to.eql expectedAnalysis.program02
           done()
 
+
+
   describe 'analyzing an invalid program', ->
     context 'when a variable has been declared multiple
               times in the same context', ->
@@ -49,8 +51,8 @@ describe 'Semantic Analyzer', ->
           done()
 
   describe 'analyzing an invalid program', ->
-    context 'when analyzing an arithmetic op
-             that does not have int/float
+    context 'when there is an arithmetic op
+             that does not have both int/float
              operands', ->
       it 'throws an error when the invalid operand is a literal', (done) ->
         scan "#{invalidParserProgramsPath}/program02.tea", (err, tokens) ->
@@ -88,6 +90,30 @@ describe 'Semantic Analyzer', ->
           program = parse tokens
 
           error = 'line 5: Variable z not found'
+          expect(-> program.analyze()).to.throw error
+
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when realtional operators do not have
+             boolean operands', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program06.tea", (err, tokens) ->
+          program = parse tokens
+
+          error = 'line 1: and must have boolean operands'
+          expect(-> program.analyze()).to.throw error
+
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when comparator operators do not have
+             compatible operands', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program07.tea", (err, tokens) ->
+          program = parse tokens
+
+          error = 'line 4: isnt must have mutually compatible operands'
           expect(-> program.analyze()).to.throw error
 
           done()

@@ -118,13 +118,16 @@ class MyAnalyzedPrograms
       value: {
         elements: [
           {
-            value: {lexeme: "'analyze that'", kind: 'STRLIT', start: 6, lineNumber: 2},
+            value: {lexeme: "'analyze that'",
+            kind: 'STRLIT', start: 6, lineNumber: 2},
             type: {name: 'str'}
           }, {
-            value: {lexeme: "'right side of vardec'", kind: 'STRLIT', start: 22, lineNumber: 2},
+            value: {lexeme: "'right side of vardec'",
+            kind: 'STRLIT', start: 22, lineNumber: 2},
             type: {name: 'str'}
           }, {
-            token: {lexeme: 'isSemanticallyValid', kind: 'ID', start: 46, lineNumber: 2},
+            token: {lexeme: 'isSemanticallyValid',
+            kind: 'ID', start: 46, lineNumber: 2},
             type: {name: 'bool'}
           }
         ],
