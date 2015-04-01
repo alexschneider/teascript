@@ -10,7 +10,7 @@ class AnalysisContext
     new AnalysisContext null
 
   createChildContext: ->
-    new AnalysisContext @
+    new AnalysisContext this
 
   variableMustNotBeAlreadyDeclared: (token) ->
     if @symbolTable[token.lexeme]

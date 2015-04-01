@@ -1,3 +1,5 @@
+Type = require './type'
+
 class VariableDeclaration
 
   constructor: (@id, @value) ->
@@ -6,9 +8,12 @@ class VariableDeclaration
     "(VarDec (#{@id.lexeme} #{@value}))"
 
   analyze: (context) ->
-    #TODO
+    context.variableMustNotBeAlreadyDeclared @id
+    context.addVariable @id.lexeme, this
 
   optimize: ->
     #TODO
+
+VariableDeclaration.ARBITRARY = new VariableDeclaration '<arbitrary>', Type.ARBITRARY
 
 module.exports = VariableDeclaration

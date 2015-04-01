@@ -1,4 +1,4 @@
-CustomError = require '../error/custom_error'
+eCustomError = require '../error/custom_error'
 ParseError = require '../error/parse_error'
 Program = require '../entities/program'
 Block = require '../entities/block'
@@ -43,7 +43,7 @@ module.exports = (scannerOutput) ->
   match 'EOF'
   if errors.length > 0
     throw new ParseError errors
-  return program
+  program
 
 parseProgram = ->
   new Program parseBlock()
