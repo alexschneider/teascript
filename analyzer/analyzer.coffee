@@ -1,4 +1,4 @@
-error = require '../error/custom_error'
+CustomError = require '../error/custom_error'
 VariableDeclaration = require '../entities/variable_declaration'
 
 class AnalysisContext
@@ -14,7 +14,8 @@ class AnalysisContext
 
   variableMustNotBeAlreadyDeclared: (token) ->
     if @symbolTable[token.lexeme]
-      error "Variable #{token.lexeme} already declared", token
+      throw new CustomError "Variable #{token.lexeme} already declared",
+                             token.lineNumber
 
   addVariable: (name, entity) ->
     @symbolTable[name] = entity
@@ -24,7 +25,8 @@ class AnalysisContext
     if variable
       variable
     else if not @parent
-      error "Variable #{token.lexeme} not found", token
+      throw new CustomError "Variable #{token.lexeme} not found",
+                            token.lineNumber
       VariableDeclaration.ARBITRARY
     else
       @parent.lookupVariable token

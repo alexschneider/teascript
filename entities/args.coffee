@@ -6,7 +6,6 @@ class Args
     "(#{@args.join(', ')})"
 
   analyze: (context) ->
-    #TODO
 
   optimize: -> this
 

@@ -1,4 +1,4 @@
-eCustomError = require '../error/custom_error'
+CustomError = require '../error/custom_error'
 ParseError = require '../error/parse_error'
 Program = require '../entities/program'
 Block = require '../entities/block'

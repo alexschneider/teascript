@@ -1,4 +1,5 @@
 _ = require 'underscore'
+Type = require './type'
 
 class MapLiteral
 
@@ -10,7 +11,8 @@ class MapLiteral
     ).join(', ') + '}'
 
   analyze: (context) ->
-    #TODO
+    value.analyze(context) for value in @values
+    @type = Type.MAP
 
   optimize: ->
     #TODO

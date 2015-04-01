@@ -5,7 +5,6 @@ class Block
     "(Block #{@statements.join(' ')})"
 
   analyze: (context) ->
-    console.log "analyzing a block"
     localContext = context.createChildContext()
     statement.analyze(localContext) for statement in @statements
 

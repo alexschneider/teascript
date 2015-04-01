@@ -1,11 +1,12 @@
+Type = require './type'
+
 class BooleanLiteral
 
-  constructor: (@name) ->
+  constructor: (@value) ->
 
-  toString: -> @name.lexeme
+  toString: -> @value.lexeme
 
-  analyze: (context) ->
-    #TODO
+  analyze: (context) -> @type = Type.BOOL
 
   optimize: -> this
 

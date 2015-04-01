@@ -1,3 +1,5 @@
+Type = require './type'
+
 class FloatLiteral
 
   constructor: (@value) ->
@@ -5,7 +7,7 @@ class FloatLiteral
   toString: -> @value.lexeme
 
   analyze: (context) ->
-    #TODO
+    @type = Type.FLOAT
 
   optimize: -> this
 

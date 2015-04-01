@@ -6,7 +6,7 @@ class VariableReference
     @token.lexeme
 
   analyze: (context) ->
-    #TODO
+    @type = context.lookupVariable @token
 
   optimize: ->
     #TODO
