@@ -5,7 +5,7 @@ parse = require '../../parser/parser'
 scan = require '../../scanner/scanner'
 validParserProgramsPath = "#{__dirname}/input_programs/valid_programs"
 invalidParserProgramsPath = "#{__dirname}/input_programs/invalid_programs"
-analyzedPrograms = require "#{__dirname}/expected_output/analyzed_programs"
+expectedAnalysis = require "#{__dirname}/expected_output/analyzed_programs"
 
 
 
@@ -23,9 +23,8 @@ describe 'Semantic Analyzer', ->
         scan "#{validParserProgramsPath}/program01.tea", (err, tokens) ->
           program = parse tokens
           program.analyze()
-          expect(JSON.stringify(program)).to.eql analyzedPrograms.program01
+          expect(JSON.stringify(program)).to.eql expectedAnalysis.program01
           done()
-
 
 
   describe 'analyzing an invalid program', ->
@@ -36,6 +35,28 @@ describe 'Semantic Analyzer', ->
           program = parse tokens
 
           error = 'line 6: Variable x already declared'
+          expect(-> program.analyze()).to.throw error
+
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when analyzing an arithmetic operation
+             that does not have two integer
+             (or int compatible) operands', ->
+      it 'throws an error when the invalid operand is a literal', (done) ->
+        scan "#{invalidParserProgramsPath}/program02.tea", (err, tokens) ->
+          program = parse tokens
+
+          error = 'line 1: * must have integer or float operands'
+          expect(-> program.analyze()).to.throw error
+
+          done()
+
+      it 'throws an error when the invalid operand is a varref', (done) ->
+        scan "#{invalidParserProgramsPath}/program03.tea", (err, tokens) ->
+          program = parse tokens
+
+          error = 'line 5: + must have integer or float operands'
           expect(-> program.analyze()).to.throw error
 
           done()

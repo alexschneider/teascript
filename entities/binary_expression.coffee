@@ -27,7 +27,7 @@ class BinaryExpression
         @type = Type.INT
 
   mustHaveIntegerOperands: ->
-    error = "#{@op.lexeme} must have integer operands"
+    error = "#{@op.lexeme} must have integer or float operands"
     @left.type.mustBeCompatibleWith(Type.INT, error, @op)
     @right.type.mustBeCompatibleWith(Type.INT, error, @op)
 
