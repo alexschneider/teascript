@@ -29,6 +29,7 @@ class LineScanner
       continue if @skippedSingleComments()
       tokensInLine = true
       continue if @extractedNumericLiterals()
+      continue if @extractedThreeCharacterTokens()
       continue if @extractedTwoCharacterTokens()
       continue if @extractedOneCharacterTokens()
       continue if @extractedWords()
@@ -85,6 +86,14 @@ class LineScanner
     else
       # no trailing hashes
       @position = @line.length
+
+  extractedThreeCharacterTokens: ->
+    @start = @position
+    if @line[@position...@position + 3] in tokens.threeCharacterTokens
+      @addToken {kind: @line[@position...@position + 3]}
+      @position += 3
+      return true
+    return false
 
   extractedTwoCharacterTokens: ->
     @start = @position

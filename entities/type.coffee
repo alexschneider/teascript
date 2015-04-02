@@ -21,7 +21,9 @@ class Type
   toString: -> @name
 
   mustBeNumeric: (message, location) ->
-    unless (this is Type.INT) or (this is Type.FLOAT)
+    unless (this is Type.INT) or
+           (this is Type.FLOAT) or
+           (this is Type.ARBITRARY)
       throw new CustomError message, location
 
   mustBeInteger: (message, location) ->

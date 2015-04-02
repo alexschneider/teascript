@@ -18,8 +18,12 @@ class Tokens
     '**'                                 # exponent
     '<=', '>=',                          # relational operators
     '->',                                # function
-    '..',                                # range
+    '..',                                # exclusive range
     ':='                                 # declaration
+  ]
+
+  @threeCharacterTokens = [
+    '...'                                # inclusive range
   ]
 
   @reservedWords = [

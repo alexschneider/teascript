@@ -44,10 +44,8 @@ describe 'Semantic Analyzer', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program01.tea", (err, tokens) ->
           program = parse tokens
-
           error = 'line 6: Variable x already declared'
           expect(-> program.analyze()).to.throw error
-
           done()
 
   describe 'analyzing an invalid program', ->
@@ -57,19 +55,15 @@ describe 'Semantic Analyzer', ->
       it 'throws an error when the invalid operand is a literal', (done) ->
         scan "#{invalidParserProgramsPath}/program02.tea", (err, tokens) ->
           program = parse tokens
-
           error = 'line 1: * must have integer or float operands'
           expect(-> program.analyze()).to.throw error
-
           done()
 
       it 'throws an error when the invalid operand is a varref', (done) ->
         scan "#{invalidParserProgramsPath}/program03.tea", (err, tokens) ->
           program = parse tokens
-
           error = 'line 5: + must have integer or float operands'
           expect(-> program.analyze()).to.throw error
-
           done()
 
   describe 'analyzing an invalid program', ->
@@ -77,10 +71,8 @@ describe 'Semantic Analyzer', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program04.tea", (err, tokens) ->
           program = parse tokens
-
           error = 'line 1: Nested variable declarations not allowed'
           expect(-> program.analyze()).to.throw error
-
           done()
 
   describe 'analyzing an invalid program', ->
@@ -88,10 +80,8 @@ describe 'Semantic Analyzer', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program05.tea", (err, tokens) ->
           program = parse tokens
-
           error = 'line 5: Variable z not found'
           expect(-> program.analyze()).to.throw error
-
           done()
 
   describe 'analyzing an invalid program', ->
@@ -100,10 +90,8 @@ describe 'Semantic Analyzer', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program06.tea", (err, tokens) ->
           program = parse tokens
-
           error = 'line 1: and must have boolean operands'
           expect(-> program.analyze()).to.throw error
-
           done()
 
   describe 'analyzing an invalid program', ->
@@ -112,10 +100,8 @@ describe 'Semantic Analyzer', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program07.tea", (err, tokens) ->
           program = parse tokens
-
           error = 'line 4: isnt must have mutually compatible operands'
           expect(-> program.analyze()).to.throw error
-
           done()
 
   describe 'analyzing an invalid program', ->
@@ -124,10 +110,8 @@ describe 'Semantic Analyzer', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program08.tea", (err, tokens) ->
           program = parse tokens
-
           error = 'line 19: Condition in "while" statement must be boolean'
           expect(-> program.analyze()).to.throw error
-
           done()
 
   describe 'analyzing an invalid program', ->
@@ -136,11 +120,9 @@ describe 'Semantic Analyzer', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program09.tea", (err, tokens) ->
           program = parse tokens
-
           error = 'line 6: Variable declaration and initialization
                              to an assignment expression not allowed'
           expect(-> program.analyze()).to.throw error
-
           done()
 
   describe 'analyzing an invalid program', ->
@@ -149,10 +131,8 @@ describe 'Semantic Analyzer', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program10.tea", (err, tokens) ->
           program = parse tokens
-
           error = 'line 10: Unary - must have integer or float operand'
           expect(-> program.analyze()).to.throw error
-
           done()
 
   describe 'analyzing an invalid program', ->
@@ -161,8 +141,35 @@ describe 'Semantic Analyzer', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program11.tea", (err, tokens) ->
           program = parse tokens
-
           error = 'line 10: not must have boolean operand'
           expect(-> program.analyze()).to.throw error
+          done()
 
+  describe 'analyzing an invalid program', ->
+    context 'when the beginning of a range expression
+             is not an int', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program12.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 6: .. and ... range operators must have all
+                   integer operands'
+          expect(-> program.analyze()).to.throw error
+          done()
+    context 'when the ending of a range expression
+             is not an int', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program13.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 9: .. and ... range operators must have all
+                   integer operands'
+          expect(-> program.analyze()).to.throw error
+          done()
+    context 'when the skip factor of a range expression
+             is not an int', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program14.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 3: .. and ... range operators must have all
+                   integer operands'
+          expect(-> program.analyze()).to.throw error
           done()
