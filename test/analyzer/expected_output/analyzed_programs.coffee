@@ -16,7 +16,7 @@ class MyAnalyzedPrograms
       value: {lexeme: 'none', kind: 'none', start: 0, lineNumber: 6},
       type: {name: 'none'}
     }, {
-      value: {lexeme: '"abc"', kind: 'STRLIT', start: 0, lineNumber: 9},
+      value: {lexeme: "\"abc\"", kind: 'STRLIT', start: 0, lineNumber: 9},
       type: {name: 'str'}
     }, {
       elements: [
@@ -60,10 +60,10 @@ class MyAnalyzedPrograms
       ],
       values:[
         {
-          value: {lexeme: '"b"', kind: 'STRLIT', start: 4, lineNumber: 13},
+          value: {lexeme: "\"b\"", kind: 'STRLIT', start: 4, lineNumber: 13},
           type: {name: 'str'}
         }, {
-          value: {lexeme: '""', kind: 'STRLIT', start:12, lineNumber: 13},
+          value: {lexeme: "\"\"", kind: 'STRLIT', start:12, lineNumber: 13},
           type: {name: 'str'}
         }
       ],
@@ -105,6 +105,7 @@ class MyAnalyzedPrograms
     }
   ]}})
 
+
   @program02 = JSON.stringify({block: {statements: [
     {
       id: {lexeme: 'isSemanticallyValid', kind: 'ID', start: 0, lineNumber: 1},
@@ -134,6 +135,50 @@ class MyAnalyzedPrograms
         type: {name: 'list'}
       }
       type: {name: 'list'}
+    }
+  ]}})
+
+  @program03 = JSON.stringify({block: {statements: [
+    {
+      op: {lexeme: '-', kind: '-', start: 2, lineNumber: 1},
+
+      left: {value: {lexeme: '5', kind: 'INTLIT', start: 0, lineNumber: 1},
+      type: {name: 'int'}},
+
+      right: {value: {lexeme: '1.3', kind: 'FLOATLIT', start: 4, lineNumber: 1},
+      type: {name: 'float'}},
+
+      type: {name: 'float'}
+    }, {
+      op: {lexeme: '+', kind: '+', start: 4, lineNumber: 2},
+
+      left: {value: {lexeme: '1.6', kind: 'FLOATLIT', start: 0, lineNumber: 2},
+      type: {name: 'float'}},
+
+      right: {value: {lexeme: '4', kind: 'INTLIT', start: 6, lineNumber: 2},
+      type: {name: 'int'}},
+
+      type: {name: 'float'}
+    }, {
+      op: {lexeme: '*', kind: '*', start: 3, lineNumber: 3},
+
+      left: {value: {lexeme: '10', kind: 'INTLIT', start: 0, lineNumber: 3},
+      type: {name: 'int'}},
+
+      right: {value: {lexeme: '0.5', kind: 'FLOATLIT', start: 5, lineNumber: 3},
+      type: {name: 'float'}},
+
+      type: {name: 'float'}
+    }, {
+      op: {lexeme: '/', kind: '/', start: 2, lineNumber: 4},
+
+      left: {value: {lexeme: '9', kind: 'INTLIT', start: 0, lineNumber: 4},
+      type: {name: 'int'}},
+
+      right: {value: {lexeme: '4.5', kind: 'FLOATLIT', start: 4, lineNumber: 4},
+      type: {name: 'float'}},
+
+      type: {name: 'float'}
     }
   ]}})
 

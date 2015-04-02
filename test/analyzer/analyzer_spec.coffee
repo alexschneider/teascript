@@ -36,6 +36,16 @@ describe 'Semantic Analyzer', ->
           expect(JSON.stringify(program)).to.eql expectedAnalysis.program02
           done()
 
+  describe 'analyzing a valid program', ->
+    context 'when there is an arithmetic expression with
+             a float and an int', ->
+      it 'sets the type of the entire expression to be a float', (done) ->
+        scan "#{validParserProgramsPath}/program03.tea", (err, tokens) ->
+          program = parse tokens
+          program.analyze()
+          expect(JSON.stringify(program)).to.eql expectedAnalysis.program03
+          done()
+
 
 
   describe 'analyzing an invalid program', ->
