@@ -242,7 +242,9 @@ parseExp1 = ->
 parseExp2 = ->
   left = parseExp3()
   if ((at ['<', '<=', '>=', '>', 'is', 'isnt']) and
-  (next StartTokens.expression))
+  (next StartTokens.expression) and (not next('[')))
+  # TODO: FIX THIS HACKY WAY TO ALLOW FOR SUBSCRIPTING OF
+  # SET LITERALS (<1,2,3>[0])
     op = match()
     right = parseExp3()
     left = new BinaryExpression op, left, right

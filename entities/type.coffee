@@ -31,7 +31,8 @@ class Type
 
   mustBeCompatibleWith: (otherTypes, message, location) ->
     # @ is passed to callback when invoked, for use as its this value
-    throw new CustomError(message, location) unless otherTypes.some(@isCompatibleWith, @)
+    unless otherTypes.some(@isCompatibleWith, @)
+      throw new CustomError(message, location)
 
   mustBeMutuallyCompatibleWith: (otherType, message, location) ->
     if not (@isCompatibleWith otherType or otherType.isCompatibleWith(this))
