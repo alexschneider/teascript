@@ -26,7 +26,7 @@ Trait = require '../entities/trait'
 Parameters = require '../entities/parameters'
 Args = require '../entities/args'
 Range = require '../entities/range'
-SequenceSubscript = require '../entities/sequence_subscript'
+OrderedIterableSubscript = require '../entities/ordered_iterable_subscript'
 MemberAccess = require '../entities/member_access'
 FunctionInvocation = require '../entities/function_invocation'
 ReturnStatement = require '../entities/return_statement'
@@ -303,7 +303,7 @@ parseExp8 = ->
       exp = new MemberAccess exp, parseExp3()
     else if at '['
       match '['
-      exp = new SequenceSubscript exp, parseExp3()
+      exp = new OrderedIterableSubscript exp, parseExp3()
       match ']'
     else
       exp = new FunctionInvocation exp, parseArgs()

@@ -21,20 +21,17 @@ class Type
   toString: -> @name
 
   mustBeNumeric: (message, location) ->
-    unless (this is Type.INT) or
-           (this is Type.FLOAT) or
-           (this is Type.ARBITRARY)
-      throw new CustomError message, location
+    @mustBeCompatibleWith [Type.INT, Type.FLOAT], message, location
 
   mustBeInteger: (message, location) ->
-    @mustBeCompatibleWith Type.INT, message, location
+    @mustBeCompatibleWith [Type.INT], message, location
 
   mustBeBoolean: (message, location) ->
-    @mustBeCompatibleWith Type.BOOL, message, location
+    @mustBeCompatibleWith [Type.BOOL], message, location
 
-  mustBeCompatibleWith: (otherType, message, location) ->
-    unless @isCompatibleWith(otherType)
-      throw new CustomError(message, location)
+  mustBeCompatibleWith: (otherTypes, message, location) ->
+    # @ is passed to callback when invoked, for use as its this value
+    throw new CustomError(message, location) unless otherTypes.some(@isCompatibleWith, @)
 
   mustBeMutuallyCompatibleWith: (otherType, message, location) ->
     if not (@isCompatibleWith otherType or otherType.isCompatibleWith(this))

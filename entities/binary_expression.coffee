@@ -28,7 +28,7 @@ class BinaryExpression
 
   getNumericType: ->
     if @left.type is Type.FLOAT or @right.type is Type.FLOAT
-      # if either operand in the arithmetic expression is
+      # if either opperand in the arithmetic expression is
       # a float, then the expression evaluates to a float
       return Type.FLOAT
     else
@@ -37,17 +37,17 @@ class BinaryExpression
 
   mustHaveNumericOperands: ->
     error = "#{@op.lexeme} must have integer or float operands"
-    @left.type.mustBeNumeric(error, @op.lineNumber)
-    @right.type.mustBeNumeric(error, @op.lineNumber)
+    @left.type.mustBeNumeric error, @op.lineNumber
+    @right.type.mustBeNumeric error, @op.lineNumber
 
   mustHaveBooleanOperands: ->
     error = "#{@op.lexeme} must have boolean operands"
-    @left.type.mustBeCompatibleWith(Type.BOOL, error, @op.lineNumber)
-    @right.type.mustBeCompatibleWith(Type.BOOL, error, @op.lineNumber)
+    @left.type.mustBeCompatibleWith [Type.BOOL], error, @op.lineNumber
+    @right.type.mustBeCompatibleWith [Type.BOOL], error, @op.lineNumber
 
   mustHaveCompatibleOperands: ->
     error = "#{@op.lexeme} must have mutually compatible operands"
-    @left.type.mustBeMutuallyCompatibleWith(@right.type, error, @op.lineNumber)
+    @left.type.mustBeMutuallyCompatibleWith @right.type, error, @op.lineNumber
 
   optimize: ->
     #TODO
