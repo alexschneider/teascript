@@ -8,6 +8,7 @@ class NoneLiteral
 
   analyze: (context) -> @type = Type.NONE
 
-  optimize: -> this
+  optimize: ->
+    #TODO
 
 module.exports = NoneLiteral

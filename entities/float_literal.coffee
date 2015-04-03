@@ -9,6 +9,7 @@ class FloatLiteral
   analyze: (context) ->
     @type = Type.FLOAT
 
-  optimize: -> this
+  optimize: ->
+    # TODO
 
 module.exports = FloatLiteral

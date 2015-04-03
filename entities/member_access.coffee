@@ -8,6 +8,7 @@ class MemberAccess
   analyze: (context) ->
     #TODO
 
-  optimize: -> this
+  optimize: ->
+    #TODO
 
 module.exports = MemberAccess

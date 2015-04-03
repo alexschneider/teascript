@@ -27,7 +27,6 @@ class BinaryExpression
         @type = @getNumericType()
 
   getNumericType: ->
-    #TODO fix for arbitrary type
     if @left.type is Type.FLOAT or @right.type is Type.FLOAT
       # if either opperand in the arithmetic expression is
       # a float, then the expression evaluates to a float

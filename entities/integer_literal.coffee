@@ -4,10 +4,13 @@ class IntegerLiteral
 
   constructor: (@value) ->
 
-  toString: -> @value.lexeme
+  toString: ->
+    @value.lexeme
 
-  analyze: (context) -> @type = Type.INT
+  analyze: (context) ->
+    @type = Type.INT
 
-  optimize: -> this
+  optimize: ->
+    #TODO
 
 module.exports = IntegerLiteral

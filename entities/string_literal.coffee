@@ -4,10 +4,13 @@ class StringLiteral
 
   constructor: (@value) ->
 
-  toString: -> @value.lexeme
+  toString: ->
+    @value.lexeme
 
-  analyze: (context) -> @type = Type.STR
+  analyze: (context) ->
+    @type = Type.STR
 
-  optimize: -> this
+  optimize: ->
+    #TODO
 
 module.exports = StringLiteral

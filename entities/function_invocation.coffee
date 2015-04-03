@@ -8,6 +8,7 @@ class FunctionInvocation
   analyze: (context) ->
     #TODO
 
-  optimize: -> this
+  optimize: ->
+    #TODO
 
 module.exports = FunctionInvocation
