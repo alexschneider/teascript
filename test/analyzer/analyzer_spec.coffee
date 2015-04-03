@@ -65,14 +65,14 @@ describe 'Semantic Analyzer', ->
       it 'throws an error when the invalid operand is a literal', (done) ->
         scan "#{invalidParserProgramsPath}/program02.tea", (err, tokens) ->
           program = parse tokens
-          error = 'line 1: * must have integer or float operands'
+          error = 'line 2: * must have integer or float operands'
           expect(-> program.analyze()).to.throw error
           done()
 
       it 'throws an error when the invalid operand is a varref', (done) ->
         scan "#{invalidParserProgramsPath}/program03.tea", (err, tokens) ->
           program = parse tokens
-          error = 'line 5: + must have integer or float operands'
+          error = 'line 7: + must have integer or float operands'
           expect(-> program.analyze()).to.throw error
           done()
 
@@ -81,7 +81,7 @@ describe 'Semantic Analyzer', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program04.tea", (err, tokens) ->
           program = parse tokens
-          error = 'line 1: Nested variable declarations not allowed'
+          error = 'line 2: Nested variable declarations not allowed'
           expect(-> program.analyze()).to.throw error
           done()
 
@@ -90,7 +90,7 @@ describe 'Semantic Analyzer', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program05.tea", (err, tokens) ->
           program = parse tokens
-          error = 'line 5: Variable z not found'
+          error = 'line 12: Variable z not found'
           expect(-> program.analyze()).to.throw error
           done()
 

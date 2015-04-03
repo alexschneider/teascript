@@ -1,7 +1,13 @@
+# recursive functions will work just fine
+# since scope of variable begins at
+# declaration operator
+f := () ->
+  f()
+end
+
+# the following will not work since
+# z is not in scope
 x := 4
 y := 44
-
-# z has not yet been declared
 [x, y, z]
-
 z := 444
