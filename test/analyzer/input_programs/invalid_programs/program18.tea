@@ -1,0 +1,14 @@
+## valid since parameters can have same name
+   as global variables ##
+
+x := 5
+validFunc := (x, y) ->
+  x * y + 9
+end
+
+## invalid since functions cannot have
+   duplicate parameters ##
+
+invalidFunc := (a, b, a) ->
+  a - b - 15
+end

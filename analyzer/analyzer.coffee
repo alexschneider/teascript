@@ -12,10 +12,10 @@ class AnalysisContext
   createChildContext: ->
     new AnalysisContext this
 
-  variableMustNotBeAlreadyDeclared: (token) ->
+  variableMustNotBeAlreadyDeclared: (token, error) ->
+    error ?= "Variable #{token.lexeme} already declared"
     if @symbolTable[token.lexeme]
-      throw new CustomError "Variable #{token.lexeme} already declared",
-                             token.lineNumber
+      throw new CustomError error, token.lineNumber
 
   addVariable: (name, entity) ->
     @symbolTable[name] = entity

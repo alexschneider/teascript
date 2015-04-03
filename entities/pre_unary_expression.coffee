@@ -11,15 +11,14 @@ class PreUnaryExpression
     @operand.analyze context
     if @op.lexeme is '-'
       @mustHaveNumericOperand()
-      type = Type.INT
+      @type = @operand.type
     else if @op.lexeme is 'not'
       @mustHaveBooleanOperand()
-      type = Type.BOOL
+      @type = Type.BOOL
 
   optimize: ->
     #TODO
 
-  # similar methods in binary expression class -- TODO: make more DRY
   mustHaveNumericOperand: ->
     error = "Unary #{@op.lexeme} must have integer or float operand"
     @operand.type.mustBeNumeric error, @op.lineNumber

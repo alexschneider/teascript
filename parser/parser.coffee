@@ -54,6 +54,11 @@ parseBlock = ->
     statements.push parseStatement()
     match 'newline'
   if not at ['EOF', 'end', 'else']
+  # TODO- this needs to be handled better
+  # right now, if you don't have an 'end' at the
+  # end of a function declaration, it won't provide the
+  # programmer with a helpful error (will instead say that
+  # it cannot read kind of undefined)
     message = "#{tokens[0].kind} is invalid start for a statement"
     errors.push new CustomError message, tokens[0].lineNumber
   new Block statements

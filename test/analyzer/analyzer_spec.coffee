@@ -29,7 +29,7 @@ describe 'Semantic Analyzer', ->
   describe 'analyzing a valid program', ->
     context 'when analyzing variable declarations', ->
       it 'recursively analyzes the value on the right side
-          of the declaration and adds appropriate type annotations', (done) ->
+          of the declaration', (done) ->
         scan "#{validParserProgramsPath}/program02.tea", (err, tokens) ->
           program = parse tokens
           program.analyze()
@@ -186,8 +186,8 @@ describe 'Semantic Analyzer', ->
 
   describe 'analyzing an invalid program', ->
     context 'when there is an attempt to
-             subscript [] something that is not
-             an ordered iterable', ->
+             subscript [] a non
+             ordered iterable', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program15.tea", (err, tokens) ->
           program = parse tokens
@@ -195,11 +195,28 @@ describe 'Semantic Analyzer', ->
           expect(-> program.analyze()).to.throw error
           done()
     context 'when there is an attempt to
-             subscript [] with an index
-             that is not an int', ->
+             subscript [] non int index', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program16.tea", (err, tokens) ->
           program = parse tokens
           error = 'line 10: index must be an integer'
+          expect(-> program.analyze()).to.throw error
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when a function uses a variable that has not been declared', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program17.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 19: Variable c not found'
+          expect(-> program.analyze()).to.throw error
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when a function definition has duplicate arguments', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program18.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 12: Duplicate parameter a found in function definition'
           expect(-> program.analyze()).to.throw error
           done()

@@ -13,8 +13,10 @@ class VariableDeclaration
     @checkForNestedDeclarations()
     @checkForDeclarationToVarAssign()
     context.variableMustNotBeAlreadyDeclared @id
-    context.addVariable @id.lexeme, @value.analyze(context)
+
+    @value.analyze context
     @type = @value.type
+    context.addVariable @id.lexeme, this
 
   optimize: ->
     #TODO

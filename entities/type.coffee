@@ -16,6 +16,7 @@ class Type
   @MAP = new Type 'map'
   @TUPLE = new Type 'tuple'
   @SET = new Type 'set'
+  @FUNC = new Type 'func'
   @ARBITRARY = new Type '<arbitrary_type>'
 
   toString: -> @name
@@ -55,5 +56,6 @@ module.exports =
   MAP: Type.MAP
   TUPLE: Type.TUPLE
   SET: Type.SET
+  FUNC: Type.FUNC
   ARBITRARY: Type.ARBITRARY
   forName: (name) -> cache[name]

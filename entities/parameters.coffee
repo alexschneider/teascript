@@ -1,3 +1,5 @@
+Type = require './type'
+
 class Parameters
 
   constructor: (@params) ->
@@ -6,8 +8,14 @@ class Parameters
     "(#{(param.lexeme for param in @params).join(', ')})"
 
   analyze: (context) ->
-    #TODO
+    for param in @params
+      context.variableMustNotBeAlreadyDeclared param,
+        "Duplicate parameter #{param.lexeme} found in function definition"
+      param.type = Type.ARBITRARY
+      context.addVariable param.lexeme, param
 
-  optimize: -> this
+  optimize: ->
+    # TODO
+
 
 module.exports = Parameters
