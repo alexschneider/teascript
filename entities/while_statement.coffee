@@ -1,5 +1,3 @@
-flat = require 'flat'
-
 class WhileStatement
   constructor: (@condition, @body) ->
 
