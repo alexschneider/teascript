@@ -3,7 +3,7 @@ class Parameters
   constructor: (@params) ->
 
   toString: ->
-    "(#{@params.join(', ')})"
+    "(#{(param.lexeme for param in @params).join(', ')})"
 
   analyze: (context) ->
     #TODO

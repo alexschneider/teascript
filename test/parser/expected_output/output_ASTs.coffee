@@ -144,7 +144,7 @@ class MyASTs
         (Invoke out (\'hi\'))
         (VarDec (string "here is a super cool string thing"))
         (Return (Invoke f (string, <first_arg, 1>, <another_arg>)))))))
-    (Func (\'anonymous functions\') (Invoke are (\'cool\')))))'
+    (Func (anonymous_functions) (Invoke are (\'cool\')))))'
 
   @program12_AST_string = "(Program (Block
     (Invoke f (1, 2, 3))

@@ -90,7 +90,8 @@ parseParams = ->
   match '('
   params = []
   while not at ')'
-    params.push parseExpression()
+    id = match 'ID'
+    params.push id
     match ',' if at ','
   match ')'
   new Parameters params
