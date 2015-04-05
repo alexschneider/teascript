@@ -50,7 +50,7 @@ mulop      ::= '*' | '/' | '%'
 prefixop   ::= '-' | 'not'
 boollit    ::= 'true' | 'false'
 nonelit    ::= 'none'
-escape     ::= [\\] ([rnst'"\\] 
+escape     ::= [\\] [rnst'"\\] 
 char       ::= [^\x00-\x1F'"\\] | escape
 stringlit  ::= ('"' char* '"') | (\x27 char* \x27)
 comment    ::= '#' [^\n]* newline
@@ -174,7 +174,7 @@ z := none                             # You can assign none to a variable
 
 my_string := "Oh baby!"               # This is a string literal
 my_list := [1..5]                     # This is a list, which is mutable.
-my_tuple := (1,2,3,2,1)               # Immutable ordered lists
+my_tuple := |1,2,3,2,1|               # Immutable ordered lists
 my_set := <1,3,5,7>                   # Immutable unordered lists with NO REPEATS
 my_map := {"lat":51.24,"long":0.18}   # Ordered pair of key-values
 
@@ -417,9 +417,9 @@ y:= x is iterable                             for (x in iterable) {
 
 #### Parallel / destructuring assignment
 ```
-(x, y, z) := (1, 2, 3)                      var x = 1, y = 2, z = 3;
+|x, y, z| := |1, 2, 3|                      var x = 1, y = 2, z = 3;
 f := () -> [0, 1, 2]                        var f = function() { return [0, 1, 2] };
-(x, y, z) := f()                            var $xyz = f(), x = $xyz[0], y = $xyz[1], z = $xyz[2];
+|x, y, z| := f()                            var $xyz = f(), x = $xyz[0], y = $xyz[1], z = $xyz[2];
 ```
 
 #### Classes / Objects
