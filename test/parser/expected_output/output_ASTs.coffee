@@ -209,5 +209,11 @@ class MyASTs
       (Block (Return none)))))
     (Invoke x ())))'
 
+  @program21_AST_string = '(Program (Block
+    (VarDec (x 5))
+    (VarDec (y (+ x 1)))
+    (VarDec (z (= x 3)))
+    (+= x 5)
+    (%= z (+= y (*= x 5)))))'
 
 module.exports = MyASTs

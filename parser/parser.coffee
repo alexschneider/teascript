@@ -174,9 +174,13 @@ parseVarDec = ->
 
 parseVarAssig = ->
   left = parseTernExp()
-  while((at ['=']))
-    op = match()
-    left = new VariableAssignment left, parseExpression()
+  while(at ['=', '+=', '-=', '*=', '/=', '%='])
+    if at ['=']
+      op = match()
+      left = new VariableAssignment left, parseExpression()
+    else
+      op = match()
+      left = new BinaryExpression op, left, parseExpression()
   left
 
 parseConditionalBody = ->
