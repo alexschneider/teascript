@@ -171,7 +171,6 @@ parseWhileLoop = ->
   new WhileStatement condition, body
 
 parseVarDec = ->
-  typeOfDec = 'Var'
   id = match 'ID'
   match ':='
   exp = parseExpression()
