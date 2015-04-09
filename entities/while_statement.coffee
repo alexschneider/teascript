@@ -9,7 +9,7 @@ class WhileStatement
   analyze: (context) ->
     @condition.analyze context
 
-    #TODO: possibly change this to allow for truthy/flasey vals?
+    #TODO: possibly change this to allow for truthy/flasy vals?
     @condition.type.mustBeBoolean 'Condition in "while" statement
                                    must be boolean',
                                   EntityUtils.findLocation @condition
