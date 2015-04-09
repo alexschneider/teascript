@@ -1,0 +1,20 @@
+## valid functions since all variables are
+   declared before used ##
+
+z := 8
+
+sum1 := (x, y, z) ->
+  # the global z will be used here
+  x + y + z
+end
+
+sum2 := (x, y, z) ->
+  # the local z arg will be used here
+  x + y + z
+end
+
+
+sum3 := (a, b) ->
+  # invalid since c hasn't been declared
+  a + b + c
+end

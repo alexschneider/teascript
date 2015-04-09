@@ -8,6 +8,7 @@ class Args
   analyze: (context) ->
     #TODO
 
-  optimize: -> this
+  optimize: ->
+    #TODO
 
 module.exports = Args

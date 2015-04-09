@@ -17,7 +17,6 @@ MapLiteral = require '../entities/map_literal'
 NoneLiteral = require '../entities/none_literal'
 TupleLiteral = require '../entities/tuple_literal'
 PreUnaryExpression = require '../entities/pre_unary_expression'
-PostUnaryExpression = require '../entities/post_unary_expression'
 BinaryExpression = require '../entities/binary_expression'
 Function = require '../entities/function'
 FunctionInvocation = require '../entities/function_invocation'
@@ -26,7 +25,7 @@ Trait = require '../entities/trait'
 Parameters = require '../entities/parameters'
 Args = require '../entities/args'
 Range = require '../entities/range'
-ListSubscript = require '../entities/list_subscript'
+OrderedIterableSubscript = require '../entities/ordered_iterable_subscript'
 MemberAccess = require '../entities/member_access'
 FunctionInvocation = require '../entities/function_invocation'
 ReturnStatement = require '../entities/return_statement'
@@ -43,7 +42,7 @@ module.exports = (scannerOutput) ->
   match 'EOF'
   if errors.length > 0
     throw new ParseError errors
-  return program
+  program
 
 parseProgram = ->
   new Program parseBlock()
@@ -54,6 +53,11 @@ parseBlock = ->
     statements.push parseStatement()
     match 'newline'
   if not at ['EOF', 'end', 'else']
+  # TODO- this needs to be handled better
+  # right now, if you don't have an 'end' at the
+  # end of a function declaration, it won't provide the
+  # programmer with a helpful error (will instead say that
+  # it cannot read kind of undefined)
     message = "#{tokens[0].kind} is invalid start for a statement"
     errors.push new CustomError message, tokens[0].lineNumber
   new Block statements
@@ -90,7 +94,8 @@ parseParams = ->
   match '('
   params = []
   while not at ')'
-    params.push parseExpression()
+    id = match 'ID'
+    params.push id
     match ',' if at ','
   match ')'
   new Parameters params
@@ -242,7 +247,9 @@ parseExp1 = ->
 parseExp2 = ->
   left = parseExp3()
   if ((at ['<', '<=', '>=', '>', 'is', 'isnt']) and
-  (next StartTokens.expression))
+  (next StartTokens.expression) and (not next('[')))
+  # TODO: FIX THIS HACKY WAY TO ALLOW FOR SUBSCRIPTING OF
+  # SET LITERALS (<1,2,3>[0])
     op = match()
     right = parseExp3()
     left = new BinaryExpression op, left, right
@@ -303,7 +310,7 @@ parseExp8 = ->
       exp = new MemberAccess exp, parseExp3()
     else if at '['
       match '['
-      exp = new ListSubscript exp, parseExp3()
+      exp = new OrderedIterableSubscript exp, parseExp3()
       match ']'
     else
       exp = new FunctionInvocation exp, parseArgs()

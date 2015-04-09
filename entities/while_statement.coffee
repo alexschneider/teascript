@@ -1,3 +1,5 @@
+EntityUtils = require './entity_utilities'
+
 class WhileStatement
   constructor: (@condition, @body) ->
 
@@ -5,7 +7,14 @@ class WhileStatement
     "(While #{@condition} #{@body})"
 
   analyze: (context) ->
-    # TODO
+    @condition.analyze context
+
+    #TODO: possibly change this to allow for truthy/flasy vals?
+    @condition.type.mustBeBoolean 'Condition in "while" statement
+                                   must be boolean',
+                                  EntityUtils.findLocation @condition
+
+    @body.analyze context
 
   optimize: ->
     # TODO

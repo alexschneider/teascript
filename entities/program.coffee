@@ -1,4 +1,4 @@
-
+initialContext = require('../analyzer/analyzer').initialContext
 
 class Program
   constructor: (@block) ->
@@ -7,7 +7,7 @@ class Program
     "(Program #{@block})"
 
   analyze: ->
-    # TODO
+    @block.analyze initialContext()
 
   optimize: ->
     # TODO

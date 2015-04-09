@@ -1,3 +1,5 @@
+Type = require './type'
+
 class Function
 
   constructor: (@params, @body) ->
@@ -6,8 +8,12 @@ class Function
     "(Func #{@params} #{@body})"
 
   analyze: (context) ->
-    #TODO
+    localContext = context.createChildContext()
+    @params.analyze localContext
+    @body.analyze localContext
+    @type = Type.FUNC
 
-  optimize: -> this
+  optimize: ->
+    #TODO
 
 module.exports = Function

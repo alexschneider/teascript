@@ -183,7 +183,7 @@ describe 'Parser', ->
         scan "#{invalidParserProgramsPath}/program1.tea", (err, tokens) ->
           error = 'line 1: and is invalid start for a statement\n
                    line 1: Expected EOF, found and\n'
-          expect(() ->  parse tokens).to.throw error
+          expect(->  parse tokens).to.throw error
           done()
 
   describe 'parsing an invalid program', ->
@@ -195,7 +195,7 @@ describe 'Parser', ->
                    line 1: Expected newline, found ID\n
                    line 1: newline is invalid start for a statement\n
                    line 1: Expected EOF, found newline\n '
-          expect(() -> parse tokens).to.throw error
+          expect(-> parse tokens).to.throw error
           done()
 
   describe 'parsing an invalid program', ->
@@ -203,7 +203,7 @@ describe 'Parser', ->
       it 'returns the appropriate error', (done) ->
         scan "#{invalidParserProgramsPath}/program3.tea", (err, tokens) ->
           error = 'line 2: Expected newline, found ->'
-          expect(() -> parse tokens).to.throw error
+          expect(-> parse tokens).to.throw error
           done()
 
   describe 'parsing an invalid program', ->
@@ -211,7 +211,7 @@ describe 'Parser', ->
       it 'returns the appropriate error', (done) ->
         scan "#{invalidParserProgramsPath}/program4.tea", (err, tokens) ->
           error = 'line 3: Expected in, found if'
-          expect(() -> parse tokens).to.throw error
+          expect(-> parse tokens).to.throw error
           done()
 
   describe 'parsing an invalid program', ->
@@ -219,7 +219,7 @@ describe 'Parser', ->
       it 'returns the appropriate error', (done) ->
         scan "#{invalidParserProgramsPath}/program5.tea", (err, tokens) ->
           error = 'line 3: Expected newline, found ID'
-          expect((err) -> parse tokens).to.throw error
+          expect(-> parse tokens).to.throw error
           done()
 
   describe 'parsing an invalid program', ->
@@ -227,6 +227,6 @@ describe 'Parser', ->
       it 'returns the appropriate error', (done) ->
         scan "#{invalidParserProgramsPath}/program6.tea", (err, tokens) ->
           error = 'line 5: Expected newline, found **'
-          expect(() -> parse tokens).to.throw error
+          expect(-> parse tokens).to.throw error
           done()
 

@@ -1,9 +1,9 @@
-CustomError = require '../error/custom_error'
-
-class CustomError
-  constructor: (@message, @lineNumber) ->
+class CustomError extends Error
+  constructor: (message, lineNumber) ->
+    @name = 'Custom Error'
+    @message = "line #{lineNumber}: #{message}"
 
   getMessage: ->
-    "line #{@lineNumber}: #{@message}"
+    @message
 
 module.exports = CustomError

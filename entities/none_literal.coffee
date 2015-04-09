@@ -1,12 +1,14 @@
+Type = require './type'
+
 class NoneLiteral
 
   constructor: (@value) ->
 
   toString: -> @value.lexeme
 
-  analyze: (context) ->
-    #TODO
+  analyze: (context) -> @type = Type.NONE
 
-  optimize: -> this
+  optimize: ->
+    #TODO
 
 module.exports = NoneLiteral

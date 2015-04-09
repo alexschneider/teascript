@@ -1,3 +1,5 @@
+Type = require './type'
+
 class TupleLiteral
 
   constructor: (@elements) ->
@@ -6,7 +8,8 @@ class TupleLiteral
     "|#{@elements.join(', ')}|"
 
   analyze: (context) ->
-    #TODO
+    element.analyze(context) for element in @elements
+    @type = Type.TUPLE
 
   optimize: ->
     #TODO

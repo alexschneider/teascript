@@ -1,3 +1,5 @@
+Type = require './type'
+
 class ListLiteral
 
   constructor: (@elements) ->
@@ -6,7 +8,8 @@ class ListLiteral
     "[#{@elements.join(', ')}]"
 
   analyze: (context) ->
-    #TODO
+    element.analyze(context) for element in @elements
+    @type = Type.LIST
 
   optimize: ->
     #TODO

@@ -1,3 +1,5 @@
+Type = require './type'
+
 class SetLiteral
 
   constructor: (@members) ->
@@ -6,7 +8,8 @@ class SetLiteral
     "<#{@members.join(', ')}>"
 
   analyze: (context) ->
-    #TODO
+    member.analyze(context) for member in @members
+    @type = Type.SET
 
   optimize: ->
     #TODO

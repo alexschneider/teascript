@@ -5,7 +5,8 @@ class Block
     "(Block #{@statements.join(' ')})"
 
   analyze: (context) ->
-    # TODO
+    localContext = context.createChildContext()
+    statement.analyze(localContext) for statement in @statements
 
   optimize: ->
     # TODO

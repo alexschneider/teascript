@@ -1,12 +1,16 @@
+Type = require './type'
+
 class IntegerLiteral
 
   constructor: (@value) ->
 
-  toString: -> @value.lexeme
+  toString: ->
+    @value.lexeme
 
   analyze: (context) ->
-    #TODO
+    @type = Type.INT
 
-  optimize: -> this
+  optimize: ->
+    #TODO
 
 module.exports = IntegerLiteral

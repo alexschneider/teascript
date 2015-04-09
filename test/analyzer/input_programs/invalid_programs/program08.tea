@@ -1,0 +1,21 @@
+a := true
+b := 'a'
+
+# valid since the relop exp evaluates to
+# a boolean value
+while 3.2 < 4:
+  out("this is valid")
+end
+
+# valid since declarations are expressions
+# and the expression evaluates to a boolean val
+while valid2 := a:
+  out(valid2)
+end
+
+# invalid since the condition must be boolean
+# and this declaration expression evaluates to
+# a string val
+while invalid := b:
+  out(invalid)
+end
