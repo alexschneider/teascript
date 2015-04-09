@@ -55,6 +55,15 @@ describe 'Parser', ->
           expect(program.toString()).to.equal outputASTs.program06_AST_string
           done()
 
+    context 'when we have syntactic sugar for mutators such
+             as +=, -=, *=, /=', ->
+
+      it 'parses correctly and they are right associative', (done) ->
+        scan "#{validParserProgramsPath}/program21.tea", (err, tokens) ->
+          program = parse tokens
+          expect(program.toString()).to.eql outputASTs.program21_AST_string
+          done()
+
     context 'when a variable is declared and assigned to a
              unary expression', ->
 
@@ -91,6 +100,8 @@ describe 'Parser', ->
           program = parse tokens
           expect(program.toString()).to.eql outputASTs.program14_AST_string
           done()
+
+
 
   describe 'parsing a valid while statement', ->
     context 'when parsing single line and multiline while statements', ->
