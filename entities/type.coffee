@@ -30,6 +30,9 @@ class Type
   mustBeBoolean: (message, location) ->
     @mustBeCompatibleWith [Type.BOOL], message, location
 
+  mustBeString: (message, location) ->
+    @mustBeCompatibleWith [Type.STR], message, location
+
   mustBeCompatibleWith: (otherTypes, message, location) ->
     # @ is passed to callback when invoked, for use as its this value
     unless otherTypes.some(@isCompatibleWith, @)

@@ -220,3 +220,12 @@ describe 'Semantic Analyzer', ->
           error = 'line 12: Duplicate parameter a found in function definition'
           expect(-> program.analyze()).to.throw error
           done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when member access is attempted on a string', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program19.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 13: member ID must be of type string'
+          expect(-> program.analyze()).to.throw error
+          done()

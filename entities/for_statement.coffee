@@ -6,6 +6,8 @@ class ForStatement
 
   analyze: (context) ->
     # TODO
+    # id is matched in parser
+    # iterable must match ordered or unordered iterable
 
   optimize: ->
     # TODO
