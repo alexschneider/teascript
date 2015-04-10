@@ -18,9 +18,9 @@ class MemberAccess
 
 
   mustBeMapObject: ->
-      error = 'object being accessed must be of type map literal'
-      memberAccessTypes = [Type.MAP]
-      @object.type.mustBeCompatibleWith memberAccessTypes,
+    error = 'object being accessed must be of type map literal'
+    memberAccessTypes = [Type.MAP]
+    @object.type.mustBeCompatibleWith memberAccessTypes,
                                                  error,
                                                  EntityUtils.findLocation @object
   mustBeStringID: ->
