@@ -229,3 +229,30 @@ describe 'Semantic Analyzer', ->
           error = 'line 13: member ID must be of type string'
           expect(-> program.analyze()).to.throw error
           done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when variable assignment is attempted on undeclared variable', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program20.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 18: Variable d not found'
+          expect(-> program.analyze()).to.throw error
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when variable assignment is attempted with the wrong type', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program21.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 8: Incompatible types'
+          expect(-> program.analyze()).to.throw error
+          done()
+  
+  describe 'analyzing an invalid program', ->
+    context 'when nested variable assignment is attempted', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program22.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 5: Nested variable declarations not allowed'
+          expect(-> program.analyze()).to.throw error
+          done()
