@@ -24,7 +24,7 @@ class AssignmentStatement
                             @target.token.lineNumber
 
   checkForTypeCompatability: (@target, @source) ->
-    if @source.type != @target.type
+    if @source.type isnt @target.type
       throw new CustomError 'Incompatible types',
                             @target.token.lineNumber
 
