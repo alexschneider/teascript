@@ -13,8 +13,7 @@ class AssignmentStatement
     @target.analyze context
     @source.analyze context
     @checkForNestedAssignment()
-    console.log @target
-    console.log "Source " + @source
+    @checkForTypeCompatability @target, @source
 
     @type = @source.type
 
@@ -22,6 +21,11 @@ class AssignmentStatement
   checkForNestedAssignment: ->
     if @source instanceof AssignmentStatement
       throw new CustomError 'Nested variable declarations not allowed',
+                            @target.token.lineNumber
+
+  checkForTypeCompatability: (@target, @source) ->
+    if @source.type != @target.type
+      throw new CustomError 'Incompatible types',
                             @target.token.lineNumber
 
   optimize: ->
