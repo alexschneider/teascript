@@ -1,3 +1,6 @@
+Type = require './type'
+EntityUtils = require './entity_utilities'
+
 class ForStatement
   constructor: (@id, @iterable, @body) ->
 
@@ -6,8 +9,18 @@ class ForStatement
 
   analyze: (context) ->
     # TODO
-    # id is matched in parser
-    # iterable must match ordered or unordered iterable
+    @iterable.analyze context
+    @body.analyze context
+    @mustBeIterable()
+
+
+
+  mustBeIterable: ->
+    error = 'Object must be iterable'
+    memberAccessTypes = [Type.LIST, Type.MAP, Type.SET, Type.STR]
+    @iterable.type.mustBeCompatibleWith memberAccessTypes,
+                                                 error,
+                                                 EntityUtils.findLocation @iterable
 
   optimize: ->
     # TODO

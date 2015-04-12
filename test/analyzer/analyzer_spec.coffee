@@ -256,3 +256,12 @@ describe 'Semantic Analyzer', ->
           error = 'line 5: Nested variable declarations not allowed'
           expect(-> program.analyze()).to.throw error
           done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when iterating an integer with a for statement', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program23.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 30: Object must be iterable'
+          expect(-> program.analyze()).to.throw error
+          done()
