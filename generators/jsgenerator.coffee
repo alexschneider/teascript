@@ -9,7 +9,7 @@ indentLevel = 0
 
 emit = (line) ->
   pad = indentPadding * indentLevel
-  console.log(Array(pad+1).join(' ') + line)
+  console.log "#{Array(pad+1).join(' ')}#{line}"
 
 makeOp = (op) ->
   {not: '!', and: '&&', or: '||', '==': '===', '!=': '!=='}[op] or op
