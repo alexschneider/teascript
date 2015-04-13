@@ -1,4 +1,5 @@
 EntityUtils = require './entity_utilities'
+CustomError = require '../error/custom_error'
 Type = require './type'
 
 class FunctionInvocation
@@ -6,23 +7,31 @@ class FunctionInvocation
   constructor: (@func, @args) ->
 
   toString: ->
-    "(Invoke #{@func} #{@args})"
+    "(Invoke #{@func} (#{@args.join(', ')}))"
 
   analyze: (context) ->
-    functionLocation = EntityUtils.findLocation @func
+    location = EntityUtils.findLocation @func
+
     @func.analyze context
-    @args.analyze context
+    arg.analyze context for arg in @args
 
-    @mustBeFunction functionLocation
+    @mustBeFunction location
+    @mustHaveCorrectNumberOfArgs location
 
 
 
-  mustBeFunction: (functionLocation) ->
+  mustBeFunction: (location) ->
     error = "#{@func.type} is not callable"
     @func.type.mustBeCompatibleWith [Type.FUNC],
                                     error,
-                                    functionLocation
+                                    location
 
+  mustHaveCorrectNumberOfArgs: (location) ->
+    params = @func.referent.value.params
+    error = "#{@func.token.lexeme}() takes exactly
+             #{params.length} arguments
+             (#{@args.length} given)"
+    throw new CustomError error, location unless (@args.length is params.length)
 
   optimize: ->
     #TODO

@@ -5,7 +5,7 @@ class Function
   constructor: (@params, @body) ->
 
   toString: ->
-    "(Func #{@params} #{@body})"
+    "(Func (#{(param.lexeme for param in @params).join(', ')}) #{@body})"
 
   analyze: (context) ->
     @type = Type.FUNC
