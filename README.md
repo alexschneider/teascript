@@ -176,7 +176,7 @@ my_string := "Oh baby!"               # This is a string literal
 my_list := [1..5]                     # This is a list, which is mutable.
 my_tuple := |1,2,3,2,1|               # Immutable ordered lists
 my_set := <1,3,5,7>                   # Immutable unordered lists with NO REPEATS
-my_map := {"lat":51.24,"long":0.18}   # Ordered pair of key-values
+my_map := {lat:51.24, long:0.18}      # Ordered pair of key-values
 
 ```
 
