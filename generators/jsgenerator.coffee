@@ -41,12 +41,6 @@ generator =
   AssignmentStatement: (s) ->
     emit "#{gen s.target} = #{gen s.source};"
 
-  ReadStatement: (s) ->
-    emit "#{makeVariable(v.referent)} = prompt();" for v in s.varrefs
-
-  WriteStatement: (s) ->
-    emit "alert(#{gen(e)});" for e in s.expressions
-
   WhileStatement: (s) ->
     emit "while (#{gen s.condition}) {"
     gen s.body
@@ -56,9 +50,14 @@ generator =
 
   BooleanLiteral: (literal) -> literal.toString()
 
+  FloatLiteral: (literal) -> literal.toString()
+
+  NoneLiteral: (literal) -> 'null'
+
   VariableReference: (v) -> makeVariable v.referent
 
-  UnaryExpression: (e) -> "(#{makeOp e.op.lexeme} #{gen e.operand})"
+  PreUnaryExpression: (e) ->
+    "(#{makeOp e.op.lexeme} #{gen e.operand})"
 
   BinaryExpression: (e) ->
     "(#{gen e.left} #{makeOp e.op.lexeme} #{gen e.right})"
