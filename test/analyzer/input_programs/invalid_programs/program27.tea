@@ -1,0 +1,7 @@
+g := (x, y, z) ->
+  x * y * z
+end
+
+# one of the arguments is (statically)
+# semantically invalid
+g(1+"s",2,3)

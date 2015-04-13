@@ -284,3 +284,30 @@ describe 'Semantic Analyzer', ->
           error = 'line 10: f() takes exactly 2 arguments (3 given)'
           expect(-> program.analyze()).to.throw error
           done()
+
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program26.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 10: g() takes exactly 3 arguments (1 given)'
+          expect(-> program.analyze()).to.throw error
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when an argument in a function invocation is
+             (statically) semantically invalid', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program27.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 7: + must have integer or float operands'
+          expect(-> program.analyze()).to.throw error
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when trying a return statement has a value that
+             is (statically) semantically invalid', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program28.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 2: * must have integer or float operands'
+          expect(-> program.analyze()).to.throw error
+          done()
