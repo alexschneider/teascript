@@ -1,5 +1,6 @@
 CustomError = require '../error/custom_error'
 VariableDeclaration = require '../entities/variable_declaration'
+Type = require '../entities/type'
 
 class AnalysisContext
 
@@ -12,12 +13,13 @@ class AnalysisContext
   createChildContext: ->
     new AnalysisContext this
 
-  variableMustNotBeAlreadyDeclared: (token, error) ->
+   variableMustNotBeAlreadyDeclared: (token, error) ->
     error ?= "Variable #{token.lexeme} already declared"
     if @symbolTable[token.lexeme]
       throw new CustomError error, token.lineNumber
 
   addVariable: (name, entity) ->
+    entity.type = Type.ARBITRARY unless entity.type
     @symbolTable[name] = entity
 
   lookupVariable: (token) ->

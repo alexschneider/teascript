@@ -22,8 +22,6 @@ Function = require '../entities/function'
 FunctionInvocation = require '../entities/function_invocation'
 Class = require '../entities/class'
 Trait = require '../entities/trait'
-Parameters = require '../entities/parameters'
-Args = require '../entities/args'
 Range = require '../entities/range'
 OrderedIterableSubscript = require '../entities/ordered_iterable_subscript'
 MemberAccess = require '../entities/member_access'
@@ -98,7 +96,7 @@ parseParams = ->
     params.push id
     match ',' if at ','
   match ')'
-  new Parameters params
+  params
 
 parseArgs = ->
   match '('
@@ -107,7 +105,7 @@ parseArgs = ->
     args.push parseExpression()
     match ',' if at ','
   match ')'
-  new Args args
+  args
 
 parseFunctionExpression = ->
   params = parseParams()

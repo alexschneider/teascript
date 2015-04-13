@@ -220,3 +220,94 @@ describe 'Semantic Analyzer', ->
           error = 'line 12: Duplicate parameter a found in function definition'
           expect(-> program.analyze()).to.throw error
           done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when member access is attempted on a string', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program19.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 13: member ID must be of type string'
+          expect(-> program.analyze()).to.throw error
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when variable assignment is attempted on undeclared variable', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program20.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 18: Variable d not found'
+          expect(-> program.analyze()).to.throw error
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when variable assignment is attempted with the wrong type', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program21.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 8: Incompatible types'
+          expect(-> program.analyze()).to.throw error
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when nested variable assignment is attempted', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program22.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 5: Nested variable declarations not allowed'
+          expect(-> program.analyze()).to.throw error
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when iterating an integer with a for statement', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program23.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 30: Object must be iterable'
+          expect(-> program.analyze()).to.throw error
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when trying to invoke something that is not a function', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program24.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 11: int is not callable'
+          expect(-> program.analyze()).to.throw error
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when trying to invoke a function with an inappropriate
+             number of arguments', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program25.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 10: f() takes exactly 2 arguments (3 given)'
+          expect(-> program.analyze()).to.throw error
+          done()
+
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program26.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 10: g() takes exactly 3 arguments (1 given)'
+          expect(-> program.analyze()).to.throw error
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when an argument in a function invocation is
+             (statically) semantically invalid', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program27.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 7: + must have integer or float operands'
+          expect(-> program.analyze()).to.throw error
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when trying a return statement has a value that
+             is (statically) semantically invalid', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program28.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 2: * must have integer or float operands'
+          expect(-> program.analyze()).to.throw error
+          done()

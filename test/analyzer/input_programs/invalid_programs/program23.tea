@@ -1,0 +1,32 @@
+# Valid list iteration with for statement
+h := 1
+for h in [1, 2, 3]:
+  h
+end
+
+# Valid map iteration with for statement
+
+for i in {first: 1, second: 2, third: 3}:
+  i
+end
+
+# Valid set iteration with for statement
+
+for j in <"dog", "cat", "owl", "rat">:
+  j
+end
+
+# Valid string iteration with for statement
+
+for k in "hello":
+  for l in "goodbye":
+    k
+    l
+  end
+end
+
+# Invalid integer iteration with for statement
+
+for m in 7:
+  "This won't work"
+end

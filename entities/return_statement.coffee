@@ -6,7 +6,7 @@ class ReturnStatement
     "(Return #{@value})"
 
   analyze: (context) ->
-    #TODO
+    @value.analyze context
 
   optimize: -> this
 
