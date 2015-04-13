@@ -274,3 +274,13 @@ describe 'Semantic Analyzer', ->
           error = 'line 11: int is not callable'
           expect(-> program.analyze()).to.throw error
           done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when trying to invoke a function with an inappropriate
+             number of arguments', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program25.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 10: f() takes exactly 2 arguments (3 given)'
+          expect(-> program.analyze()).to.throw error
+          done()

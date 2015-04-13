@@ -10,7 +10,13 @@ class Function
   analyze: (context) ->
     @type = Type.FUNC
     localContext = context.createChildContext()
-    @params.analyze localContext
+
+    for param in @params
+      localContext.variableMustNotBeAlreadyDeclared param,
+        "Duplicate parameter #{param.lexeme} found in function definition"
+      param.type = Type.ARBITRARY
+      localContext.addVariable param.lexeme, param
+
     @body.analyze localContext
 
   optimize: ->
