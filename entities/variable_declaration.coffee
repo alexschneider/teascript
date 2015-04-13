@@ -16,7 +16,8 @@ class VariableDeclaration
 
     context.addVariable @id.lexeme, this
     @value.analyze context
-    @type = @value.type
+    context.symbolTable[@id.lexeme].type = @value.type
+
 
   optimize: ->
     #TODO

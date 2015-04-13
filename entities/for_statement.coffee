@@ -8,9 +8,13 @@ class ForStatement
     "(For #{@id.lexeme} #{@iterable} #{@body})"
 
   analyze: (context) ->
-    # TODO
-    @iterable.analyze context
-    @body.analyze context
+    localContext = context.createChildContext()
+
+    localContext.addVariable @id.lexeme, @id
+
+    @iterable.analyze localContext
+    @body.analyze localContext
+
     @mustBeIterable()
 
 

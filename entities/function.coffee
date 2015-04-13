@@ -8,10 +8,10 @@ class Function
     "(Func #{@params} #{@body})"
 
   analyze: (context) ->
+    @type = Type.FUNC
     localContext = context.createChildContext()
     @params.analyze localContext
     @body.analyze localContext
-    @type = Type.FUNC
 
   optimize: ->
     #TODO
