@@ -10,7 +10,7 @@ class MyTokens
     {lexeme: ':=', kind: ':=', start: 2, lineNumber: 6},
     {lexeme: '8', kind: 'INTLIT', start: 5, lineNumber: 6},
     {lexeme: '/', kind: '/', start: 7, lineNumber: 6},
-    {lexeme: '4', kind: 'INTLIT', start: 9, lineNumber: 6},
+    {lexeme: '4.1E+12', kind: 'FLOATLIT', start: 9, lineNumber: 6},
     {lexeme: 'newline', kind: 'newline', start: 9, lineNumber: 6},
     {lexeme: 'x', kind: 'ID', start: 0, lineNumber: 8},
     {lexeme: '=', kind: '=', start: 2, lineNumber: 8},
@@ -368,4 +368,29 @@ class MyTokens
     {lexeme: 'newline', kind: 'newline', start: 0, lineNumber: 10},
     {kind: 'EOF', lexeme: 'EOF', start: 0}
   ]
+
+  @program6_tokens = [
+    {lexeme: 'x', kind: 'ID', start: 0, lineNumber: 1},
+    {lexeme: ':=', kind: ':=', start: 2, lineNumber: 1},
+    {lexeme: '3.1415E0', kind: 'FLOATLIT', start: 5, lineNumber: 1},
+    {lexeme: 'newline', kind: 'newline', start: 5, lineNumber: 1},
+    {lexeme: 'x', kind: 'ID', start: 0, lineNumber: 2},
+    {lexeme: '=', kind: '=', start: 2, lineNumber: 2},
+    {lexeme: '1E-12.3', kind: 'FLOATLIT', start: 4, lineNumber: 2},
+    {lexeme: 'newline', kind: 'newline', start: 4, lineNumber: 2},
+    {lexeme: 'x', kind: 'ID', start: 0, lineNumber: 3},
+    {lexeme: '=', kind: '=', start: 2, lineNumber: 3},
+    {lexeme: '42.23E-69', kind: 'FLOATLIT', start: 4, lineNumber: 3},
+    {lexeme: 'newline', kind: 'newline', start: 4, lineNumber: 3},
+    {lexeme: 'x', kind: 'ID', start: 0, lineNumber: 4},
+    {lexeme: '=', kind: '=', start: 2, lineNumber: 4},
+    {lexeme: '420.666E-123', kind: 'FLOATLIT', start: 4, lineNumber: 4},
+    {lexeme: 'newline', kind: 'newline', start: 4, lineNumber: 4},
+    {lexeme: 'x', kind: 'ID', start: 0, lineNumber: 5},
+    {lexeme: '=', kind: '=', start: 2, lineNumber: 5},
+    {lexeme: '12E10', kind: 'INTLIT', start: 4, lineNumber: 5},
+    {lexeme: 'newline', kind: 'newline', start: 4, lineNumber: 5},
+    {kind: 'EOF', lexeme: 'EOF', start: 0}
+  ]
+
 module.exports = MyTokens
