@@ -24,7 +24,7 @@ Class = require '../entities/class'
 Object = require '../entities/object'
 Range = require '../entities/range'
 IterableItem = require '../entities/iterable_item'
-MemberAccess = require '../entities/member_access'
+FieldAccess = require '../entities/field_access'
 FunctionInvocation = require '../entities/function_invocation'
 ReturnStatement = require '../entities/return_statement'
 ConditionalExpression = require '../entities/conditional_expression'
@@ -304,7 +304,7 @@ parseExp8 = ->
   while (at ['.', '[', '('])
     if at '.'
       match '.'
-      exp = new MemberAccess exp, parseExp3()
+      exp = new FieldAccess exp, parseExp3()
     else if at '['
       match '['
       exp = new IterableItem exp, parseExp3()

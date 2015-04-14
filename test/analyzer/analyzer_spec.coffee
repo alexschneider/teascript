@@ -220,14 +220,16 @@ describe 'Semantic Analyzer', ->
           expect(-> program.analyze()).to.throw error
           done()
 
-  # describe 'analyzing an invalid program', ->
-  #   context 'when member access is attempted on a string', ->
-  #     it 'throws an error', (done) ->
-  #       scan "#{invalidParserProgramsPath}/program19.tea", (err, tokens) ->
-  #         program = parse tokens
-  #         error = 'line 13: member ID must be of type string'
-  #         expect(-> program.analyze()).to.throw error
-  #         done()
+  describe 'analyzing an invalid program', ->
+    context 'when an object tries to access a field that it
+             does not have', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program19.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 11: field yo not defined in object a
+                  (instance of class x)'
+          expect(-> program.analyze()).to.throw error
+          done()
 
   describe 'analyzing an invalid program', ->
     context 'when variable assignment is attempted on undeclared variable', ->
