@@ -122,12 +122,15 @@ parseClassExpression = ->
   match 'class'
   match ':'
   match 'newline'
-  expressions = []
+  fieldNames = []
+  fieldValues = []
   while not at 'end'
-    expressions.push parseExpression()
+    fieldNames.push match 'ID'
+    match ':'
+    fieldValues.push parseExpression()
     match 'newline'
   match 'end'
-  new Class expressions
+  new Class fieldNames, fieldValues
 
 
 parseTraitExpression = ->
