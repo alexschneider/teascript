@@ -1,8 +1,12 @@
+_ = require 'underscore'
+
 class Class
-  constructor: (@expressions) ->
+  constructor: (@fieldNames, @fieldValues) ->
 
   toString: ->
-    "(Class #{@expressions.join(' ')})"
+    classes = _.zip(@fieldNames, @fieldValues).map (val) ->
+      "(#{val[0].lexeme}: #{val[1]})"
+    "(Class #{classes.join ', '})"
 
   analyze: (context) ->
     # TODO

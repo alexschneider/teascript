@@ -1,14 +1,14 @@
 CustomError = require '../error/custom_error'
 VariableDeclaration = require '../entities/variable_declaration'
+BuiltIn = require '../entities/built_in_entities'
 Type = require '../entities/type'
 
 class AnalysisContext
 
-  constructor: (@parent) ->
-    @symbolTable = {}
+  constructor: (@parent, @symbolTable = {}) ->
 
   @initialContext: ->
-    new AnalysisContext null
+    new AnalysisContext null, BuiltIn.entities
 
   createChildContext: ->
     new AnalysisContext this
