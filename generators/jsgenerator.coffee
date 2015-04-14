@@ -12,7 +12,7 @@ emit = (line) ->
   programCache.push "#{Array(pad+1).join(' ')}#{line}"
 
 makeOp = (op) ->
-  {not: '!', and: '&&', or: '||', '==': '===', '!=': '!=='}[op] or op
+  {not: '!', and: '&&', or: '||', is: '===', isnt: '!=='}[op] or op
 
 makeVariable = do (lastId = 0, map = new HashMap()) ->
   (v) ->
