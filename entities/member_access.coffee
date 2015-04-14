@@ -12,18 +12,13 @@ class MemberAccess
     @object.analyze context
     @member.analyze context
 
-    @mustBeMapObject()
-    @mustBeStringID()
-    @type = Type.ARBITRARY
+    @mustBeObject()
+    # @type = Type.ARBITRARY
 
 
-  mustBeMapObject: ->
-    error = 'object being accessed must be of type map literal'
-    # could be object
-    memberAccessTypes = [Type.MAP]
-    @object.type.mustBeCompatibleWith memberAccessTypes,
-                                                 error,
-                                                 EntityUtils.findLocation @object
+  mustBeObject: ->
+    console.log @object.type
+
   mustBeStringID: ->
     error = 'member ID must be of type string'
     @member.type.mustBeString error, EntityUtils.findLocation @member

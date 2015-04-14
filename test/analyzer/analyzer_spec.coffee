@@ -220,14 +220,14 @@ describe 'Semantic Analyzer', ->
           expect(-> program.analyze()).to.throw error
           done()
 
-  describe 'analyzing an invalid program', ->
-    context 'when member access is attempted on a string', ->
-      it 'throws an error', (done) ->
-        scan "#{invalidParserProgramsPath}/program19.tea", (err, tokens) ->
-          program = parse tokens
-          error = 'line 13: member ID must be of type string'
-          expect(-> program.analyze()).to.throw error
-          done()
+  # describe 'analyzing an invalid program', ->
+  #   context 'when member access is attempted on a string', ->
+  #     it 'throws an error', (done) ->
+  #       scan "#{invalidParserProgramsPath}/program19.tea", (err, tokens) ->
+  #         program = parse tokens
+  #         error = 'line 13: member ID must be of type string'
+  #         expect(-> program.analyze()).to.throw error
+  #         done()
 
   describe 'analyzing an invalid program', ->
     context 'when variable assignment is attempted on undeclared variable', ->
@@ -317,5 +317,15 @@ describe 'Semantic Analyzer', ->
         scan "#{invalidParserProgramsPath}/program29.tea", (err, tokens) ->
           program = parse tokens
           error = 'line 6: Duplicate class field b found in class definition'
+          expect(-> program.analyze()).to.throw error
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when a variable that is an instance of a certain class
+             gets assigned to be an instance of a different class', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program30.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 18: Incompatible types'
           expect(-> program.analyze()).to.throw error
           done()

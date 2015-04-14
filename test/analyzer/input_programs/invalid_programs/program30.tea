@@ -1,0 +1,18 @@
+abc := class:
+  init: () -> "hello world"
+  a: 4
+end
+
+cba := class:
+  init: () -> "yo worldio"
+  a: 5
+end
+
+x := new abc()
+y := new abc()
+
+# valid: same type so this is fine
+x = y
+
+# invalid: incompatible types!!
+x = new cba()
