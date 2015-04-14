@@ -47,7 +47,6 @@ describe 'Semantic Analyzer', ->
           done()
 
 
-
   describe 'analyzing an invalid program', ->
     context 'when a variable has been declared multiple
               times in the same context', ->
@@ -309,5 +308,14 @@ describe 'Semantic Analyzer', ->
         scan "#{invalidParserProgramsPath}/program28.tea", (err, tokens) ->
           program = parse tokens
           error = 'line 2: * must have integer or float operands'
+          expect(-> program.analyze()).to.throw error
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'a class definition has duplicate fields', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program29.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 6: Duplicate class field b found in class definition'
           expect(-> program.analyze()).to.throw error
           done()

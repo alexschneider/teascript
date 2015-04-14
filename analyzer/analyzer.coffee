@@ -1,6 +1,7 @@
 CustomError = require '../error/custom_error'
 VariableDeclaration = require '../entities/variable_declaration'
 BuiltIn = require '../entities/built_in_entities'
+EntityUtils = require '../entities/entity_utilities'
 Type = require '../entities/type'
 
 class AnalysisContext

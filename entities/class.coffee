@@ -1,22 +1,23 @@
 ClassType = require './class_type'
+EntityUtils = require './entity_utilities'
 
 class Class
-  constructor: (@fields) ->
+  constructor: (@fieldNames, @fieldValues) ->
 
   toString: ->
-    "(Class #{('('+k+': '+v+')' for k, v of @fields).join(', ')})"
+    "(Class #{('('+name.lexeme+': '+@fieldValues[i]+')' for name, i in @fieldNames).join(', ')})"
 
   analyze: (context, className) ->
     localContext = context.createChildContext()
-    for fieldName, fieldValue of @fields
-      localContext.variableMustNotBeAlreadyDeclared fieldName,
-        "Duplicate class field #{fieldName.lexeme} found in class definition"
-
-      fieldValue.analyze localContext
-      fieldName.type = fieldValue.type
-      localContext.addVariable fieldName.lexeme, fieldValue
-
-    @type = new ClassType className, @fields
+    fields = {}
+    for name, i in @fieldNames
+      @fieldValues[i].analyze localContext
+      name.type = @fieldValues[i].type
+      localContext.variableMustNotBeAlreadyDeclared name,
+        "Duplicate class field #{name.lexeme} found in class definition"
+      localContext.addVariable name.lexeme, @fieldValues[i]
+      fields[name.lexeme] = @fieldValues[i]
+    @type = new ClassType className, fields
 
   optimize: (context) ->
     # TODO

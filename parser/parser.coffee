@@ -128,14 +128,15 @@ parseClassExpression = ->
   match 'class'
   match ':'
   match 'newline'
-  fields = {}
+  fieldNames = []
+  fieldValues = []
   while not at 'end'
-    name = (match 'ID').lexeme
+    fieldNames.push match 'ID'
     match ':'
-    fields[name] = parseExpression()
+    fieldValues.push parseExpression()
     match 'newline'
   match 'end'
-  new Class fields
+  new Class fieldNames, fieldValues
 
 parseForLoop = ->
   match 'for'

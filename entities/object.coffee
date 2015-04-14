@@ -1,3 +1,4 @@
+Type = require './type'
 class Object
 
   constructor: (@className, @args) ->
@@ -6,7 +7,8 @@ class Object
     "(Object #{@className.lexeme} (#{(arg.lexeme for arg in @args).join(', ')}))"
 
   analyze: (context, className) ->
-    #TODO. type = Type.forName className
+    arg.analyze context for arg in @args
+    @type = Type.forName @className.lexeme
 
   optimize: (context) ->
     # TODO
