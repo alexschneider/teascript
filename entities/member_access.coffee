@@ -19,6 +19,7 @@ class MemberAccess
 
   mustBeMapObject: ->
     error = 'object being accessed must be of type map literal'
+    # could be object
     memberAccessTypes = [Type.MAP]
     @object.type.mustBeCompatibleWith memberAccessTypes,
                                                  error,

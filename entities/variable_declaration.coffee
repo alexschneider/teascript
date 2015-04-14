@@ -15,9 +15,11 @@ class VariableDeclaration
     context.variableMustNotBeAlreadyDeclared @id
 
     context.addVariable @id.lexeme, this
-    @value.analyze context
-    context.symbolTable[@id.lexeme].type = @value.type
 
+    # have to pass name in case the value is a class
+    # (class names define a new type)
+    @value.analyze context, @id.lexeme
+    context.symbolTable[@id.lexeme].type = @value.type
 
   optimize: ->
     #TODO

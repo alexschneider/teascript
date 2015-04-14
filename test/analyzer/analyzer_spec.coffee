@@ -187,11 +187,11 @@ describe 'Semantic Analyzer', ->
   describe 'analyzing an invalid program', ->
     context 'when there is an attempt to
              subscript [] a non
-             ordered iterable', ->
+             iterable', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program15.tea", (err, tokens) ->
           program = parse tokens
-          error = 'line 22: must take subscript [] of an ordered iterable type'
+          error = 'line 23: cannot [] get item of a int (not iterable)'
           expect(-> program.analyze()).to.throw error
           done()
     context 'when there is an attempt to
@@ -199,7 +199,7 @@ describe 'Semantic Analyzer', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program16.tea", (err, tokens) ->
           program = parse tokens
-          error = 'line 10: index must be an integer'
+          error = 'line 10: str indices must be integers, not float'
           expect(-> program.analyze()).to.throw error
           done()
 

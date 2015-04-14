@@ -177,12 +177,13 @@ class MyASTs
 
   @program16_AST_string = '(Program (Block (if b a)))'
 
-  @program17_AST_string = '(Program (Block (= x
+  @program17_AST_string = '(Program (Block (VarDec (x
     (Class
       (a: none),
       (init: (Func (arg) (Block (= a "Yo")))),
-      (x: (Func (arg) (Block (** arg 2)))),
-      (y: (Func (arg) (Block (** arg 0.5))))))))'
+      (x: (Func (arg) (Block (While (< arg 1000) (Block (** arg 2)))))),
+      (y: (Func (arg) (Block (** arg 0.5)))))))
+      (= z (Object x ()))))'
 
   @program18_AST_string = '(Program (Block
     (VarDec (a 100))

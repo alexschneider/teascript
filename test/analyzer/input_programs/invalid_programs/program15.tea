@@ -1,17 +1,18 @@
-# ordered iterable types
+# iterable types
 orderedIt1 := "abc"
 orderedIt2 := [1, 2, [3, 4, 5]]
 orderedIt3 := |'x', 'y', 'z'|
 orderedIt4 := <7, 8, 9>
-
-# not an ordered iterable type
 nonOrderedIt1 := {a: 1}
+
 
 # all fine and dandy
 orderedIt1[3]
 orderedIt2[2]
 orderedIt3[1]
 orderedIt4[0]
+nonOrderedIt1[0]
+
 # literals are fine and dandy too
 "abc"[0]
 [1,2,3,4][0]
@@ -19,4 +20,4 @@ orderedIt4[0]
 < 5, 6, 7>[0]
 
 # invalid
-nonOrderedIt1[0]
+1[1]

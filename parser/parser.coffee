@@ -21,9 +21,9 @@ BinaryExpression = require '../entities/binary_expression'
 Function = require '../entities/function'
 FunctionInvocation = require '../entities/function_invocation'
 Class = require '../entities/class'
-Trait = require '../entities/trait'
+Object = require '../entities/object'
 Range = require '../entities/range'
-OrderedIterableSubscript = require '../entities/ordered_iterable_subscript'
+IterableSubscript = require '../entities/iterable_subscript'
 MemberAccess = require '../entities/member_access'
 FunctionInvocation = require '../entities/function_invocation'
 ReturnStatement = require '../entities/return_statement'
@@ -77,8 +77,8 @@ parseExpression = ->
     parseFunctionExpression()
   else if at 'class'
     parseClassExpression()
-  else if at 'trait'
-    parseTraitExpression()
+  else if at 'new'
+    parseObjectConstruction()
   else if at 'if'
     parseConditional()
   else
@@ -97,6 +97,12 @@ parseParams = ->
     match ',' if at ','
   match ')'
   params
+
+parseObjectConstruction = ->
+  match 'new'
+  className = match 'ID'
+  args = parseArgs()
+  new Object className, args
 
 parseArgs = ->
   match '('
@@ -122,28 +128,14 @@ parseClassExpression = ->
   match 'class'
   match ':'
   match 'newline'
-  fieldNames = []
-  fieldValues = []
+  fields = {}
   while not at 'end'
-    fieldNames.push match 'ID'
+    name = (match 'ID').lexeme
     match ':'
-    fieldValues.push parseExpression()
+    fields[name] = parseExpression()
     match 'newline'
   match 'end'
-  new Class fieldNames, fieldValues
-
-
-parseTraitExpression = ->
-  match 'trait'
-  match ':'
-  match 'newline'
-  expressions = []
-  while not at 'end'
-    expressions.push parseExpression()
-    match 'newline'
-  match 'end'
-  new Trait expressions
-
+  new Class fields
 
 parseForLoop = ->
   match 'for'
@@ -314,7 +306,7 @@ parseExp8 = ->
       exp = new MemberAccess exp, parseExp3()
     else if at '['
       match '['
-      exp = new OrderedIterableSubscript exp, parseExp3()
+      exp = new IterableSubscript exp, parseExp3()
       match ']'
     else
       exp = new FunctionInvocation exp, parseArgs()
