@@ -23,7 +23,7 @@ FunctionInvocation = require '../entities/function_invocation'
 Class = require '../entities/class'
 Object = require '../entities/object'
 Range = require '../entities/range'
-IterableSubscript = require '../entities/iterable_subscript'
+IterableItem = require '../entities/iterable_item'
 MemberAccess = require '../entities/member_access'
 FunctionInvocation = require '../entities/function_invocation'
 ReturnStatement = require '../entities/return_statement'
@@ -306,7 +306,7 @@ parseExp8 = ->
       exp = new MemberAccess exp, parseExp3()
     else if at '['
       match '['
-      exp = new IterableSubscript exp, parseExp3()
+      exp = new IterableItem exp, parseExp3()
       match ']'
     else
       exp = new FunctionInvocation exp, parseArgs()

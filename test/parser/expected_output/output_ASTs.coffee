@@ -39,12 +39,12 @@ class MyASTs
       (Block (Invoke out (i))))
     (For i (0..10 by 2)
       (Block (Invoke out (i))))
-    (For i (Subscript \'xylophones\' (3..6 by 1))
+    (For i (GetItem \'xylophones\' (3..6 by 1))
       (Block (Invoke out (i))))
-    (For i (Subscript "xylophones" (0..5 by 3))
+    (For i (GetItem "xylophones" (0..5 by 3))
       (Block (Invoke out (i))))
-    (VarDec (x (Subscript "xylophones" (3..6 by 1))))
-    (VarDec (y (Subscript [1, 6, 3, 5, 8, 9] (1..6 by 2))))
+    (VarDec (x (GetItem "xylophones" (3..6 by 1))))
+    (VarDec (y (GetItem [1, 6, 3, 5, 8, 9] (1..6 by 2))))
     (= string_with_escaped_characters "this is a string
       that allows for escaped \\\' stuff \\" since teascript is
       \\\\ so darn awesome!")))'
@@ -91,8 +91,8 @@ class MyASTs
    (= bool1 false)
    (= nil 2)
    (= nil none)
-   (= (. (Subscript g 4) f) 3)
-   (= (Subscript g (** 3 9))
+   (= (. (GetItem g 4) f) 3)
+   (= (GetItem g (** 3 9))
    (if b a else c))))'
 
   @program07_AST_string = '(Program (Block
@@ -148,7 +148,7 @@ class MyASTs
 
   @program12_AST_string = "(Program (Block
     (Invoke f (1, 2, 3))
-    (. a (. (Subscript b 1) (. c (. (Subscript d 6)
+    (. a (. (GetItem b 1) (. c (. (GetItem d 6)
       (Invoke e ('arg1', 'arg2'))))))
       (Invoke (Invoke f (a, b)) (c))))"
 

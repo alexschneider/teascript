@@ -7,7 +7,7 @@ class IterableItem
   constructor: (@iterable, @itemFinder) ->
 
   toString: ->
-    "(getItem #{@iterable} #{@itemFinder})"
+    "(GetItem #{@iterable} #{@itemFinder})"
 
   analyze: (context) ->
     @iterable.analyze context
