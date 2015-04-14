@@ -426,8 +426,8 @@ f := () -> [0, 1, 2]                        var f = function() { return [0, 1, 2
 Objects behave like maps with slightly different syntax
 ```
 Circle := class:                            var Circle = function() {
-  r := 4                                      this.r = 4;
-  circum := () -> 2*Math.PI*this.r            this.circum = function() { return 2*Math.PI.this.r; };
+  r : 4                                      this.r = 4;
+  circum : () -> 2*Math.PI*this.r            this.circum = function() { return 2*Math.PI.this.r; };
 end                                         };
 
 circle := new Circle()                      var circle = new Circle();
