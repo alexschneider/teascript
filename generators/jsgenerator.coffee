@@ -6,10 +6,10 @@ module.exports = (program) ->
 
 indentPadding = 4
 indentLevel = 0
-
+programCache = []
 emit = (line) ->
   pad = indentPadding * indentLevel
-  console.log "#{Array(pad+1).join(' ')}#{line}"
+  programCache.push "#{Array(pad+1).join(' ')}#{line}"
 
 makeOp = (op) ->
   {not: '!', and: '&&', or: '||', '==': '===', '!=': '!=='}[op] or op
@@ -25,10 +25,12 @@ gen = (e) ->
 generator =
 
   Program: (program) ->
+    programCache = []
     indentLevel = 0
     emit '(function () {'
     gen program.block
     emit '}());'
+    programCache.join '\n'
 
   Block: (block) ->
     indentLevel++
