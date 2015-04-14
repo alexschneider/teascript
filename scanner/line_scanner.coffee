@@ -165,6 +165,8 @@ class LineScanner
       # to a negative power, the number is also considered a float, since
       # raising the exponent to a negative number implies moving the
       # decimal point to the left.
+      # Example : 2.3E-1 = 0.23
+      #           100E-2 = 1.00
       numLit = numberGroups[0]
       isFloat = '.' in numLit or '-' in numLit
       kind = if isFloat then 'FLOATLIT' else 'INTLIT'
