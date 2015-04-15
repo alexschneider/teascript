@@ -1,4 +1,5 @@
 Type = require './type'
+
 class Object
 
   constructor: (@className, @args) ->

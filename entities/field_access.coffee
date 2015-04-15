@@ -2,6 +2,7 @@ Type = require './type'
 EntityUtils = require './entity_utilities'
 CustomError = require '../error/custom_error'
 ClassType = require './class_type'
+VariableReference = require './variable_reference'
 
 class FieldAccess
 
@@ -12,11 +13,9 @@ class FieldAccess
 
   analyze: (context) ->
     @object.analyze context
-
     @mustBeObject()
     @fieldMustBeDefined()
     @type = @getField().type
-
 
   mustBeObject: ->
     unless @object.type instanceof ClassType or
@@ -25,14 +24,10 @@ class FieldAccess
                                  objects (found #{@object.type})",
                                  EntityUtils.findLocation @object
   getField: ->
-    fieldName = @getLexeme @field
-    @object.type.classDef[fieldName]
-
-  getLexeme: (field) ->
-    for k, v of field
-      return v.lexeme if v.lexeme?
-      return @getLexeme v if typeof v is 'object'
-    return null
+    if @field instanceof VariableReference
+      return @object.type.classDef[@field]
+    else
+      return true
 
 
   fieldMustBeDefined: ->

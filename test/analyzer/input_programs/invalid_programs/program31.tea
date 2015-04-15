@@ -1,12 +1,12 @@
 x := class:
-  init: () -> 'hello'
+ # init: () -> 'hello'
   z:8
 end
 
 y := new x()
 #valid
 y.init()[3].a
-x.z+7
+y.z+7
 
 #invalid since z is not an object
 z := 5
