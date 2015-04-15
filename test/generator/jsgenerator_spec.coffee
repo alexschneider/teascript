@@ -1,7 +1,4 @@
-sinon = require 'sinon'
 chai = require 'chai'
-sinonChai = require 'sinon-chai'
-chai.use(sinonChai)
 expect = chai.expect
 CustomError = require '../../error/custom_error'
 parse = require '../../parser/parser'
@@ -17,9 +14,6 @@ describe 'JS generator', ->
       scan "#{validTeascriptProgramsPath}/program01.tea", (err, tokens) ->
         program = parse tokens
         program.analyze()
-        writeStub = sinon.stub(console, "log")
-        generate program
-        output = writeStub.args
-        writeStub.restore()
-        expect(line[0] for line in output).to.eql expectedOutput.program01
+        program = generate program
+        expect(program).to.eql expectedOutput.program01
         done()

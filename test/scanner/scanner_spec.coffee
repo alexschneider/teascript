@@ -58,6 +58,16 @@ describe 'Scanner', ->
             expect(tokens).to.eql expectedTokens5
             done()
 
+    describe 'teascript program #6', ->
+      context 'when test program6.tea is passed through the scanner', ->
+        expectedTokens6 = outputTokens.program6_tokens
+
+        it 'returns the appropriate tokens', (done) ->
+          scan "#{validScannerPrograms}/program6.tea", (err, tokens) ->
+            expect(err).to.be.null
+            expect(tokens).to.eql expectedTokens6
+            done()
+
   describe 'scanning invalid teascript programs', ->
     describe 'invalid teascript program #1', ->
       context 'when test program1.tea is passed through the scanner', ->
