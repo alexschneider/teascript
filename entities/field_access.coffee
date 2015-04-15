@@ -20,7 +20,6 @@ class FieldAccess
         throw new CustomError "field #{@field} not defined in object #{@object}
                               (instance of class #{@object.type.name})",
                               EntityUtils.findLocation @field
-        return
       else
         @type = @object?.type?.classDef?[@field].type or Type.ARBITRARY
     else
@@ -34,19 +33,6 @@ class FieldAccess
       throw new CustomError "can only access fields of
                                  objects (found #{@object.type})",
                                  EntityUtils.findLocation @object
-  getField: ->
-    if @field instanceof VariableReference
-      return @object.type.classDef[@field]
-    else
-      @field.analyze
-      return true
-
-
-  fieldMustBeDefined: ->
-    error = "field #{@field} not defined in object #{@object}
-             (instance of class #{@object.type.name})"
-    location = EntityUtils.findLocation @field
-    throw new CustomError error, location unless @getField()?
 
   mustBeStringID: ->
     error = 'field ID must be of type string'
