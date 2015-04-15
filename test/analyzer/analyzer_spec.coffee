@@ -338,6 +338,6 @@ describe 'Semantic Analyzer', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program31.tea", (err, tokens) ->
           program = parse tokens
-          error = 'line 15: can only access fields of objects (found int)'
+          error = 'line 20: can only access fields of objects (found int)'
           expect(-> program.analyze()).to.throw error
           done()

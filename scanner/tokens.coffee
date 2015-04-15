@@ -27,7 +27,7 @@ class Tokens
   ]
 
   @reservedWords = [
-    'int', 'double', 'bool', 'none',     # primitive types
+    'none',                              # none literal
     'class', 'trait',                    # reference types
     'for', 'in', 'by', 'while', 'end',   # loops/blocks/range keywords
     'and', 'or',                         # logical operators
