@@ -25,7 +25,15 @@ class FieldAccess
                                  objects (found #{@object.type})",
                                  EntityUtils.findLocation @object
   getField: ->
-    @object?.type?.type?[@field]
+    fieldName = @getLexeme @field
+    @object.type.classDef[fieldName]
+
+  getLexeme: (field) ->
+    for k, v of field
+      return v.lexeme if v.lexeme?
+      return @getLexeme v if typeof v is 'object'
+    return null
+
 
   fieldMustBeDefined: ->
     error = "field #{@field} not defined in object #{@object}

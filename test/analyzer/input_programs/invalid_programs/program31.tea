@@ -1,0 +1,11 @@
+x := class:
+  init: () -> 'hello'
+end
+
+y := new x()
+#valid
+y.init()
+
+#invalid since z is not an object
+z := 5
+z.3

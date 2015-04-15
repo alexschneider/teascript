@@ -331,3 +331,13 @@ describe 'Semantic Analyzer', ->
           error = 'line 18: Incompatible types'
           expect(-> program.analyze()).to.throw error
           done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when a variable that is an instance of a certain class
+             gets assigned to be an instance of a different class', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program31.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 11: can only access fields of objects (found int)'
+          expect(-> program.analyze()).to.throw error
+          done()
