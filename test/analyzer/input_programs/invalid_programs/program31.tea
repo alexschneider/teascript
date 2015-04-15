@@ -1,11 +1,13 @@
 x := class:
- # init: () -> 'hello'
+  init: () -> 'hello'
   z:8
 end
 
+f := () -> [1,2,3,4,5]
+
 y := new x()
 #valid
-y.init()[3].a
+y.f()[3].a
 y.z+7
 
 #invalid since z is not an object

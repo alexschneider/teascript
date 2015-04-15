@@ -14,8 +14,19 @@ class FieldAccess
   analyze: (context) ->
     @object.analyze context
     @mustBeObject()
-    @fieldMustBeDefined()
-    @type = @getField().type
+    if @field instanceof VariableReference
+      unless @object.type is Type.ARBITRARY or
+             @object.type.classDef[@field]
+        throw new CustomError "field #{@field} not defined in object #{@object}
+                              (instance of class #{@object.type.name})",
+                              EntityUtils.findLocation @field
+        return
+      else
+        @type = @object?.type?.classDef?[@field].type or Type.ARBITRARY
+    else
+      @field.analyze context
+      @type = @field.type
+
 
   mustBeObject: ->
     unless @object.type instanceof ClassType or
@@ -27,6 +38,7 @@ class FieldAccess
     if @field instanceof VariableReference
       return @object.type.classDef[@field]
     else
+      @field.analyze
       return true
 
 
