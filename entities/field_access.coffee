@@ -1,6 +1,7 @@
 Type = require './type'
 EntityUtils = require './entity_utilities'
 CustomError = require '../error/custom_error'
+ClassType = require './class_type'
 
 class FieldAccess
 
@@ -19,12 +20,12 @@ class FieldAccess
 
 
   mustBeObject: ->
-    # builtInTypes =
-    # @object.field.name isnt builtInType for builtInType in builtInTypes
-    # TODO: figure out how to check that this is an object
-
+    unless @object.type instanceof ClassType
+      throw new CustomError "can only access fields of
+                                 objects (found #{@object.type})",
+                                 EntityUtils.findLocation @object
   getField: ->
-    @object.type.type[@field]
+    @object?.type?.type?[@field]
 
   fieldMustBeDefined: ->
     error = "field #{@field} not defined in object #{@object}
