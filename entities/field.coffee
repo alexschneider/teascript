@@ -1,3 +1,4 @@
+
 Type = require './type'
 EntityUtils = require './entity_utilities'
 CustomError = require '../error/custom_error'
@@ -12,15 +13,16 @@ class FieldAccess
 
   analyze: (context) ->
     @object.analyze context
+    @field.analyze context
 
     @mustBeObject()
     @fieldMustBeDefined()
+    console.log "FUCKING TYPE #{@getField().type}"
     @type = @getField().type
 
 
   mustBeObject: ->
-    unless @object.type instanceof ClassType or
-            @object.type is Type.ARBITRARY
+    unless @object.type instanceof ClassType
       throw new CustomError "can only access fields of
                                  objects (found #{@object.type})",
                                  EntityUtils.findLocation @object

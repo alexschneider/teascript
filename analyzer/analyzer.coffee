@@ -24,7 +24,7 @@ class AnalysisContext
     @symbolTable[name] = entity
 
   lookupVariable: (token) ->
-    variable = @symbolTable[token.lexeme] or token?.type?.fields[token.lexeme]
+    variable = @symbolTable[token.lexeme]
     if variable
       variable
     else if not @parent

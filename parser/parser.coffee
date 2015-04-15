@@ -304,7 +304,7 @@ parseExp8 = ->
   while (at ['.', '[', '('])
     if at '.'
       match '.'
-      exp = new FieldAccess exp, parseExp3()
+      exp = new FieldAccess exp, parseExp8()
     else if at '['
       match '['
       exp = new IterableItem exp, parseExp3()
