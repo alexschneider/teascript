@@ -1,0 +1,15 @@
+a := class:
+  b: class:
+    c: class:
+      d: class:
+        e: 3
+      end
+    end
+  end
+end
+
+# valid
+(((a.b).c).d).e + 5
+
+# invalid
+(((a.b).c).d).f

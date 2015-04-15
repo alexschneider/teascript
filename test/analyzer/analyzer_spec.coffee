@@ -47,7 +47,6 @@ describe 'Semantic Analyzer', ->
           done()
 
 
-
   describe 'analyzing an invalid program', ->
     context 'when a variable has been declared multiple
               times in the same context', ->
@@ -65,14 +64,14 @@ describe 'Semantic Analyzer', ->
       it 'throws an error when the invalid operand is a literal', (done) ->
         scan "#{invalidParserProgramsPath}/program02.tea", (err, tokens) ->
           program = parse tokens
-          error = 'line 2: * must have integer or float operands'
+          error = 'line 2: * must have integer or float operands (found int and str)'
           expect(-> program.analyze()).to.throw error
           done()
 
       it 'throws an error when the invalid operand is a varref', (done) ->
         scan "#{invalidParserProgramsPath}/program03.tea", (err, tokens) ->
           program = parse tokens
-          error = 'line 7: + must have integer or float operands'
+          error = 'line 7: + must have integer or float operands (found float and str)'
           expect(-> program.analyze()).to.throw error
           done()
 
@@ -187,11 +186,11 @@ describe 'Semantic Analyzer', ->
   describe 'analyzing an invalid program', ->
     context 'when there is an attempt to
              subscript [] a non
-             ordered iterable', ->
+             iterable', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program15.tea", (err, tokens) ->
           program = parse tokens
-          error = 'line 22: must take subscript [] of an ordered iterable type'
+          error = 'line 23: cannot [] get item of a int (not iterable)'
           expect(-> program.analyze()).to.throw error
           done()
     context 'when there is an attempt to
@@ -199,7 +198,7 @@ describe 'Semantic Analyzer', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program16.tea", (err, tokens) ->
           program = parse tokens
-          error = 'line 10: index must be an integer'
+          error = 'line 10: str indices must be integers, not float'
           expect(-> program.analyze()).to.throw error
           done()
 
@@ -222,11 +221,12 @@ describe 'Semantic Analyzer', ->
           done()
 
   describe 'analyzing an invalid program', ->
-    context 'when member access is attempted on a string', ->
+    context 'when an object tries to access a field that it
+             does not have', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program19.tea", (err, tokens) ->
           program = parse tokens
-          error = 'line 13: member ID must be of type string'
+          error = 'line 11: field yo not defined in object a'
           expect(-> program.analyze()).to.throw error
           done()
 
@@ -298,7 +298,7 @@ describe 'Semantic Analyzer', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program27.tea", (err, tokens) ->
           program = parse tokens
-          error = 'line 7: + must have integer or float operands'
+          error = 'line 7: + must have integer or float operands (found int and str)'
           expect(-> program.analyze()).to.throw error
           done()
 
@@ -308,6 +308,45 @@ describe 'Semantic Analyzer', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program28.tea", (err, tokens) ->
           program = parse tokens
-          error = 'line 2: * must have integer or float operands'
+          error = 'line 2: * must have integer or float operands (found bool and <arbitrary_type>)'
+          expect(-> program.analyze()).to.throw error
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'a class definition has duplicate fields', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program29.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 6: Duplicate class field b found in class definition'
+          expect(-> program.analyze()).to.throw error
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when a variable that is an instance of a certain class
+             gets assigned to be an instance of a different class', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program30.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 18: Incompatible types'
+          expect(-> program.analyze()).to.throw error
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when a variable that is an instance of a certain class
+             gets assigned to be an instance of a different class', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program31.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 22: can only access fields of objects (found int)'
+          expect(-> program.analyze()).to.throw error
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when trying to access a field not in the object
+             (i.e. not defined by the class)', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program32.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 15: field f not defined in object (. (. (. a b) c) d)'
           expect(-> program.analyze()).to.throw error
           done()

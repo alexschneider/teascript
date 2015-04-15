@@ -21,10 +21,10 @@ BinaryExpression = require '../entities/binary_expression'
 Function = require '../entities/function'
 FunctionInvocation = require '../entities/function_invocation'
 Class = require '../entities/class'
-Trait = require '../entities/trait'
+Object = require '../entities/object'
 Range = require '../entities/range'
-OrderedIterableSubscript = require '../entities/ordered_iterable_subscript'
-MemberAccess = require '../entities/member_access'
+IterableItem = require '../entities/iterable_item'
+FieldAccess = require '../entities/field_access'
 FunctionInvocation = require '../entities/function_invocation'
 ReturnStatement = require '../entities/return_statement'
 ConditionalExpression = require '../entities/conditional_expression'
@@ -77,8 +77,8 @@ parseExpression = ->
     parseFunctionExpression()
   else if at 'class'
     parseClassExpression()
-  else if at 'trait'
-    parseTraitExpression()
+  else if at 'new'
+    parseObjectConstruction()
   else if at 'if'
     parseConditional()
   else
@@ -97,6 +97,12 @@ parseParams = ->
     match ',' if at ','
   match ')'
   params
+
+parseObjectConstruction = ->
+  match 'new'
+  className = match 'ID'
+  args = parseArgs()
+  new Object className, args
 
 parseArgs = ->
   match '('
@@ -131,19 +137,6 @@ parseClassExpression = ->
     match 'newline'
   match 'end'
   new Class fieldNames, fieldValues
-
-
-parseTraitExpression = ->
-  match 'trait'
-  match ':'
-  match 'newline'
-  expressions = []
-  while not at 'end'
-    expressions.push parseExpression()
-    match 'newline'
-  match 'end'
-  new Trait expressions
-
 
 parseForLoop = ->
   match 'for'
@@ -311,10 +304,10 @@ parseExp8 = ->
   while (at ['.', '[', '('])
     if at '.'
       match '.'
-      exp = new MemberAccess exp, parseExp3()
+      exp = new FieldAccess exp, parseExp8()
     else if at '['
       match '['
-      exp = new OrderedIterableSubscript exp, parseExp3()
+      exp = new IterableItem exp, parseExp3()
       match ']'
     else
       exp = new FunctionInvocation exp, parseArgs()

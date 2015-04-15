@@ -9,7 +9,7 @@ scan = require '../../../scanner/scanner'
 describe 'LineScanner', ->
   describe '#scan', ->
     context 'when the line has valid teascript tokens', ->
-      lineScanner = new LineScanner "f :=  -> 'hello' a.move() bool # comment"
+      lineScanner = new LineScanner "f :=  -> 'hello' a.move() true # comment"
       {lineTokens} = lineScanner.scan()
 
       it 'returns the appropriate tokens', ->
@@ -23,7 +23,7 @@ describe 'LineScanner', ->
           {kind: 'ID', lexeme: 'move', start: 19},
           {kind: '(', lexeme: '(', start: 23},
           {kind: ')', lexeme: ')', start: 24},
-          {kind: 'bool', lexeme: 'bool', start: 26},
+          {kind: 'true', lexeme: 'true', start: 26},
           {kind: 'newline', lexeme: 'newline', start: 27}
         ]
 
