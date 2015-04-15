@@ -36,7 +36,8 @@ class BinaryExpression
       return Type.INT
 
   mustHaveNumericOperands: ->
-    error = "#{@op.lexeme} must have integer or float operands"
+    error = "#{@op.lexeme} must have integer or float operands
+             (found #{@left.type} and #{@right.type})"
     @left.type.mustBeNumeric error, @op.lineNumber
     @right.type.mustBeNumeric error, @op.lineNumber
 

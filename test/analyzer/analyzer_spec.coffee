@@ -64,14 +64,14 @@ describe 'Semantic Analyzer', ->
       it 'throws an error when the invalid operand is a literal', (done) ->
         scan "#{invalidParserProgramsPath}/program02.tea", (err, tokens) ->
           program = parse tokens
-          error = 'line 2: * must have integer or float operands'
+          error = 'line 2: * must have integer or float operands (found int and str)'
           expect(-> program.analyze()).to.throw error
           done()
 
       it 'throws an error when the invalid operand is a varref', (done) ->
         scan "#{invalidParserProgramsPath}/program03.tea", (err, tokens) ->
           program = parse tokens
-          error = 'line 7: + must have integer or float operands'
+          error = 'line 7: + must have integer or float operands (found float and str)'
           expect(-> program.analyze()).to.throw error
           done()
 
@@ -226,8 +226,7 @@ describe 'Semantic Analyzer', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program19.tea", (err, tokens) ->
           program = parse tokens
-          error = 'line 11: field yo not defined in object a
-                  (instance of class x)'
+          error = 'line 11: field yo not defined in object a'
           expect(-> program.analyze()).to.throw error
           done()
 
@@ -299,7 +298,7 @@ describe 'Semantic Analyzer', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program27.tea", (err, tokens) ->
           program = parse tokens
-          error = 'line 7: + must have integer or float operands'
+          error = 'line 7: + must have integer or float operands (found int and str)'
           expect(-> program.analyze()).to.throw error
           done()
 
@@ -309,7 +308,7 @@ describe 'Semantic Analyzer', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program28.tea", (err, tokens) ->
           program = parse tokens
-          error = 'line 2: * must have integer or float operands'
+          error = 'line 2: * must have integer or float operands (found bool and <arbitrary_type>)'
           expect(-> program.analyze()).to.throw error
           done()
 
@@ -338,6 +337,16 @@ describe 'Semantic Analyzer', ->
       it 'throws an error', (done) ->
         scan "#{invalidParserProgramsPath}/program31.tea", (err, tokens) ->
           program = parse tokens
-          error = 'line 20: can only access fields of objects (found int)'
+          error = 'line 22: can only access fields of objects (found int)'
+          expect(-> program.analyze()).to.throw error
+          done()
+
+  describe 'analyzing an invalid program', ->
+    context 'when trying to access a field not in the object
+             (i.e. not defined by the class)', ->
+      it 'throws an error', (done) ->
+        scan "#{invalidParserProgramsPath}/program32.tea", (err, tokens) ->
+          program = parse tokens
+          error = 'line 15: field f not defined in object (. (. (. a b) c) d)'
           expect(-> program.analyze()).to.throw error
           done()

@@ -2,7 +2,6 @@ Type = require './type'
 EntityUtils = require './entity_utilities'
 CustomError = require '../error/custom_error'
 ClassType = require './class_type'
-Object = require './object'
 VariableReference = require './variable_reference'
 
 class FieldAccess
@@ -26,17 +25,10 @@ class FieldAccess
   mustBeFieldOfObject: ->
     unless @object.type is Type.ARBITRARY or
            @object.type.classDef[@field]
-      objectClass = @findClass @object
-      throw new CustomError "field #{@field} not defined in object #{@object}
-                            (instance of class #{objectClass})",
+      throw new CustomError "field #{@field} not defined in object #{@object}",
                             EntityUtils.findLocation @field
     else
-      @type = @object?.type?.classDef?[@field].type or Type.ARBITRARY
-
-  findClass: (object) ->
-    for k, v of JSON.parse(JSON.stringify(object))
-      return v.name if k is 'type'
-      return @findClass v if k is 'object'
+      @type = @object.type?.classDef?[@field].type or Type.ARBITRARY
 
 
   mustBeObject: ->
