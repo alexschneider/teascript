@@ -12,7 +12,7 @@ emit = (line, cache) ->
   # Having any more than two spaces is unnecessary unless it's part of an
   # indent. We need to make sure that two or more spaces follow a non-space
   # character to ensure it's not part of an indent
-  toEmit = "#{Array(pad+1).join(' ')}#{line}".replace /([^ ])  +/, '$1 '
+  toEmit = "#{Array(pad+1).join(' ')}#{line}".replace /([^ ])  +/g, '$1 '
   if cache?
     cache.push toEmit
   toEmit
@@ -124,7 +124,7 @@ generator =
     indentLevel++
     kvCache = []
     values = l.values.map gen
-    emit "#{key}: #{value}", kvCache for [key, val] in _.zip l.keys, values
+    emit "#{key}: #{val}", kvCache for [key, val] in _.zip l.keys, values
     indentLevel--
     mlCache.push kvCache.join ',\n'
     emit '}', mlCache
@@ -147,7 +147,7 @@ generator =
   VariableReference: (v) -> makeVariable v.referent
 
   PreUnaryExpression: (e) ->
-    "(#{makeOp e.op.lexeme} #{gen e.operand})"
+    "( #{makeOp e.op.lexeme} #{gen e.operand} )"
 
   BinaryExpression: (e) ->
-    "(#{gen e.left} #{makeOp e.op.lexeme} #{gen e.right})"
+    "( #{gen e.left} #{makeOp e.op.lexeme} #{gen e.right} )"
