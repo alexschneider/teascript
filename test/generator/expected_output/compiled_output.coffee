@@ -11,4 +11,9 @@ class CompiledOutput
         var _v4 = (! true);
     }());'''
 
+  @program02 = 
+   '''(function () {
+        var _v1 = [1, 2, 3, 4];
+    }());'''
+
 module.exports = CompiledOutput
