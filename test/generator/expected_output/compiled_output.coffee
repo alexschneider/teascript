@@ -12,7 +12,7 @@ class CompiledOutput
     }());'''
 
   @program02 = 
-   '''(function () {
+    '''(function () {
         var _v5 = [
             1,
             2,
@@ -20,5 +20,15 @@ class CompiledOutput
             4
         ];
     }());'''
+
+  @program03 = 
+    '''(function () {
+        var _v6 = {
+            first: '1',
+            second: '2',
+            third: '3'
+        };
+    }());'''
+
 
 module.exports = CompiledOutput
