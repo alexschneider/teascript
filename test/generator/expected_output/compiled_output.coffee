@@ -13,7 +13,12 @@ class CompiledOutput
 
   @program02 = 
    '''(function () {
-        var _v1 = [1, 2, 3, 4];
+        var _v5 = [
+            1,
+            2,
+            3,
+            4
+        ];
     }());'''
 
 module.exports = CompiledOutput
