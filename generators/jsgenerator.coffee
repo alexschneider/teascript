@@ -1,4 +1,5 @@
 util = require('util')
+_ = require 'underscore'
 HashMap = require('hashmap').HashMap
 
 module.exports = (program) ->
@@ -6,10 +7,9 @@ module.exports = (program) ->
 
 indentPadding = 4
 indentLevel = 0
-programCache = []
-emit = (line) ->
+emit = (line, cache) ->
   pad = indentPadding * indentLevel
-  programCache.push "#{Array(pad+1).join(' ')}#{line}"
+  cache.push "#{Array(pad+1).join(' ')}#{line}"
 
 makeOp = (op) ->
   {not: '!', and: '&&', or: '||', is: '===', isnt: '!=='}[op] or op
@@ -27,26 +27,61 @@ generator =
   Program: (program) ->
     programCache = []
     indentLevel = 0
-    emit '(function () {'
+    emit '(function () {', programCache
     gen program.block
-    emit '}());'
+    emit '}());', programCache
     programCache.join '\n'
 
   Block: (block) ->
+    blockCache = []
     indentLevel++
-    gen statement for statement in block.statements
+    emit '(function() {', blockCache
+    emit gen(statement), blockCache for statement in block.statements[..-1]
+    emit "return #{gen _.last block.statements};", blockCache
+    emit '}());', blockCache
     indentLevel--
+    blockCache.join '\n'
 
   VariableDeclaration: (id) ->
-    emit "var #{makeVariable id} = #{gen id.value};"
+    "var #{makeVariable id} = #{gen id.value};"
 
   AssignmentStatement: (s) ->
-    emit "#{gen s.target} = #{gen s.source};"
+    "#{gen s.target} = #{gen s.source};"
 
   WhileStatement: (s) ->
-    emit "while (#{gen s.condition}) {"
-    gen s.body
-    emit '}'
+    whileCache = []
+    emit "while (#{gen s.condition}) {", whileCache
+    emit gen(s.body), whileCache
+    emit '}', whileCache
+    whileCache.join '\n'
+
+  ConditionalExpression: (s) ->
+    conditionalCache = []
+    emit '(function () {', conditionalCache
+    emit "if (#{gen s.conditions[0]}) {", conditionalCache
+    emit "return #{gen s.body}", conditionalCache
+    emit '}', conditionalCache
+    for [condition, body] in _.zip s.conditions[1..], s.bodies[1..]
+      if condition?
+        emit "else if (#{gen condition}) {", conditionalCache
+      else
+        emit 'else {', conditionalCache
+      emit "return #{gen body}", conditionalCache
+      emit '}', conditionalCache
+    emit '}());', conditionalCache
+    conditionalCache.join '\n'
+
+  Function: (s) ->
+    fc = []
+    emit "function (#{(param.lexeme for param in @params).join ', '}) {", fc
+    emit "return #{gen body};", fc
+    emit "};", fc
+    fc.join '\n'
+
+  FunctionInvocation: (s) ->
+    args = s.args.map makeVariable
+    "#{gen s.func}(#{args.join ', '});"
+
 
   IntegerLiteral: (literal) -> literal.toString()
 
