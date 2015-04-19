@@ -98,26 +98,24 @@ generator =
     "#{gen s.func}(#{args.join ', '});"
 
 
-  IntegerLiteral: (l) -> l.toString()
+  IntegerLiteral: (l) -> emit l.toString()
 
-  BooleanLiteral: (l) -> l.toString()
+  BooleanLiteral: (l) -> emit l.toString()
 
-  FloatLiteral: (l) -> l.toString()
+  FloatLiteral: (l) -> emit l.toString()
 
-  NoneLiteral: (l) -> 'null'
+  NoneLiteral: (l) -> emit 'null'
 
-  StringLiteral: (l) -> l.toString()
+  StringLiteral: (l) -> emit l.toString()
 
   ListLiteral: (l) ->
     llCache = []
     emit '[', llCache
     indentLevel++
-    elCache = []
-    emit "#{gen element}" for element in l.elements
+    elements = l.elements.map gen
     indentLevel--
-    emit elCache.join(',\n'), llCache
-    llCache.push elCache.join ',\n'
-    emit ']'
+    llCache.push elements.join ',\n'
+    emit ']', llCache
     llCache.join '\n'
 
   MapLiteral: (l) ->
@@ -125,11 +123,12 @@ generator =
     emit '{', mlCache
     indentLevel++
     kvCache = []
-    emit "#{key}: #{value}", kvCache for [key, val] in _.zip l.keys, l.values
+    values = l.values.map gen
+    emit "#{key}: #{value}", kvCache for [key, val] in _.zip l.keys, values
     indentLevel--
     mlCache.push kvCache.join ',\n'
-    emit '}'
-    slCache.join '\n'
+    emit '}', mlCache
+    mlCache.join '\n'
 
   SetLiteral: (l) ->
     slCache = []
@@ -139,7 +138,7 @@ generator =
     emit "#{gen member}: true", memCache for member in l.members
     indentLevel--
     slCache.push memCache.join ',\n'
-    emit '}'
+    emit '}', slCache
     slCache.join '\n'
 
   TupleLiteral: (l) ->
