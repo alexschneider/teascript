@@ -8,7 +8,7 @@ describe 'LineScanner', ->
     describe '#extractedWords', ->
 
       context 'when a reserved word is the next token', ->
-        lineScanner = new LineScanner 'bool ='
+        lineScanner = new LineScanner 'true ='
         extractionResult = lineScanner.extractedWords()
 
 
@@ -17,8 +17,8 @@ describe 'LineScanner', ->
 
         it 'adds the reserved word to the line tokens', ->
           expect(lineScanner.lineTokens).to.eql [{
-            kind: 'bool',
-            lexeme: 'bool',
+            kind: 'true',
+            lexeme: 'true',
             start: 0
           }]
 

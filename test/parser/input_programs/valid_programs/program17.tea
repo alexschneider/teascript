@@ -1,4 +1,4 @@
-x = class:
+x := class:
   a : none
 
   init : (arg) ->
@@ -6,10 +6,14 @@ x = class:
   end
 
   x : (arg) ->
-    arg**2
+    while (arg < 1000):
+      arg**2
+    end
   end
 
   y : (arg) ->
     arg**0.5
   end
 end
+
+z = new x()

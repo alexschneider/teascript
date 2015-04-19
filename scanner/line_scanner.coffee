@@ -159,13 +159,19 @@ class LineScanner
   extractedNumericLiterals: ->
     @start = @position
     if /\d/.test @line[@position]
-      numberGroups = /(\d+)(\.\d+)?/.exec @line[@position..]
-      # if we grouped anything in the second group
-      # (numbers after the decimal point), then it is a floatlit
-      # if we didn't, it is a intlit
-      kind = if numberGroups[2] then 'FLOATLIT' else 'INTLIT'
-      @addToken {kind, lexeme: numberGroups[0]}
-      @position += numberGroups[0].length
+      numberGroups = /(?:\d+)(?:\.\d+)?(?:E[+-]?(?:\d+)(?:\.\d+)?)?/.exec @line[@position..]
+      # A number is considered a float if either the fraction or exponent
+      # part of the number has a decimal point. If the exponent is raised
+      # to a negative power, the number is also considered a float, since
+      # raising the exponent to a negative number implies moving the
+      # decimal point to the left.
+      # Example : 2.3E-1 = 0.23
+      #           100E-2 = 1.00
+      numLit = numberGroups[0]
+      isFloat = '.' in numLit or '-' in numLit
+      kind = if isFloat then 'FLOATLIT' else 'INTLIT'
+      @addToken {kind, lexeme: numLit}
+      @position += numLit.length
       return true
     return false
 

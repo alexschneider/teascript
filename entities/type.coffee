@@ -7,6 +7,8 @@ class Type
   constructor: (@name) ->
     cache[@name] = this
 
+  @forName: (name) -> cache[name]
+
   @BOOL = new Type 'bool'
   @INT = new Type 'int'
   @FLOAT = new Type 'float'
@@ -49,16 +51,4 @@ class Type
            this is Type.ARBITRARY or
            otherType is Type.ARBITRARY
 
-module.exports =
-  BOOL: Type.BOOL
-  INT: Type.INT
-  FLOAT: Type.FLOAT
-  NONE: Type.NONE
-  STR: Type.STR
-  LIST: Type.LIST
-  MAP: Type.MAP
-  TUPLE: Type.TUPLE
-  SET: Type.SET
-  FUNC: Type.FUNC
-  ARBITRARY: Type.ARBITRARY
-  forName: (name) -> cache[name]
+module.exports = Type

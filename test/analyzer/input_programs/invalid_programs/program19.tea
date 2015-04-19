@@ -1,13 +1,11 @@
-# Valid member access of MapLiteral with member as string
-a := {high: 5, low: 5}
-x := 'high'
-a.x
+x := class:
+  y: 'hello'
+  z: 'there'
+end
 
-# Valid at semantic check
-# because 'lmu' is string
-z := 'lmu'
-a.z 
+a := new x()
+# y is a field
+a.y
 
-
-# Should throw error because member can't be integer
-a.1
+# yo is NOT a field
+a.yo

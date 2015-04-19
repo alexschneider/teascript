@@ -19,6 +19,9 @@ class FunctionInvocation
     @mustHaveCorrectNumberOfArgs location
 
 
+    @type = Type.ARBITRARY
+
+
 
   mustBeFunction: (location) ->
     error = "#{@func.type} is not callable"
