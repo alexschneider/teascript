@@ -11,7 +11,7 @@ class CompiledOutput
         var _v4 = ( ! true );
     }());'''
 
-  @program02 = 
+  @program02 =
     '''(function () {
         var _v5 = [
             1,
@@ -21,7 +21,7 @@ class CompiledOutput
         ];
     }());'''
 
-  @program03 = 
+  @program03 =
     '''(function () {
         var _v6 = {
             first: '1',
