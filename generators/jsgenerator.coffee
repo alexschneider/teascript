@@ -60,8 +60,6 @@ generator =
     emit '}', whileCache
     whileCache.join '\n'
 
-  OutStatement: (s) -> "console.log(#{gen s.value});"
-
   ReturnStatement: (s) -> "return #{gen s.value};"
 
   ConditionalExpression: (s) ->
