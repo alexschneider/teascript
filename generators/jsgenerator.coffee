@@ -9,7 +9,13 @@ indentPadding = 4
 indentLevel = 0
 emit = (line, cache) ->
   pad = indentPadding * indentLevel
-  cache.push "#{Array(pad+1).join(' ')}#{line}"
+  # Having any more than two spaces is unnecessary unless it's part of an
+  # indent. We need to make sure that two or more spaces follow a non-space
+  # character to ensure it's not part of an indent
+  toEmit = "#{Array(pad+1).join(' ')}#{line}".replace /([^ ])  +/, '$1 '
+  if cache?
+    cache.push toEmit
+  toEmit
 
 makeOp = (op) ->
   {not: '!', and: '&&', or: '||', is: '===', isnt: '!=='}[op] or op
@@ -29,32 +35,27 @@ generator =
     indentLevel = 0
     emit '(function () {', programCache
     indentLevel++
-    gen program.block
+    programCache.push gen program.block
     indentLevel--
     emit '}());', programCache
     programCache.join '\n'
 
   Block: (block) ->
     blockCache = []
-    emit '(function() {', blockCache
-    indentLevel++
-    emit gen(statement), blockCache for statement in block.statements[..-1]
-    emit "return #{gen _.last block.statements};", blockCache
-    indentLevel--
-    emit '}());', blockCache
+    blockCache.push gen statement for statement in block.statements
     blockCache.join '\n'
 
   VariableDeclaration: (id) ->
-    "var #{makeVariable id} = #{gen id.value};"
+    emit "var #{makeVariable id} = #{gen id.value};"
 
   AssignmentStatement: (s) ->
-    "#{gen s.target} = #{gen s.source};"
+    emit "#{gen s.target} = #{gen s.source};"
 
   WhileStatement: (s) ->
     whileCache = []
     emit "while (#{gen s.condition}) {", whileCache
     indentLevel++
-    emit gen(s.body), whileCache
+    whileCache.push gen s.body
     indentLevel--
     emit '}', whileCache
     whileCache.join '\n'
@@ -66,32 +67,32 @@ generator =
   ConditionalExpression: (s) ->
     conditionalCache = []
     emit '(function () {', conditionalCache
-    indentLevel++
+    #indentLevel++
     emit "if (#{gen s.conditions[0]}) {", conditionalCache
-    indentLevel++
+    #indentLevel++
     emit "return #{gen s.body}", conditionalCache
-    indentLevel--
+    #indentLevel--
     emit '}', conditionalCache
     for [condition, body] in _.zip s.conditions[1..], s.bodies[1..]
       if condition?
         emit "else if (#{gen condition}) {", conditionalCache
       else
         emit 'else {', conditionalCache
-      indentLevel++
+      #indentLevel++
       emit "return #{gen body}", conditionalCache
-      indentLevel--
+      #indentLevel--
       emit '}', conditionalCache
-    indentLevel--
+    #indentLevel--
     emit '}());', conditionalCache
     conditionalCache.join '\n'
 
   Function: (s) ->
     fc = []
     emit "function (#{(param.lexeme for param in @params).join ', '}) {", fc
-    indentLevel++
+    #indentLevel++
     emit "return #{gen body};", fc
-    indentLevel--
-    emit "};", fc
+    #indentLevel--
+    emit '};', fc
     fc.join '\n'
 
   FunctionInvocation: (s) ->
@@ -112,10 +113,10 @@ generator =
   ListLiteral: (literal) ->
     llCache = []
     emit '[', llCache
-    indentLevel++
+    #indentLevel++
     elCache = []
     emit "#{gen element}" for element in literal.elements
-    indentLevel--
+    #indentLevel--
     emit elCache.join(',\n'), llCache
     emit ']'
     llCache.join '\n'
@@ -126,10 +127,10 @@ generator =
     slCache = []
     emit '{', slCache
     memCache = []
-    indentLevel++
+    #indentLevel++
     emit "#{gen member}: true", memCache for member in literal.members
     emit memCache.join(',\n'), slCache
-    indentLevel--
+    #indentLevel--
     emit '}'
     slCache.join '\n'
 
