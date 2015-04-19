@@ -12,7 +12,7 @@ emit = (line, cache) ->
   # Having any more than two spaces is unnecessary unless it's part of an
   # indent. We need to make sure that two or more spaces follow a non-space
   # character to ensure it's not part of an indent
-  toEmit = "#{Array(pad+1).join(' ')}#{line}".replace /([^ ])  +/g, '$1 '
+  toEmit = "#{Array(pad+1).join(' ')}#{line}".replace /([^\s])  +/g, '$1 '
   if cache?
     cache.push toEmit
   toEmit
