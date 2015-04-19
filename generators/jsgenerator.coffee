@@ -28,18 +28,20 @@ generator =
     programCache = []
     indentLevel = 0
     emit '(function () {', programCache
+    indentLevel++
     gen program.block
+    indentLevel--
     emit '}());', programCache
     programCache.join '\n'
 
   Block: (block) ->
     blockCache = []
-    indentLevel++
     emit '(function() {', blockCache
+    indentLevel++
     emit gen(statement), blockCache for statement in block.statements[..-1]
     emit "return #{gen _.last block.statements};", blockCache
-    emit '}());', blockCache
     indentLevel--
+    emit '}());', blockCache
     blockCache.join '\n'
 
   VariableDeclaration: (id) ->
@@ -51,30 +53,44 @@ generator =
   WhileStatement: (s) ->
     whileCache = []
     emit "while (#{gen s.condition}) {", whileCache
+    indentLevel++
     emit gen(s.body), whileCache
+    indentLevel--
     emit '}', whileCache
     whileCache.join '\n'
+
+  OutStatement: (s) -> "console.log(#{gen s.value});"
+
+  ReturnStatement: (s) -> "return #{gen s.value};"
 
   ConditionalExpression: (s) ->
     conditionalCache = []
     emit '(function () {', conditionalCache
+    indentLevel++
     emit "if (#{gen s.conditions[0]}) {", conditionalCache
+    indentLevel++
     emit "return #{gen s.body}", conditionalCache
+    indentLevel--
     emit '}', conditionalCache
     for [condition, body] in _.zip s.conditions[1..], s.bodies[1..]
       if condition?
         emit "else if (#{gen condition}) {", conditionalCache
       else
         emit 'else {', conditionalCache
+      indentLevel++
       emit "return #{gen body}", conditionalCache
+      indentLevel--
       emit '}', conditionalCache
+    indentLevel--
     emit '}());', conditionalCache
     conditionalCache.join '\n'
 
   Function: (s) ->
     fc = []
     emit "function (#{(param.lexeme for param in @params).join ', '}) {", fc
+    indentLevel++
     emit "return #{gen body};", fc
+    indentLevel--
     emit "};", fc
     fc.join '\n'
 
@@ -90,6 +106,35 @@ generator =
   FloatLiteral: (literal) -> literal.toString()
 
   NoneLiteral: (literal) -> 'null'
+
+  StringLiteral: (literal) -> literal.toString()
+
+  ListLiteral: (literal) ->
+    llCache = []
+    emit '[', llCache
+    indentLevel++
+    elCache = []
+    emit "#{gen element}" for element in literal.elements
+    indentLevel--
+    emit elCache.join(',\n'), llCache
+    emit ']'
+    llCache.join '\n'
+
+  MapLiteral: (literal) -> literal.toString()
+
+  SetLiteral: (literal) ->
+    slCache = []
+    emit '{', slCache
+    memCache = []
+    indentLevel++
+    emit "#{gen member}: true", memCache for member in literal.members
+    emit memCache.join(',\n'), slCache
+    indentLevel--
+    emit '}'
+    slCache.join '\n'
+
+  TupleLiteral: (literal) ->
+    generator['ListLiteral'](literal)
 
   VariableReference: (v) -> makeVariable v.referent
 
