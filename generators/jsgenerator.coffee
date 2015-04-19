@@ -111,10 +111,10 @@ generator =
   ListLiteral: (literal) ->
     llCache = []
     emit '[', llCache
-    #indentLevel++
+    indentLevel++
     elCache = []
     emit "#{gen element}" for element in literal.elements
-    #indentLevel--
+    indentLevel--
     emit elCache.join(',\n'), llCache
     emit ']'
     llCache.join '\n'
@@ -125,10 +125,10 @@ generator =
     slCache = []
     emit '{', slCache
     memCache = []
-    #indentLevel++
+    indentLevel++
     emit "#{gen member}: true", memCache for member in literal.members
     emit memCache.join(',\n'), slCache
-    #indentLevel--
+    indentLevel--
     emit '}'
     slCache.join '\n'
 
