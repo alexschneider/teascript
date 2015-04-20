@@ -35,3 +35,12 @@ describe 'JS generator', ->
         program = generate program
         expect(program).to.eql expectedOutput.program03
         done()
+
+  describe 'compiling a valid set', ->
+    it 'outputs the correct javascript', (done) ->
+      scan "#{validTeascriptProgramsPath}/program04.tea", (err, tokens) ->
+        program = parse tokens
+        program.analyze()
+        program = generate program
+        expect(program).to.eql expectedOutput.program04
+        done()
