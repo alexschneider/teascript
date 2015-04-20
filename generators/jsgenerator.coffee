@@ -124,8 +124,7 @@ generator =
     indentLevel++
     kvCache = []
     values = l.values.map gen
-    keys = l.keys.map gen
-    emit "#{key}: #{val}", kvCache for [key, val] in _.zip keys, values
+    emit "#{key.lexeme}: #{val}", kvCache for [key, val] in _.zip l.keys, values
     indentLevel--
     mlCache.push kvCache.join ',\n'
     emit '}', mlCache
