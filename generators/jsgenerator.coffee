@@ -65,31 +65,23 @@ generator =
   ConditionalExpression: (e) ->
     conditionalCache = []
     emit '(function () {', conditionalCache
-    #indentLevel++
     emit "if (#{gen e.conditions[0]}) {", conditionalCache
-    #indentLevel++
     emit "return #{gen e.body}", conditionalCache
-    #indentLevel--
     emit '}', conditionalCache
     for [condition, body] in _.zip e.conditions[1..], e.bodies[1..]
       if condition?
         emit "else if (#{gen condition}) {", conditionalCache
       else
         emit 'else {', conditionalCache
-      #indentLevel++
       emit "return #{gen body}", conditionalCache
-      #indentLevel--
       emit '}', conditionalCache
-    #indentLevel--
     emit '}());', conditionalCache
     conditionalCache.join '\n'
 
   Function: (func) ->
     fc = []
     emit "function (#{(param.lexeme for param in func.params).join ', '}) {", fc
-    #indentLevel++
     emit "return #{gen func.body};", fc
-    #indentLevel--
     emit '};', fc
     fc.join '\n'
 
