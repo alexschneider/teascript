@@ -25,11 +25,6 @@ makeVariable = do (lastId = 0, map = new HashMap()) ->
     map.set v, ++lastId unless map.has(v)
     '_v' + map.get v
 
-makeKey = do (lastId = 0, map = new HashMap()) ->
-  (k) ->
-    map.set k, ++lastId unless map.has(k)
-    '_k' + map.get k
-
 gen = (e) ->
   generator[e.constructor.name](e)
 
@@ -121,8 +116,7 @@ generator =
     indentLevel++
     kvCache = []
     values = l.values.map gen
-    keys = l.keys.map (key) -> makeKey key.lexeme
-    emit "'#{key}': #{val}", kvCache for [key, val] in _.zip keys, values
+    emit "'#{key.lexeme}': #{val}", kvCache for [key, val] in _.zip l.keys, values
     indentLevel--
     mlCache.push kvCache.join ',\n'
     emit '}', mlCache
@@ -131,11 +125,9 @@ generator =
   SetLiteral: (l) ->
     slCache = []
     emit '{', slCache
-    memCache = []
     indentLevel++
-    emit "'#{makeKey member}': true", memCache for member in l.members
+    slCache.push l.members.map((member) -> "#{gen member}: true").join ',\n'
     indentLevel--
-    slCache.push memCache.join ',\n'
     emit '}', slCache
     slCache.join '\n'
 
