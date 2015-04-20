@@ -19,27 +19,38 @@ class CompiledOutput
             3,
             4
         ];
+        var _v6 = [
+            "hello",
+            16,
+            "goodbye",
+            4.5
+        ];
     }());'''
 
   @program03 =
     '''(function () {
-        var _v6 = {
+        var _v7 = {
             'first': 1,
             'second': 2,
             'third': 3
+        };
+        var _v8 = {
+            'a': "ayy",
+            'b': "bee",
+            'c': "sea"
         };
     }());'''
 
   @program04 =
     '''(function () {
-        var _v7 = {
+        var _v9 = {
             1: true,
             2: true,
             3: true,
             4: true,
             5: true
         };
-        var _v8 = {
+        var _v10 = {
             'dog': true,
             'cat': true,
             'mouse': true
