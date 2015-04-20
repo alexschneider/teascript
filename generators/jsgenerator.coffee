@@ -87,13 +87,11 @@ generator =
     fc.join '\n'
 
   FunctionInvocation: (s) ->
-    console.log 'ess func ' + s.func.toString()
-
     args = s.args.map makeVariable
     if s.func.toString() is 'out'
-      console.log 'built in: ' + JSON.stringify BuiltIn.entities
-      #BuiltIn.entities
-    emit "#{gen s.func}(#{args.join ', '});"
+      emit BuiltIn.OutCode(args)
+    else
+      emit "#{gen s.func}(#{args.join ', '});"
 
 
   IntegerLiteral: (l) -> emit l.toString()
