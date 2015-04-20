@@ -8,7 +8,6 @@ validTeascriptProgramsPath = "#{__dirname}/input_programs/valid_programs"
 expectedOutput = require "#{__dirname}/expected_output/compiled_output"
 
 describe 'JS generator', ->
-
   describe 'fully compiling a valid program', ->
     it 'outputs the correct javascript', (done) ->
       scan "#{validTeascriptProgramsPath}/program01.tea", (err, tokens) ->
@@ -58,9 +57,25 @@ describe 'JS generator', ->
     it 'outputs the correct javascript', (done) ->
       scan "#{validTeascriptProgramsPath}/program06.tea", (err, tokens) ->
         program = parse tokens
-        console.log JSON.stringify program
         program.analyze()
-        console.log JSON.stringify program
         program = generate program
         expect(program).to.eql expectedOutput.program06
+        done()
+
+  describe 'compiling single line functions', ->
+    it 'outputs the correct javascript', (done) ->
+      scan "#{validTeascriptProgramsPath}/program07.tea", (err, tokens) ->
+        program = parse tokens
+        program.analyze()
+        program = generate program
+        expect(program).to.eql expectedOutput.program07
+        done()
+
+  describe 'compiling multiline functions', ->
+    it 'outputs the correct javascript', (done) ->
+      scan "#{validTeascriptProgramsPath}/program08.tea", (err, tokens) ->
+        program = parse tokens
+        program.analyze()
+        program = generate program
+        expect(program).to.eql expectedOutput.program08
         done()

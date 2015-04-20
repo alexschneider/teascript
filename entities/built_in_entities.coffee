@@ -8,6 +8,6 @@ class BuiltInEntities
         type: Type.FUNC
       type: Type.FUNC
   @OutCode: (args) ->  # Make this a property of out object above
-      'console.log(' + args + ');'
+    "console.log( #{args} );"
 
 module.exports = BuiltInEntities

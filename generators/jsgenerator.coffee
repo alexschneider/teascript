@@ -1,9 +1,12 @@
-util = require('util')
 _ = require 'underscore'
 HashMap = require('hashmap').HashMap
 BuiltIn = require '../entities/built_in_entities'
 
+map = null
+lastId = null
 module.exports = (program) ->
+  map = new HashMap()
+  lastId = 0
   gen program
 
 indentPadding = 4
@@ -13,7 +16,11 @@ emit = (line, cache) ->
   # Having any more than two spaces is unnecessary unless it's part of an
   # indent. We need to make sure that two or more spaces follow a non-space
   # character to ensure it's not part of an indent
-  toEmit = "#{Array(pad+1).join(' ')}#{line}".replace /([^\s])  +/g, '$1 '
+  # Also, we want to be liberal with our semicoloning, but multiple semicolons
+  # are redundant, so we need to get rid of them.
+  toEmit = "#{Array(pad+1).join(' ')}#{line}"
+            .replace /([^\s])  +/g, '$1 '
+            .replace /;;+/g, ';'
   if cache?
     cache.push toEmit
   toEmit
@@ -21,10 +28,9 @@ emit = (line, cache) ->
 makeOp = (op) ->
   {not: '!', and: '&&', or: '||', is: '===', isnt: '!=='}[op] or op
 
-makeVariable = do (lastId = 0, map = new HashMap()) ->
-  (v) ->
-    map.set v, ++lastId unless map.has(v)
-    '_v' + map.get v
+makeVariable = (v) ->
+  map.set v, ++lastId unless map.has(v)
+  '_v' + map.get v
 
 gen = (e) ->
   generator[e.constructor.name](e)
@@ -32,64 +38,71 @@ gen = (e) ->
 generator =
 
   Program: (program) ->
-    programCache = []
+    programBuffer = []
     indentLevel = 0
-    emit '(function () {', programCache
+    emit '(function () {', programBuffer
     indentLevel++
-    programCache.push gen program.block
+    programBuffer.push gen program.block
     indentLevel--
-    emit '}());', programCache
-    programCache.join '\n'
+    emit '}());', programBuffer
+    programBuffer.join '\n'
 
   Block: (block) ->
-    blockCache = []
-    blockCache.push gen statement for statement in block.statements
-    blockCache.join '\n'
+    # TODO: Determine if last line of block needs to be returned
+    blockBuffer = []
+    emit '(function () {', blockBuffer
+    indentLevel++
+    blockBuffer.push gen statement for statement in block.statements
+    indentLevel--
+    emit '}());', blockBuffer
+    blockBuffer.join '\n'
 
-  VariableDeclaration: (id) ->
-    emit "var #{makeVariable id} = #{gen id.value};"
+  VariableDeclaration: (variable) ->
+    emit "var #{makeVariable variable} = #{gen variable.value};"
 
   AssignmentStatement: (s) ->
     emit "#{gen s.target} = #{gen s.source};"
 
   WhileStatement: (s) ->
-    whileCache = []
-    emit "while ( #{gen s.condition} ) {", whileCache
+    whileBuffer = []
+    emit "while ( #{gen s.condition} ) {", whileBuffer
     indentLevel++
-    whileCache.push gen s.body
+    whileBuffer.push gen s.body
     indentLevel--
-    emit '}', whileCache
-    whileCache.join '\n'
+    emit '}', whileBuffer
+    whileBuffer.join '\n'
 
   ReturnStatement: (s) -> emit "return #{gen s.value};"
 
   ConditionalExpression: (e) ->
-    conditionalCache = []
-    emit '(function () {', conditionalCache
-    emit "if (#{gen e.conditions[0]}) {", conditionalCache
-    emit "return #{gen e.body}", conditionalCache
-    emit '}', conditionalCache
+    conditionalBuffer = []
+    emit '(function () {', conditionalBuffer
+    emit "if (#{gen e.conditions[0]}) {", conditionalBuffer
+    emit "return #{gen e.body}", conditionalBuffer
+    emit '}', conditionalBuffer
     for [condition, body] in _.zip e.conditions[1..], e.bodies[1..]
       if condition?
-        emit "else if (#{gen condition}) {", conditionalCache
+        emit "else if (#{gen condition}) {", conditionalBuffer
       else
-        emit 'else {', conditionalCache
-      emit "return #{gen body}", conditionalCache
-      emit '}', conditionalCache
-    emit '}());', conditionalCache
-    conditionalCache.join '\n'
+        emit 'else {', conditionalBuffer
+      emit "return #{gen body}", conditionalBuffer
+      emit '}', conditionalBuffer
+    emit '}());', conditionalBuffer
+    conditionalBuffer.join '\n'
 
   Function: (func) ->
     fc = []
     emit "function (#{(param.lexeme for param in func.params).join ', '}) {", fc
+    indentLevel++
     emit "return #{gen func.body};", fc
+    indentLevel--
     emit '};', fc
     fc.join '\n'
 
   FunctionInvocation: (s) ->
-    args = s.args.map makeVariable
+    args = s.args.map (arg) -> gen arg
     if s.func.toString() is 'out'
-      emit BuiltIn.OutCode(args)
+      emit BuiltIn.OutCode args
     else
       emit "#{gen s.func}(#{args.join ', '});"
 
@@ -105,38 +118,37 @@ generator =
   StringLiteral: (l) -> emit l.toString()
 
   ListLiteral: (l) ->
-    llCache = []
-    emit '[', llCache
+    llBuffer = []
+    emit '[', llBuffer
     indentLevel++
     elements = l.elements.map gen
     indentLevel--
-    llCache.push elements.join ',\n'
-    emit ']', llCache
-    llCache.join '\n'
+    llBuffer.push elements.join ',\n'
+    emit ']', llBuffer
+    llBuffer.join '\n'
 
   MapLiteral: (l) ->
-    mlCache = []
-    emit '{', mlCache
+    mlBuffer = []
+    emit '{', mlBuffer
     indentLevel++
-    kvCache = []
+    kvBuffer = []
     values = l.values.map gen
-    emit "'#{key.lexeme}': #{val}", kvCache for [key, val] in _.zip l.keys, values
+    emit "'#{key.lexeme}': #{val}", kvBuffer for [key, val] in _.zip l.keys, values
     indentLevel--
-    mlCache.push kvCache.join ',\n'
-    emit '}', mlCache
-    mlCache.join '\n'
+    mlBuffer.push kvBuffer.join ',\n'
+    emit '}', mlBuffer
+    mlBuffer.join '\n'
 
   SetLiteral: (l) ->
-    slCache = []
-    emit '{', slCache
+    slBuffer = []
+    emit '{', slBuffer
     indentLevel++
-    slCache.push l.members.map((member) -> "#{gen member}: true").join ',\n'
+    slBuffer.push l.members.map((member) -> "#{gen member}: true").join ',\n'
     indentLevel--
-    emit '}', slCache
-    slCache.join '\n'
+    emit '}', slBuffer
+    slBuffer.join '\n'
 
-  TupleLiteral: (l) ->
-    generator['ListLiteral'](l)
+  TupleLiteral: (l) -> generator['ListLiteral'](l)
 
   VariableReference: (v) -> makeVariable v.referent
 
