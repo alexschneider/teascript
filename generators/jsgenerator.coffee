@@ -53,14 +53,14 @@ generator =
 
   WhileStatement: (s) ->
     whileCache = []
-    emit "while (#{gen s.condition}) {", whileCache
+    emit "while ( #{gen s.condition} ) {", whileCache
     indentLevel++
     whileCache.push gen s.body
     indentLevel--
     emit '}', whileCache
     whileCache.join '\n'
 
-  ReturnStatement: (s) -> "return #{gen s.value};"
+  ReturnStatement: (s) -> emit "return #{gen s.value};"
 
   ConditionalExpression: (e) ->
     conditionalCache = []
@@ -124,7 +124,8 @@ generator =
     indentLevel++
     kvCache = []
     values = l.values.map gen
-    emit "#{key}: #{val}", kvCache for [key, val] in _.zip l.keys, values
+    keys = l.keys.map gen
+    emit "#{key}: #{val}", kvCache for [key, val] in _.zip keys, values
     indentLevel--
     mlCache.push kvCache.join ',\n'
     emit '}', mlCache
@@ -147,7 +148,7 @@ generator =
   VariableReference: (v) -> makeVariable v.referent
 
   PreUnaryExpression: (e) ->
-    "( #{makeOp e.op.lexeme} #{gen e.operand} )"
+    emit "( #{makeOp e.op.lexeme} #{gen e.operand} )"
 
   BinaryExpression: (e) ->
-    "( #{gen e.left} #{makeOp e.op.lexeme} #{gen e.right} )"
+    emit "( #{gen e.left} #{makeOp e.op.lexeme} #{gen e.right} )"
