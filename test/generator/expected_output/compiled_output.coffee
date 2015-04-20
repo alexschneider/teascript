@@ -30,5 +30,12 @@ class CompiledOutput
         };
     }());'''
 
+  @program04 =
+    '''(function () {
+        var _v7 = {
+            '_k2' : true
+        }
+    }());'''
+
 
 module.exports = CompiledOutput
