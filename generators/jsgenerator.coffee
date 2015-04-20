@@ -141,7 +141,7 @@ generator =
     emit '{', slCache
     memCache = []
     indentLevel++
-    emit "'#{gen member}': true", memCache for member in l.members
+    emit "'#{makeKey member}': true", memCache for member in l.members
     indentLevel--
     slCache.push memCache.join ',\n'
     emit '}', slCache
