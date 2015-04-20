@@ -15,9 +15,9 @@ class CompiledOutput
     '''(function () {
         var _v5 = [
             1,
-            2,
+            2.5,
             3,
-            4
+            4.8
         ];
         var _v6 = [
             "hello",
@@ -57,5 +57,19 @@ class CompiledOutput
         };
     }());'''
 
+  @program05 =
+    '''(function () {
+        var _v11 = [
+            1,
+            2,
+            3,
+            4
+        ];
+        var _v12 = [
+            12.3,
+            10.0,
+            1234.1234
+        ];
+    }());'''
 
 module.exports = CompiledOutput

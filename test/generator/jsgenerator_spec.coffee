@@ -18,7 +18,7 @@ describe 'JS generator', ->
         expect(program).to.eql expectedOutput.program01
         done()
 
-  describe 'compiling a valid list', ->
+  describe 'compiling valid tuples', ->
     it 'outputs the correct javascript', (done) ->
       scan "#{validTeascriptProgramsPath}/program02.tea", (err, tokens) ->
         program = parse tokens
@@ -27,7 +27,7 @@ describe 'JS generator', ->
         expect(program).to.eql expectedOutput.program02
         done()
 
-  describe 'compiling a valid map', ->
+  describe 'compiling valid maps', ->
     it 'outputs the correct javascript', (done) ->
       scan "#{validTeascriptProgramsPath}/program03.tea", (err, tokens) ->
         program = parse tokens
@@ -36,11 +36,20 @@ describe 'JS generator', ->
         expect(program).to.eql expectedOutput.program03
         done()
 
-  describe 'compiling a valid set', ->
+  describe 'compiling valid sets', ->
     it 'outputs the correct javascript', (done) ->
       scan "#{validTeascriptProgramsPath}/program04.tea", (err, tokens) ->
         program = parse tokens
         program.analyze()
         program = generate program
         expect(program).to.eql expectedOutput.program04
+        done()
+
+  describe 'compiling valid lists', ->
+    it 'outputs the correct javascript', (done) ->
+      scan "#{validTeascriptProgramsPath}/program05.tea", (err, tokens) ->
+        program = parse tokens
+        program.analyze()
+        program = generate program
+        expect(program).to.eql expectedOutput.program05
         done()
