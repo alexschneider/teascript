@@ -24,17 +24,26 @@ class CompiledOutput
   @program03 =
     '''(function () {
         var _v6 = {
-            '_k1': 1,
-            '_k2': 2,
-            '_k3': 3
+            'first': 1,
+            'second': 2,
+            'third': 3
         };
     }());'''
 
   @program04 =
     '''(function () {
         var _v7 = {
-            '_k2' : true
-        }
+            1: true,
+            2: true,
+            3: true,
+            4: true,
+            5: true
+        };
+        var _v8 = {
+            'dog': true,
+            'cat': true,
+            'mouse': true
+        };
     }());'''
 
 
