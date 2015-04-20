@@ -24,9 +24,9 @@ class CompiledOutput
   @program03 =
     '''(function () {
         var _v6 = {
-            first: '1',
-            second: '2',
-            third: '3'
+            '_k1': 1,
+            '_k2': 2,
+            '_k3': 3
         };
     }());'''
 
