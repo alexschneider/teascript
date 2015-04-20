@@ -72,4 +72,10 @@ class CompiledOutput
         ];
     }());'''
 
+  @program06 =
+    '''(function () {
+        var _v13 = "hellooo";
+        console.log( var_13 );
+    }());'''
+
 module.exports = CompiledOutput

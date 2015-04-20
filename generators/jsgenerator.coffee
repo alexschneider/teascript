@@ -1,6 +1,7 @@
 util = require('util')
 _ = require 'underscore'
 HashMap = require('hashmap').HashMap
+BuiltIn = require '../entities/built_in_entities'
 
 module.exports = (program) ->
   gen program
@@ -86,8 +87,13 @@ generator =
     fc.join '\n'
 
   FunctionInvocation: (s) ->
+    console.log 'ess func ' + s.func.toString()
+
     args = s.args.map makeVariable
-    "#{gen s.func}(#{args.join ', '});"
+    if s.func.toString() is 'out'
+      console.log 'built in: ' + JSON.stringify BuiltIn.entities
+      #BuiltIn.entities
+    emit "#{gen s.func}(#{args.join ', '});"
 
 
   IntegerLiteral: (l) -> emit l.toString()

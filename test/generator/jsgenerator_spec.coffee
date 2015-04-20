@@ -53,3 +53,14 @@ describe 'JS generator', ->
         program = generate program
         expect(program).to.eql expectedOutput.program05
         done()
+
+  describe 'compiling the valid built in function "out"', ->
+    it 'outputs the correct javascript', (done) ->
+      scan "#{validTeascriptProgramsPath}/program06.tea", (err, tokens) ->
+        program = parse tokens
+        console.log JSON.stringify program
+        program.analyze()
+        console.log JSON.stringify program
+        program = generate program
+        expect(program).to.eql expectedOutput.program06
+        done()
