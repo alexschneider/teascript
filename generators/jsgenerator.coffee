@@ -77,16 +77,21 @@ generator =
   ConditionalExpression: (e) ->
     conditionalBuffer = []
     emit '(function () {', conditionalBuffer
+    indentLevel++
     emit "if (#{gen e.conditions[0]}) {", conditionalBuffer
-    emit "return #{gen e.body}", conditionalBuffer
-    emit '}', conditionalBuffer
+    indentLevel++
+    emit "return #{gen e.bodies[0]}", conditionalBuffer
+    indentLevel--
     for [condition, body] in _.zip e.conditions[1..], e.bodies[1..]
       if condition?
-        emit "else if (#{gen condition}) {", conditionalBuffer
+        emit "} else if (#{gen condition}) {", conditionalBuffer
       else
-        emit 'else {', conditionalBuffer
+        emit '} else {', conditionalBuffer
+      indentLevel++
       emit "return #{gen body}", conditionalBuffer
-      emit '}', conditionalBuffer
+      indentLevel--
+    emit '}', conditionalBuffer
+    indentLevel--
     emit '}());', conditionalBuffer
     conditionalBuffer.join '\n'
 
