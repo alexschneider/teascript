@@ -14,7 +14,10 @@ class ConditionalExpression
     "(#{sb.join ' '})"
 
   analyze: (context) ->
-    # TODO
+    for [condition, body] in _.zip @conditions, @bodies
+      localContext = context.createChildContext()
+      condition.analyze localContext if condition?
+      body.analyze localContext
 
   optimize: ->
     # TODO

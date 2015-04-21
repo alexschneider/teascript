@@ -184,5 +184,6 @@ class MyAnalyzedPrograms
       type: {name: 'float'}
     }
   ]}})
+  @program04 = JSON.stringify({"block":{"statements":[{"id":{"lexeme":"sum","kind":"ID","start":0,"lineNumber":1},"value":{"params":[{"lexeme":"a","kind":"ID","start":8,"lineNumber":1,"type":{"name":"<arbitrary_type>"}},{"lexeme":"b","kind":"ID","start":11,"lineNumber":1,"type":{"name":"<arbitrary_type>"}},{"lexeme":"c","kind":"ID","start":14,"lineNumber":1,"type":{"name":"<arbitrary_type>"}}],"body":{"statements":[{"value":{"op":{"lexeme":"+","kind":"+","start":13,"lineNumber":2},"left":{"op":{"lexeme":"+","kind":"+","start":11,"lineNumber":2},"left":{"token":{"lexeme":"a","kind":"ID","start":10,"lineNumber":2},"referent":{"lexeme":"a","kind":"ID","start":8,"lineNumber":1,"type":{"name":"<arbitrary_type>"}},"type":{"name":"<arbitrary_type>"}},"right":{"token":{"lexeme":"b","kind":"ID","start":12,"lineNumber":2},"referent":{"lexeme":"b","kind":"ID","start":11,"lineNumber":1,"type":{"name":"<arbitrary_type>"}},"type":{"name":"<arbitrary_type>"}},"type":{"name":"int"}},"right":{"token":{"lexeme":"c","kind":"ID","start":14,"lineNumber":2},"referent":{"lexeme":"c","kind":"ID","start":14,"lineNumber":1,"type":{"name":"<arbitrary_type>"}},"type":{"name":"<arbitrary_type>"}},"type":{"name":"int"}}}]},"type":{"name":"func"}},"type":{"name":"func"}}]}})
 
 module.exports = MyAnalyzedPrograms
