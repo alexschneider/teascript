@@ -12,6 +12,13 @@ class CompiledOutput
             var _v2 = ( ( 5 * 6 ) - _v1 );
             var _v3 = 5.5;
             var _v4 = ( ! true );
+            var _v5 = (function(lb, ub, skip) {
+                var temp = [];
+                for(var i = lb; i < ub; i += skip ) {
+                    temp.push(i);
+                }
+                return temp;
+            })(1, 10, 3);
         }());
     }());'''
 

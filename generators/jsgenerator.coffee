@@ -155,6 +155,25 @@ generator =
 
   TupleLiteral: (l) -> generator['ListLiteral'](l)
 
+  Range: (l) ->
+    rBuffer = []
+    lb = l.num1
+    ub = if l.op.lexeme is '...' then gen l.num2 else (gen l.num2).concat('- 1')
+    skip = l.skip
+
+    emit '(function(lb, ub, skip) {', rBuffer
+    indentLevel++
+    emit 'var temp = [];', rBuffer
+    emit 'for(var i = lb; i < ub; i += skip ) {', rBuffer
+    indentLevel++
+    emit 'temp.push(i);', rBuffer
+    indentLevel--
+    emit '}', rBuffer
+    emit 'return temp;', rBuffer
+    indentLevel--
+    emit "})(#{lb}, #{ub}, #{skip})", rBuffer
+    rBuffer.join '\n'
+
   VariableReference: (v) -> makeVariable v.referent
 
   PreUnaryExpression: (e) ->
