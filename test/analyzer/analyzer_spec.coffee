@@ -49,7 +49,7 @@ describe 'Semantic Analyzer', ->
   describe 'analyzing a valid program', ->
     context 'when there is a conditional', ->
       it 'analyzes the condition and body properly', (done) ->
-        scan "#{validParserProgramsPath}/program04.tea", (err, tokens) ->
+        scan "#{validParserProgramsPath}/program05.tea", (err, tokens) ->
           program = parse tokens
           program.analyze()
           expect(JSON.stringify program).to.eql expectedAnalysis.program04

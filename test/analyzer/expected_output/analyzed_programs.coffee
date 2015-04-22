@@ -16,7 +16,7 @@ class MyAnalyzedPrograms
       value: {lexeme: 'none',  kind: 'none',  start: 0,  lineNumber: 6},
       type: {name: 'none'}
     },  {
-      value: {lexeme: "\"abc\"",  kind: 'STRLIT',  start: 0,  lineNumber: 9},
+      value: {lexeme: '\"abc\"',  kind: 'STRLIT',  start: 0,  lineNumber: 9},
       type: {name: 'str'}
     },  {
       elements: [
@@ -60,10 +60,10 @@ class MyAnalyzedPrograms
       ],
       values:[
         {
-          value: {lexeme: "\"b\"",  kind: 'STRLIT',  start: 4,  lineNumber: 13},
+          value: {lexeme: '\"b\"',  kind: 'STRLIT',  start: 4,  lineNumber: 13},
           type: {name: 'str'}
         },  {
-          value: {lexeme: "\"\"",  kind: 'STRLIT',  start:12,  lineNumber: 13},
+          value: {lexeme: '\"\"',  kind: 'STRLIT',  start:12,  lineNumber: 13},
           type: {name: 'str'}
         }
       ],
@@ -184,6 +184,124 @@ class MyAnalyzedPrograms
       type: {name: 'float'}
     }
   ]}})
-  @program04 = JSON.stringify({"block":{"statements":[{"id":{"lexeme":"sum","kind":"ID","start":0,"lineNumber":1},"value":{"params":[{"lexeme":"a","kind":"ID","start":8,"lineNumber":1,"type":{"name":"<arbitrary_type>"}},{"lexeme":"b","kind":"ID","start":11,"lineNumber":1,"type":{"name":"<arbitrary_type>"}},{"lexeme":"c","kind":"ID","start":14,"lineNumber":1,"type":{"name":"<arbitrary_type>"}}],"body":{"statements":[{"value":{"op":{"lexeme":"+","kind":"+","start":13,"lineNumber":2},"left":{"op":{"lexeme":"+","kind":"+","start":11,"lineNumber":2},"left":{"token":{"lexeme":"a","kind":"ID","start":10,"lineNumber":2},"referent":{"lexeme":"a","kind":"ID","start":8,"lineNumber":1,"type":{"name":"<arbitrary_type>"}},"type":{"name":"<arbitrary_type>"}},"right":{"token":{"lexeme":"b","kind":"ID","start":12,"lineNumber":2},"referent":{"lexeme":"b","kind":"ID","start":11,"lineNumber":1,"type":{"name":"<arbitrary_type>"}},"type":{"name":"<arbitrary_type>"}},"type":{"name":"int"}},"right":{"token":{"lexeme":"c","kind":"ID","start":14,"lineNumber":2},"referent":{"lexeme":"c","kind":"ID","start":14,"lineNumber":1,"type":{"name":"<arbitrary_type>"}},"type":{"name":"<arbitrary_type>"}},"type":{"name":"int"}}}]},"type":{"name":"func"}},"type":{"name":"func"}}]}})
+  @program04 = JSON.stringify(
+    {
+      'block': {
+        'statements': [
+          {
+            'id': {
+              'lexeme': 'a',
+              'kind': 'ID',
+              'start': 0,
+              'lineNumber': 1
+            },
+            'value': {
+              'value': {
+                'lexeme': 'true',
+                'kind': 'true',
+                'start': 5,
+                'lineNumber': 1
+              },
+              'type': {
+                'name': 'bool'
+              }
+            },
+            'type': {
+              'name': 'bool'
+            }
+          },
+          {
+            'conditions': [
+              {
+                'token': {
+                  'lexeme': 'a',
+                  'kind': 'ID',
+                  'start': 3,
+                  'lineNumber': 3
+                },
+                'referent': {
+                  'id': {
+                    'lexeme': 'a',
+                    'kind': 'ID',
+                    'start': 0,
+                    'lineNumber': 1
+                  },
+                  'value': {
+                    'value': {
+                      'lexeme': 'true',
+                      'kind': 'true',
+                      'start': 5,
+                      'lineNumber': 1
+                    },
+                    'type': {
+                      'name': 'bool'
+                    }
+                  },
+                  'type': {
+                    'name': 'bool'
+                  }
+                },
+                'type': {
+                  'name': 'bool'
+                }
+              }
+            ],
+            'bodies': [
+              {
+                'statements': [
+                  {
+                    'func': {
+                      'token': {
+                        'lexeme': 'out',
+                        'kind': 'ID',
+                        'start': 2,
+                        'lineNumber': 4
+                      },
+                      'referent': {
+                        'value': {
+                          'params': [
+                            {
+                              'value': {
+                                'token': 'str'
+                              }
+                            }
+                          ],
+                          'type': {
+                            'name': 'func'
+                          }
+                        },
+                        'type': {
+                          'name': 'func'
+                        }
+                      },
+                      'type': {
+                        'name': 'func'
+                      }
+                    },
+                    'args': [
+                      {
+                        'value': {
+                          'lexeme': '\"a is true\"',
+                          'kind': 'STRLIT',
+                          'start': 6,
+                          'lineNumber': 4
+                        },
+                        'type': {
+                          'name': 'str'
+                        }
+                      }
+                    ],
+                    'type': {
+                      'name': '<arbitrary_type>'
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  )
 
 module.exports = MyAnalyzedPrograms
