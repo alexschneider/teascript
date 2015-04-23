@@ -97,7 +97,7 @@ generator =
 
   Function: (func) ->
     fc = []
-    emit "function (#{(param.lexeme for param in func.params).join ', '}) {", fc
+    emit "function (#{(makeVariable param for param in func.params).join ', '}) {", fc
     indentLevel++
     emit "return #{gen func.body};", fc
     indentLevel--
@@ -108,6 +108,10 @@ generator =
     args = s.args.map (arg) -> gen arg
     if s.func.toString() is 'out'
       emit BuiltIn.OutCode args
+    else if s.func.toString() is 'times'
+      emit BuiltIn.TimesCode args
+    else if s.func.toString() is 'sqrt'
+      emit BuiltIn.SqrtCode args
     else
       emit "#{gen s.func}(#{args.join ', '});"
 

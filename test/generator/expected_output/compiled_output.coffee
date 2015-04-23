@@ -138,4 +138,51 @@ class CompiledOutput
         }());
     }());'''
 
+  @program10 =
+    '''(function () {
+        (function () {
+            var _v1 = function (_v2) {
+                return (function () {
+                    ( _v2 * 2 )
+                }());
+            };
+            _v1 (_v1 (_v1 ( 2 ) ) );
+            _v1 (_v1 (_v1 (_v1 (_v1 ( 3 ) ) ) ) );
+        }());
+    }());'''
+
+  @program11 =
+    '''(function () {
+        (function () {
+            var _v1 = function (_v2) {
+                return (function () {
+                    ( _v2 * 2 )
+                }());
+            };
+        }());
+    }());'''
+
+  @program12 =
+    '''(function () {
+        (function () {
+            var _v1 = function (_v2, _v3) {
+                return (function () {
+                    ( _v2 * _v3 )
+                }());
+            };
+        }());
+    }());'''
+
+  @program13 =
+    '''(function () {
+            (function () {
+                Math.sqrt( 100 );
+                Math.sqrt( 9 );
+                Math.sqrt( 1 );
+                Math.sqrt( 0 );
+            }());
+        }());
+    '''
+
+
 module.exports = CompiledOutput

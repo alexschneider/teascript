@@ -79,6 +79,7 @@ describe 'JS generator', ->
         program = generate program
         expect(program).to.eql expectedOutput.program08
         done()
+
   describe 'compiling programs with conditionals', ->
     it 'outputs the correct javascript', (done) ->
       scan "#{validTeascriptProgramsPath}/program09.tea", (err, tokens) ->
@@ -87,3 +88,40 @@ describe 'JS generator', ->
         program = generate program
         expect(program).to.eql expectedOutput.program09
         done()
+
+  describe 'compiling times built in function', ->
+    it 'outputs the correct javascript', (done) ->
+      scan "#{validTeascriptProgramsPath}/program10.tea", (err, tokens) ->
+        program = parse tokens
+        program.analyze()
+        program = generate program
+        expect(program).to.eql expectedOutput.program10
+        done()
+
+  describe 'compiling a function with an argument', ->
+    it 'outputs the correct javascript', (done) ->
+      scan "#{validTeascriptProgramsPath}/program11.tea", (err, tokens) ->
+        program = parse tokens
+        program.analyze()
+        program = generate program
+        expect(program).to.eql expectedOutput.program11
+        done()
+
+  describe 'compiling a function with two arguments', ->
+    it 'outputs the correct javascript', (done) ->
+      scan "#{validTeascriptProgramsPath}/program12.tea", (err, tokens) ->
+        program = parse tokens
+        program.analyze()
+        program = generate program
+        expect(program).to.eql expectedOutput.program12
+        done()
+
+  describe 'compiling sqrt built in function', ->
+    it 'outputs the correct javascript', (done) ->
+      scan "#{validTeascriptProgramsPath}/program13.tea", (err, tokens) ->
+        program = parse tokens
+        program.analyze()
+        program = generate program
+        expect(program).to.eql expectedOutput.program13
+        done()
+
