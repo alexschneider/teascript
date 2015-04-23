@@ -122,4 +122,19 @@ class CompiledOutput
         }());
     }());'''
 
+  @program10 =
+    '''(function () {
+          (function () {
+              ( [
+                  1,
+                  2,
+                  3
+              ]).forEach( function (_v1) {
+                              (function () {
+                      console.log( _v1 );
+                  }());
+              })
+          }());
+      }());'''
+
 module.exports = CompiledOutput

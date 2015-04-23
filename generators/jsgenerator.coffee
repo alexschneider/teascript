@@ -181,3 +181,13 @@ generator =
 
   BinaryExpression: (e) ->
     emit "( #{gen e.left} #{makeOp e.op.lexeme} #{gen e.right} )"
+
+  ForStatement: (s) ->
+    fsBuffer = []
+    emit "(#{gen s.iterable}).forEach( function (#{makeVariable s.id}) {" , fsBuffer
+    indentLevel++
+    emit "#{gen s.body}", fsBuffer
+    indentLevel--
+    emit '})', fsBuffer
+    fsBuffer.join '\n'
+
