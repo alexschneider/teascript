@@ -20,6 +20,18 @@ class BuiltInEntities
   @OutCode: (args) ->  # Make this a property of 'out' object above
     "console.log( #{args} );"
   @TimesCode: (args) ->
-    "#{args[0]}"  
+    numberOfCalls = args[2]
+    result = ""
+    i = 0
+    while i < numberOfCalls
+      result += "#{args[0]} ("
+      i++
+    result += "#{args[1]}"
+    j = 0
+    while j < numberOfCalls
+      result += " )"
+      j++
+    result += ";"
+
 
 module.exports = BuiltInEntities
