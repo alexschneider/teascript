@@ -46,6 +46,15 @@ describe 'Semantic Analyzer', ->
           expect(JSON.stringify(program)).to.eql expectedAnalysis.program03
           done()
 
+  describe 'analyzing a valid program', ->
+    context 'when there is a conditional', ->
+      it 'analyzes the condition and body properly', (done) ->
+        scan "#{validParserProgramsPath}/program05.tea", (err, tokens) ->
+          program = parse tokens
+          program.analyze()
+          expect(JSON.stringify program).to.eql expectedAnalysis.program04
+          done()
+
 
   describe 'analyzing an invalid program', ->
     context 'when a variable has been declared multiple

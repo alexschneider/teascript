@@ -11,7 +11,7 @@ class Range
     @mustHaveIntegerOperands()
 
   mustHaveIntegerOperands: ->
-    error = ".. and ... range operators must have all integer operands"
+    error = '.. and ... range operators must have all integer operands'
     @num1.type.mustBeInteger(error, @op.lineNumber)
     @num2.type.mustBeInteger(error, @op.lineNumber)
     @skip.type.mustBeInteger(error, @op.lineNumber) if @skip?
