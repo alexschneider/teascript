@@ -258,6 +258,7 @@ class MyAnalyzedPrograms
                         'lineNumber': 4
                       },
                       'referent': {
+                        'builtIn': true,
                         'value': {
                           'params': [
                             {
