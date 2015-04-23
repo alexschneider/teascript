@@ -115,6 +115,29 @@ class CompiledOutput
         }());
     }());'''
 
+  @program09 =
+    '''(function () {
+        (function () {
+            var _v1 = false;
+            var _v2 = true;
+            (function () {
+                if ( ( _v1 === true )) {
+                    return (function () {
+                        console.log( "A is TRUE" );
+                    }());
+                } else if ( ( _v2 === true )) {
+                    return (function () {
+                        console.log( "B is TRUE" );
+                    }());
+                } else {
+                    return (function () {
+                        console.log( "NEITHER is TRUE" );
+                    }());
+                }
+            }());
+        }());
+    }());'''
+
   @program10 =
     '''(function () {
         (function () {
@@ -152,12 +175,14 @@ class CompiledOutput
 
   @program13 =
     '''(function () {
-        (function () {
-            Math.sqrt( 100 );
-            Math.sqrt( 9 );
-            Math.sqrt( 1 );
-            Math.sqrt( 0 );
+            (function () {
+                Math.sqrt( 100 );
+                Math.sqrt( 9 );
+                Math.sqrt( 1 );
+                Math.sqrt( 0 );
+            }());
         }());
-    }());'''
+    '''
+
 
 module.exports = CompiledOutput

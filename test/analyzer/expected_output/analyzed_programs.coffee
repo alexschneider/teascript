@@ -184,5 +184,124 @@ class MyAnalyzedPrograms
       type: {name: 'float'}
     }
   ]}})
+  @program04 = JSON.stringify(
+    {
+      'block': {
+        'statements': [
+          {
+            'id': {
+              'lexeme': 'a',
+              'kind': 'ID',
+              'start': 0,
+              'lineNumber': 1
+            },
+            'value': {
+              'value': {
+                'lexeme': 'true',
+                'kind': 'true',
+                'start': 5,
+                'lineNumber': 1
+              },
+              'type': {
+                'name': 'bool'
+              }
+            },
+            'type': {
+              'name': 'bool'
+            }
+          },
+          {
+            'conditions': [
+              {
+                'token': {
+                  'lexeme': 'a',
+                  'kind': 'ID',
+                  'start': 3,
+                  'lineNumber': 3
+                },
+                'referent': {
+                  'id': {
+                    'lexeme': 'a',
+                    'kind': 'ID',
+                    'start': 0,
+                    'lineNumber': 1
+                  },
+                  'value': {
+                    'value': {
+                      'lexeme': 'true',
+                      'kind': 'true',
+                      'start': 5,
+                      'lineNumber': 1
+                    },
+                    'type': {
+                      'name': 'bool'
+                    }
+                  },
+                  'type': {
+                    'name': 'bool'
+                  }
+                },
+                'type': {
+                  'name': 'bool'
+                }
+              }
+            ],
+            'bodies': [
+              {
+                'statements': [
+                  {
+                    'func': {
+                      'token': {
+                        'lexeme': 'out',
+                        'kind': 'ID',
+                        'start': 2,
+                        'lineNumber': 4
+                      },
+                      'referent': {
+                        'value': {
+                          'params': [
+                            {
+                              'value': {
+                                'token': 'str'
+                              }
+                            }
+                          ],
+                          'type': {
+                            'name': 'func'
+                          }
+                        },
+                        'type': {
+                          'name': 'func'
+                        }
+                      },
+                      'type': {
+                        'name': 'func'
+                      }
+                    },
+                    'args': [
+                      {
+                        'value': {
+                          'lexeme': '\"a is true\"',
+                          'kind': 'STRLIT',
+                          'start': 6,
+                          'lineNumber': 4
+                        },
+                        'type': {
+                          'name': 'str'
+                        }
+                      }
+                    ],
+                    'type': {
+                      'name': '<arbitrary_type>'
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  )
 
 module.exports = MyAnalyzedPrograms
