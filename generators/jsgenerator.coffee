@@ -108,6 +108,8 @@ generator =
     args = s.args.map (arg) -> gen arg
     if s.func.toString() is 'out'
       emit BuiltIn.OutCode args
+    else if s.func.toString() is 'times'
+      emit BuiltIn.TimesCode args
     else
       emit "#{gen s.func}(#{args.join ', '});"
 

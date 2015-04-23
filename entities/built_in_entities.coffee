@@ -19,5 +19,7 @@ class BuiltInEntities
       type: Type.FUNC
   @OutCode: (args) ->  # Make this a property of 'out' object above
     "console.log( #{args} );"
+  @TimesCode: (args) ->
+    "#{args[0]}"  
 
 module.exports = BuiltInEntities

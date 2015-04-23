@@ -138,4 +138,15 @@ class CompiledOutput
         }());
     }());'''
 
+  @program12 =
+    '''(function () {
+        (function () {
+            var _v1 = function (_v2, _v3) {
+                return (function () {
+                    ( _v2 * _v3 )
+                }());
+            };
+        }());
+    }());'''
+
 module.exports = CompiledOutput
