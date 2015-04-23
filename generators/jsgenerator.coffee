@@ -157,8 +157,7 @@ generator =
 
   TupleLiteral: (l) -> generator['ListLiteral'](l)
 
-  VariableReference: (v) -> 
-    makeVariable v.referent
+  VariableReference: (v) -> makeVariable v.referent
 
   PreUnaryExpression: (e) ->
     emit "( #{makeOp e.op.lexeme} #{gen e.operand} )"
