@@ -21,17 +21,17 @@ class BuiltInEntities
     "console.log( #{args} );"
   @TimesCode: (args) ->
     numberOfCalls = args[2]
-    result = ''
+    result = ""
     i = 0
     while i < numberOfCalls
-      result += '#{args[0]} ('
+      result += "#{args[0]} ("
       i++
-    result += '#{args[1]}'
+    result += "#{args[1]}"
     j = 0
     while j < numberOfCalls
-      result += ' )'
+      result += " )"
       j++
-    result += ';'
+    result += ";"
 
 
 module.exports = BuiltInEntities
