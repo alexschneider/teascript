@@ -21,7 +21,7 @@ class ForStatement
 
   mustBeIterable: ->
     error = 'Object must be iterable'
-    memberAccessTypes = [Type.LIST, Type.MAP, Type.SET, Type.STR]
+    memberAccessTypes = [Type.LIST, Type.MAP, Type.SET, Type.STR, Type.TUPLE]
     @iterable.type.mustBeCompatibleWith memberAccessTypes,
                                                  error,
                                                  EntityUtils.findLocation @iterable
