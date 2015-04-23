@@ -106,7 +106,7 @@ generator =
 
   FunctionInvocation: (s) ->
     args = s.args.map (arg) -> gen arg
-    if s.func.referent.builtIn
+    if s.func.referent?.builtIn
       emit BuiltIn.entities[s.func.toString()].generateCode args
     else
       emit "#{gen s.func}(#{args.join ', '});"
