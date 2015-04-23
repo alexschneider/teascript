@@ -35,15 +35,23 @@ makeVariable = (v) ->
 
 convertToArray = (obj) ->
   console.log obj.type.name
+  console.log Type.STR.name
+  console.log obj.type.name is Type.STR.name
   console.log obj
-  if obj.type.name is Type.STR
-    console.log obj.lexeme
+  if obj.type.name is Type.STR.name
+    console.log obj.value.lexeme
+    console.log (obj.value.lexeme.split('').slice(1, -1))
   str = switch
-    when obj.type.name is Type.STR then obj.lexeme
-    when obj.type.name is (Type.MAP or Type.SET) then (Object.keys obj).map (arg) -> obj[arg]
+    when obj.type.name is Type.STR.name then stringToCharArray obj.value.lexeme.slice(1, -1)
+    when obj.type.name is (Type.MAP.name or Type.SET) then (Object.keys obj).map (arg) -> obj[arg]
     else gen obj
-  console.log str
+  #console.log str
+  console.log '\n'
   str
+
+stringToCharArray = (str) ->
+  arrStr = '[' + (str.split('').map (arg) -> "\"#{arg}\"") + ']'
+
 
 gen = (e) ->
   generator[e.constructor.name](e)

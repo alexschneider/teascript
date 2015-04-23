@@ -237,6 +237,11 @@ class CompiledOutput
                       ( _v5 += 1 )
                   }());
               })
+              (["x","y","l","o","p","h","o","n","e"]).forEach( function (_v7) {
+                              (function () {
+                      console.log( _v7 );
+                  }());
+              })
           }());
       }());'''
 
