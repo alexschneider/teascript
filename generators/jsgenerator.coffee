@@ -33,6 +33,16 @@ makeVariable = (v) ->
   map.set v, ++lastId unless map.has(v)
   '_v' + map.get v
 
+convertToArray = (obj) ->
+  console.log obj.type.name
+  console.log obj
+  str = switch
+    when obj.type.name is Type.STR then obj.lexeme
+    when obj.type.name is (Type.MAP or Type.SET) then (Object.keys obj).map (arg) -> obj[arg]
+    else gen obj
+  console.log str
+  str
+
 gen = (e) ->
   generator[e.constructor.name](e)
 
@@ -185,7 +195,8 @@ generator =
 
   ForStatement: (s) ->
     fsBuffer = []
-    emit "(#{gen s.iterable}).forEach( function (#{makeVariable s.id}) {" , fsBuffer
+    iterable = convertToArray s.iterable
+    emit "(#{iterable}).forEach( function (#{makeVariable s.id}) {" , fsBuffer
     indentLevel++
     emit "#{gen s.body}", fsBuffer
     indentLevel--
