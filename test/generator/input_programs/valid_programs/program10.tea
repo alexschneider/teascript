@@ -1,3 +1,16 @@
-for i in [1, 2, 3]:
-    out(i)
+for i in 1..10:
+   for j in i..10:
+     out(i + j)
+   end
+end
+
+x := [1,2,3,4,5]
+for j in x:
+    out("My number is ")
+    out(j)
+end
+
+a := 0
+for i in |5,4,3|:
+    a += 1
 end

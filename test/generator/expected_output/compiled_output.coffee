@@ -18,7 +18,7 @@ class CompiledOutput
                     temp.push(i);
                 }
                 return temp;
-            })(1, 10, 3);
+            })( 1, 10, 3);
         }());
     }());'''
 
@@ -125,13 +125,48 @@ class CompiledOutput
   @program10 =
     '''(function () {
           (function () {
-              ( [
+              ( (function(lb, ub, skip) {
+                  var temp = [];
+                  for(var i = lb; i < ub; i += skip ) {
+                      temp.push(i);
+                  }
+                  return temp;
+              })( 1, 10 - 1, 1)).forEach( function (_v1) {
+                              (function () {
+                      ( (function(lb, ub, skip) {
+                          var temp = [];
+                          for(var i = lb; i < ub; i += skip ) {
+                              temp.push(i);
+                          }
+                          return temp;
+                      })(_v1, 10 - 1, 1)).forEach( function (_v2) {
+                                              (function () {
+                              console.log( ( _v1 + _v2 ) );
+                          }());
+                      })
+                  }());
+              })
+              var _v3 = [
                   1,
                   2,
-                  3
-              ]).forEach( function (_v1) {
+                  3,
+                  4,
+                  5
+              ];
+              (_v3).forEach( function (_v4) {
                               (function () {
-                      console.log( _v1 );
+                      console.log( "My number is " );
+                      console.log( _v4 );
+                  }());
+              })
+              var _v5 = 0;
+              ( [
+                  5,
+                  4,
+                  3
+              ]).forEach( function (_v6) {
+                              (function () {
+                      ( _v5 += 1 )
                   }());
               })
           }());

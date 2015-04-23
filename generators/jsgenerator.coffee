@@ -1,6 +1,7 @@
 _ = require 'underscore'
 HashMap = require('hashmap').HashMap
 BuiltIn = require '../entities/built_in_entities'
+Type = require '../entities/type'
 
 map = null
 lastId = null
@@ -157,9 +158,9 @@ generator =
 
   Range: (l) ->
     rBuffer = []
-    lb = l.num1
-    ub = if l.op.lexeme is '...' then gen l.num2 else (gen l.num2).concat('- 1')
-    skip = l.skip
+    lb = gen l.num1
+    ub = if l.op.lexeme is '...' then gen l.num2 else (gen l.num2).concat(' - 1')
+    skip = if l.skip then gen l.skip else 1
 
     emit '(function(lb, ub, skip) {', rBuffer
     indentLevel++
