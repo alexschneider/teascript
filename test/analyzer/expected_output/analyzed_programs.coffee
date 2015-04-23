@@ -16,7 +16,7 @@ class MyAnalyzedPrograms
       value: {lexeme: 'none',  kind: 'none',  start: 0,  lineNumber: 6},
       type: {name: 'none'}
     },  {
-      value: {lexeme: '\'abc\'',  kind: 'STRLIT',  start: 0,  lineNumber: 9},
+      value: {lexeme: '\"abc\"',  kind: 'STRLIT',  start: 0,  lineNumber: 9},
       type: {name: 'str'}
     },  {
       elements: [
@@ -60,10 +60,10 @@ class MyAnalyzedPrograms
       ],
       values:[
         {
-          value: {lexeme: '\'b\'',  kind: 'STRLIT',  start: 4,  lineNumber: 13},
+          value: {lexeme: '\"b\"',  kind: 'STRLIT',  start: 4,  lineNumber: 13},
           type: {name: 'str'}
         },  {
-          value: {lexeme: '\'\'',  kind: 'STRLIT',  start:12,  lineNumber: 13},
+          value: {lexeme: '\"\"',  kind: 'STRLIT',  start:12,  lineNumber: 13},
           type: {name: 'str'}
         }
       ],
