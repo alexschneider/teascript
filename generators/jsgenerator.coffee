@@ -36,6 +36,8 @@ makeVariable = (v) ->
 convertToArray = (obj) ->
   console.log obj.type.name
   console.log obj
+  if obj.type.name is Type.STR
+    console.log obj.lexeme
   str = switch
     when obj.type.name is Type.STR then obj.lexeme
     when obj.type.name is (Type.MAP or Type.SET) then (Object.keys obj).map (arg) -> obj[arg]
