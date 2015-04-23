@@ -124,6 +124,7 @@ class CompiledOutput
                 }());
             };
             _v1 (_v1 (_v1 ( 2 ) ) );
+            _v1 (_v1 (_v1 (_v1 (_v1 ( 3 ) ) ) ) );
         }());
     }());'''
 
@@ -146,6 +147,16 @@ class CompiledOutput
                     ( _v2 * _v3 )
                 }());
             };
+        }());
+    }());'''
+
+  @program13 =
+    '''(function () {
+        (function () {
+            Math.sqrt( 100 );
+            Math.sqrt( 9 );
+            Math.sqrt( 1 );
+            Math.sqrt( 0 );
         }());
     }());'''
 

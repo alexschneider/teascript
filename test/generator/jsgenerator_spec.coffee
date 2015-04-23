@@ -106,3 +106,12 @@ describe 'JS generator', ->
         program = generate program
         expect(program).to.eql expectedOutput.program12
         done()
+
+  describe 'compiling sqrt built in function', ->
+    it 'outputs the correct javascript', (done) ->
+      scan "#{validTeascriptProgramsPath}/program13.tea", (err, tokens) ->
+        program = parse tokens
+        program.analyze()
+        program = generate program
+        expect(program).to.eql expectedOutput.program13
+        done()

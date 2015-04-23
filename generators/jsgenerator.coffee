@@ -110,6 +110,8 @@ generator =
       emit BuiltIn.OutCode args
     else if s.func.toString() is 'times'
       emit BuiltIn.TimesCode args
+    else if s.func.toString() is 'sqrt'
+      emit BuiltIn.SqrtCode args
     else
       emit "#{gen s.func}(#{args.join ', '});"
 

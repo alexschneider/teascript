@@ -17,8 +17,16 @@ class BuiltInEntities
         ]
         type: Type.FUNC
       type: Type.FUNC
+
+    sqrt:
+      value:
+        params: [value: token: 'str']
+        type: Type.FUNC
+      type: Type.FUNC
+
   @OutCode: (args) ->  # Make this a property of 'out' object above
     "console.log( #{args} );"
+
   @TimesCode: (args) ->
     numberOfCalls = args[2]
     result = ""
@@ -32,6 +40,9 @@ class BuiltInEntities
       result += " )"
       j++
     result += ";"
+
+  @SqrtCode: (args) ->
+    "Math.sqrt( #{args} );"
 
 
 module.exports = BuiltInEntities
