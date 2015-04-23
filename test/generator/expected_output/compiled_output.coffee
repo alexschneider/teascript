@@ -115,4 +115,27 @@ class CompiledOutput
         }());
     }());'''
 
+  @program10 =
+    '''(function () {
+        (function () {
+            var _v1 = function (_v2) {
+                return (function () {
+                    ( _v2 * 2 )
+                }());
+            };
+            _v1(_v1(_v1(2)));
+        }());
+    }());'''
+
+  @program11 =
+    '''(function () {
+        (function () {
+            var _v1 = function (_v2) {
+                return (function () {
+                    ( _v2 * 2 )
+                }());
+            };
+        }());
+    }());'''
+
 module.exports = CompiledOutput

@@ -97,7 +97,7 @@ generator =
 
   Function: (func) ->
     fc = []
-    emit "function (#{(param.lexeme for param in func.params).join ', '}) {", fc
+    emit "function (#{(makeVariable param.lexeme for param in func.params).join ', '}) {", fc
     indentLevel++
     emit "return #{gen func.body};", fc
     indentLevel--
