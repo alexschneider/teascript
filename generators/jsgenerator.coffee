@@ -97,7 +97,7 @@ generator =
 
   Function: (func) ->
     fc = []
-    emit "function (#{(makeVariable param.lexeme for param in func.params).join ', '}) {", fc
+    emit "function (#{(makeVariable param for param in func.params).join ', '}) {", fc
     indentLevel++
     emit "return #{gen func.body};", fc
     indentLevel--
@@ -155,7 +155,8 @@ generator =
 
   TupleLiteral: (l) -> generator['ListLiteral'](l)
 
-  VariableReference: (v) -> makeVariable v.referent
+  VariableReference: (v) -> 
+    makeVariable v.referent
 
   PreUnaryExpression: (e) ->
     emit "( #{makeOp e.op.lexeme} #{gen e.operand} )"
