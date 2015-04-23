@@ -21,7 +21,7 @@ emit = (line, cache) ->
   # are redundant, so we need to get rid of them.
   toEmit = "#{Array(pad+1).join(' ')}#{line}"
             .replace /([^\s])  +/g, '$1 '
-            .replace /;;+/g, ';'
+            .replace /;;+/g, ';' #TODO: handle this a little more elegantly
   if cache?
     cache.push toEmit
   toEmit
@@ -108,7 +108,7 @@ generator =
 
   Function: (func) ->
     fc = []
-    emit "function (#{(param.lexeme for param in func.params).join ', '}) {", fc
+    emit "function (#{(makeVariable param for param in func.params).join ', '}) {", fc
     indentLevel++
     emit "return #{gen func.body};", fc
     indentLevel--
@@ -117,8 +117,8 @@ generator =
 
   FunctionInvocation: (s) ->
     args = s.args.map (arg) -> gen arg
-    if s.func.toString() is 'out'
-      emit BuiltIn.OutCode args
+    if s.func.referent.builtIn
+      emit BuiltIn.entities[s.func.toString()].generateCode args
     else
       emit "#{gen s.func}(#{args.join ', '});"
 
