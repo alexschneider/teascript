@@ -34,7 +34,10 @@ makeVariable = (v) ->
   '_v' + map.get v
 
 convertToArray = (obj) ->
-  str = if obj.type.name is Type.STR.name then stringToCharArray obj.value.lexeme.slice(1, -1) else gen obj
+  if obj.type.name is Type.STR.name
+    stringToCharArray obj.value.lexeme[1..-2]
+  else
+    gen obj
 
 stringToCharArray = (str) ->
   arrStr = '[' + (str.split('').map (arg) -> "\"#{arg}\"") + ']'
