@@ -302,14 +302,14 @@ parseExp7 = ->
 parseExp8 = ->
   exp = parseExp9()
   while (at ['.', '[', '('])
-    if at '.'
+    while at '.'
       match '.'
-      exp = new FieldAccess exp, parseExp8()
-    else if at '['
+      exp = new FieldAccess exp, parseExp9()
+    while at '['
       match '['
       exp = new IterableItem exp, parseExp3()
       match ']'
-    else
+    while at '('
       exp = new FunctionInvocation exp, parseArgs()
   exp
 

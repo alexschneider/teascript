@@ -146,11 +146,10 @@ class MyASTs
         (Return (Invoke f (string, <first_arg, 1>, <another_arg>)))))))
     (Func (anonymous_functions) (Invoke are (\'cool\')))))'
 
-  @program12_AST_string = "(Program (Block
-    (Invoke f (1, 2, 3))
-    (. a (. (GetItem b 1) (. c (. (GetItem d 6)
-      (Invoke e ('arg1', 'arg2'))))))
-      (Invoke (Invoke f (a, b)) (c))))"
+  @program12_AST_string = "(Program (Block (Invoke f (1, 2, 3))
+   (Invoke (. (GetItem (. (. (GetItem (. a b) 1) c) d) 6) e) ('arg1', 'arg2'))
+   (. (. a b) c) (. (Invoke a ()) f) (GetItem (. (Invoke (. a f) ()) g) 3)
+   (Invoke (Invoke f (a, b)) (c))))"
 
   @program13_AST_string = '(Program (Block
     (if true (Block (Invoke out ("hello")))

@@ -6,16 +6,16 @@ x := class:
     end
   end
   int: 8
+  f : () -> [1,2,3,4,5]
 end
 
-f := () -> [1,2,3,4,5]
 
 y := new x()
 
 #valid
-y.f()[3].a
-(((y.z).a).b)[1]
+y.z.a.b[1]
 y.int+7
+
 
 #invalid since z is not an object
 z := 5
