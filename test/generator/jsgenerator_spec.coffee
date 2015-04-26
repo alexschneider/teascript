@@ -124,4 +124,12 @@ describe 'JS generator', ->
         program = generate program
         expect(program).to.eql expectedOutput.program13
         done()
+  describe 'treating if statements like expressions', ->
+    it 'outputs the correct javascript', (done) ->
+      scan "#{validTeascriptProgramsPath}/program14.tea", (err, tokens) ->
+        program = parse tokens
+        program.analyze()
+        program = generate program
+        expect(program).to.eql expectedOutput.program14
+        done()
 

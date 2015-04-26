@@ -12,4 +12,6 @@ class VariableReference
   optimize: ->
     #TODO
 
+  expression: true
+
 module.exports = VariableReference

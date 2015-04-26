@@ -22,4 +22,6 @@ class ConditionalExpression
   optimize: ->
     # TODO
 
+  expression: true
+
 module.exports = ConditionalExpression

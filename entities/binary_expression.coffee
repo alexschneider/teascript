@@ -53,4 +53,6 @@ class BinaryExpression
   optimize: ->
     #TODO
 
+  expression: true
+
 module.exports = BinaryExpression

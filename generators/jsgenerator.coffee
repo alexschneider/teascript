@@ -1,6 +1,7 @@
 _ = require 'underscore'
 HashMap = require('hashmap').HashMap
 BuiltIn = require '../entities/built_in_entities'
+ReturnStatement = require '../entities/return_statement'
 
 map = null
 lastId = null
@@ -52,7 +53,12 @@ generator =
     blockBuffer = []
     emit '(function () {', blockBuffer
     indentLevel++
-    blockBuffer.push gen statement for statement in block.statements
+    blockBuffer.push gen statement for statement in block.statements[..-2]
+    lastStatement = _.last block.statements
+    if lastStatement.expression?
+      blockBuffer.push gen new ReturnStatement lastStatement
+    else
+      blockBuffer.push gen lastStatement
     indentLevel--
     emit '}());', blockBuffer
     blockBuffer.join '\n'
@@ -72,23 +78,29 @@ generator =
     emit '}', whileBuffer
     whileBuffer.join '\n'
 
-  ReturnStatement: (s) -> emit "return #{gen s.value};"
+  ReturnStatement: (s) ->
+    console.log s.value.expression
+    console.log s.value
+    if s.value.expression
+      emit "return #{gen s.value};"
+    else
+      gen s.value
 
   ConditionalExpression: (e) ->
     conditionalBuffer = []
     emit '(function () {', conditionalBuffer
     indentLevel++
-    emit "if (#{gen e.conditions[0]}) {", conditionalBuffer
+    emit "if ( #{gen e.conditions[0]} ) {", conditionalBuffer
     indentLevel++
-    emit "return #{gen e.bodies[0]}", conditionalBuffer
+    conditionalBuffer.push gen new ReturnStatement e.bodies[0]
     indentLevel--
     for [condition, body] in _.zip e.conditions[1..], e.bodies[1..]
       if condition?
-        emit "} else if (#{gen condition}) {", conditionalBuffer
+        emit "} else if ( #{gen condition} ) {", conditionalBuffer
       else
         emit '} else {', conditionalBuffer
       indentLevel++
-      emit "return #{gen body}", conditionalBuffer
+      conditionalBuffer.push gen new ReturnStatement body
       indentLevel--
     emit '}', conditionalBuffer
     indentLevel--
@@ -99,7 +111,7 @@ generator =
     fc = []
     emit "function (#{(makeVariable param for param in func.params).join ', '}) {", fc
     indentLevel++
-    emit "return #{gen func.body};", fc
+    fc.push gen new ReturnStatement func.body
     indentLevel--
     emit '};', fc
     fc.join '\n'

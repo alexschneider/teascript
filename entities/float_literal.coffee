@@ -12,4 +12,6 @@ class FloatLiteral
   optimize: ->
     # TODO
 
+  expression: -> true
+
 module.exports = FloatLiteral

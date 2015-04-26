@@ -88,7 +88,7 @@ class CompiledOutput
     '''(function () {
         (function () {
             var _v1 = "hellooo";
-            console.log( _v1 );
+            return console.log( _v1 );
         }());
     }());'''
 
@@ -98,7 +98,7 @@ class CompiledOutput
             var _v1 = function () {
                 return console.log( 'testing' );
             };
-            _v1();
+            return _v1();
         }());
     }());'''
 
@@ -108,10 +108,10 @@ class CompiledOutput
             var _v1 = function () {
                 return (function () {
                     console.log( "hello" );
-                    console.log( "goodbye" );
+                    return console.log( "goodbye" );
                 }());
             };
-            _v1();
+            return _v1();
         }());
     }());'''
 
@@ -120,18 +120,18 @@ class CompiledOutput
         (function () {
             var _v1 = false;
             var _v2 = true;
-            (function () {
-                if ( ( _v1 === true )) {
+            return (function () {
+                if ( ( _v1 === true ) ) {
                     return (function () {
-                        console.log( "A is TRUE" );
+                        return console.log( "A is TRUE" );
                     }());
-                } else if ( ( _v2 === true )) {
+                } else if ( ( _v2 === true ) ) {
                     return (function () {
-                        console.log( "B is TRUE" );
+                        return console.log( "B is TRUE" );
                     }());
                 } else {
                     return (function () {
-                        console.log( "NEITHER is TRUE" );
+                        return console.log( "NEITHER is TRUE" );
                     }());
                 }
             }());
@@ -143,11 +143,11 @@ class CompiledOutput
         (function () {
             var _v1 = function (_v2) {
                 return (function () {
-                    ( _v2 * 2 )
+                    return ( _v2 * 2 );
                 }());
             };
             _v1 (_v1 (_v1 ( 2 ) ) );
-            _v1 (_v1 (_v1 (_v1 (_v1 ( 3 ) ) ) ) );
+            return _v1 (_v1 (_v1 (_v1 (_v1 ( 3 ) ) ) ) );
         }());
     }());'''
 
@@ -156,7 +156,7 @@ class CompiledOutput
         (function () {
             var _v1 = function (_v2) {
                 return (function () {
-                    ( _v2 * 2 )
+                    return ( _v2 * 2 );
                 }());
             };
         }());
@@ -167,7 +167,7 @@ class CompiledOutput
         (function () {
             var _v1 = function (_v2, _v3) {
                 return (function () {
-                    ( _v2 * _v3 )
+                    return ( _v2 * _v3 );
                 }());
             };
         }());
@@ -179,10 +179,28 @@ class CompiledOutput
                 Math.sqrt( 100 );
                 Math.sqrt( 9 );
                 Math.sqrt( 1 );
-                Math.sqrt( 0 );
+                return Math.sqrt( 0 );
             }());
         }());
     '''
+
+  @program14 =
+    '''(function () {
+        (function () {
+            var _v1 = (function () {
+                if ( true ) {
+                    return (function () {
+                        return 5;
+                    }());
+                } else {
+                    return (function () {
+                        return 6;
+                    }());
+                }
+            }());
+            return console.log( _v1 );
+        }());
+    }());'''
 
 
 module.exports = CompiledOutput

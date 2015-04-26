@@ -39,4 +39,6 @@ class FunctionInvocation
   optimize: ->
     #TODO
 
+  expression: true
+
 module.exports = FunctionInvocation

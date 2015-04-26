@@ -11,4 +11,6 @@ class Block
   optimize: ->
     # TODO
 
+  expression: true
+
 module.exports = Block

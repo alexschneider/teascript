@@ -14,4 +14,6 @@ class TupleLiteral
   optimize: ->
     #TODO
 
+  expression: true
+
 module.exports = TupleLiteral

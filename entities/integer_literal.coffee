@@ -13,4 +13,6 @@ class IntegerLiteral
   optimize: ->
     #TODO
 
+  expression: true
+
 module.exports = IntegerLiteral
