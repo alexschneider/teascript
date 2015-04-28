@@ -1,4 +1,6 @@
 Type = require './type'
+IntegerLiteral = require './integer_literal'
+BooleanLiteral = require './boolean_literal'
 
 class BinaryExpression
 
@@ -51,6 +53,23 @@ class BinaryExpression
     @left.type.mustBeMutuallyCompatibleWith @right.type, error, @op.lineNumber
 
   optimize: ->
-    #TODO
+    @left = @left.optimize()
+    @right = @right.optimize()
+
+    if @left instanceof IntegerLiteral and @right instanceof IntegerLiteral
+      foldIntegerConstants @op.lexeme, +@left.value, +@right.value
+
+foldIntegerConstants = (op, x, y) ->
+  switch op
+    when '+' then new IntegerLiteral(x + y)
+    when '-' then new IntegerLiteral(x - y)
+    when '*' then new IntegerLiteral(x * y)
+    when '/' then new IntegerLiteral(x / y)
+    when '<' then new BooleanLiteral(x < y)
+    when '<=' then new BooleanLiteral(x <= y)
+    when '==' then new BooleanLiteral(x is y)
+    when '!=' then new BooleanLiteral(x isnt y)
+    when '>=' then new BooleanLiteral(x >= y)
+    when '>' then new BooleanLiteral(x > y)
 
 module.exports = BinaryExpression
