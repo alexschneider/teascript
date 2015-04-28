@@ -1,5 +1,6 @@
 Type = require './type'
 CustomError = require '../error/custom_error'
+VariableReference = require './variable_reference'
 
 
 class AssignmentStatement
@@ -29,6 +30,10 @@ class AssignmentStatement
                             @target.token.lineNumber
 
   optimize: ->
-    #TODO
+    @target = @target.optimize()
+    @source = @source.optimize()
+    if @source instanceof VariableReference and @target.referent is @source.referent
+      null
+    this
 
 module.exports = AssignmentStatement

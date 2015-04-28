@@ -55,9 +55,9 @@ class BinaryExpression
   optimize: ->
     @left = @left.optimize()
     @right = @right.optimize()
-
     if @left instanceof IntegerLiteral and @right instanceof IntegerLiteral
-      foldIntegerConstants @op.lexeme, +@left.value, +@right.value
+      return foldIntegerConstants @op.lexeme, +@left, +@right
+    return this
 
 foldIntegerConstants = (op, x, y) ->
   switch op

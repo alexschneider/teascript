@@ -133,3 +133,13 @@ describe 'JS generator', ->
         program = generate program
         expect(program).to.eql expectedOutput.program14
         done()
+
+  describe 'optimizing constant folding', ->
+    it 'outputs the correct javascript', (done) ->
+      scan "#{validTeascriptProgramsPath}/program15.tea", (err, tokens) ->
+        program = parse tokens
+        program.analyze()
+        program = program.optimize()
+        program = generate program
+        expect(program).to.eql expectedOutput.program15
+        done()
