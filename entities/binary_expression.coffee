@@ -61,7 +61,7 @@ class BinaryExpression
 
 foldIntegerConstants = (op, x, y) ->
   switch op
-    when '+' then new IntegerLiteral(x + y)
+    when '+' then new IntegerLiteral({lexeme: x + y})
     when '-' then new IntegerLiteral(x - y)
     when '*' then new IntegerLiteral(x * y)
     when '/' then new IntegerLiteral(x / y)

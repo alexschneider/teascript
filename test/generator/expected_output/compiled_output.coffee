@@ -249,7 +249,7 @@ class CompiledOutput
     '''(function () {
         (function () {
             var _v1 = 1;
-            var_v1 = 15;
+            _v1 = 15;
             console.log( _v1 );
         }());
     }());'''
