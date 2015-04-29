@@ -5,7 +5,9 @@ class OptimizedOutput
         (function () {
             var _v1 = 1;
             _v1 = 15;
-            console.log( _v1 );
+            _v1 = 7;
+            _v1 = 35;
+            _v1 = 3;
         }());
     }());'''
 
