@@ -26,4 +26,16 @@ class OptimizedOutput
         }());
     }());'''
 
+  @program03 =
+    '''(function () {
+        (function () {
+            var _v1 = true;
+            _v1 = false;
+            _v1 = true;
+            _v1 = true;
+            _v1 = false;
+            _v1 = true;
+        }());
+    }());'''
+
 module.exports = OptimizedOutput
