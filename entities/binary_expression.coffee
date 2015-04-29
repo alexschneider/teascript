@@ -57,7 +57,7 @@ class BinaryExpression
     @right = @right.optimize()
     if @left instanceof IntegerLiteral and @right instanceof IntegerLiteral
       return foldIntegerConstants @op.lexeme, +@left, +@right
-    return this
+    this
 
 foldIntegerConstants = (op, x, y) ->
   switch op
@@ -65,11 +65,11 @@ foldIntegerConstants = (op, x, y) ->
     when '-' then new IntegerLiteral({lexeme: x - y})
     when '*' then new IntegerLiteral({lexeme: x * y})
     when '/' then new IntegerLiteral({lexeme: x / y})
-    when '<' then new BooleanLiteral(x < y)
-    when '<=' then new BooleanLiteral(x <= y)
-    when '==' then new BooleanLiteral(x is y)
-    when '!=' then new BooleanLiteral(x isnt y)
-    when '>=' then new BooleanLiteral(x >= y)
-    when '>' then new BooleanLiteral(x > y)
+    when '<' then new BooleanLiteral({lexeme: x < y})
+    when '<=' then new BooleanLiteral({lexeme: x <= y})
+    when 'is' then new BooleanLiteral({lexeme: x is y})
+    when 'isnt' then new BooleanLiteral({lexeme: x isnt y})
+    when '>=' then new BooleanLiteral({lexeme: x >= y})
+    when '>' then new BooleanLiteral({lexeme: x > y})
 
 module.exports = BinaryExpression
