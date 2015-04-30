@@ -42,4 +42,5 @@ scan argv._[0], (err, tokens) ->
 
   catch err
     console.log err.message
+    throw err
     return

@@ -12,4 +12,6 @@ class IntegerLiteral
 
   optimize: -> this
 
+  expression: true
+
 module.exports = IntegerLiteral

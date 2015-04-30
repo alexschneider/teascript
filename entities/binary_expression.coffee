@@ -61,6 +61,8 @@ class BinaryExpression
       return foldBooleanConstants @op.lexeme, @left, @right
     this
 
+  expression: true
+
 foldIntegerConstants = (op, x, y) ->
   switch op
     when '+' then new IntegerLiteral({lexeme: x + y})

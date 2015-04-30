@@ -22,5 +22,7 @@ class Class
   optimize: (context) ->
     # TODO
 
+  expresison: true
+
 module.exports = Class
 

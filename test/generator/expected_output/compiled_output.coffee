@@ -12,13 +12,13 @@ class CompiledOutput
             var _v2 = ( ( 5 * 6 ) - _v1 );
             var _v3 = 5.5;
             var _v4 = ( ! true );
-            var _v5 = (function(lb, ub, skip) {
-                var temp = [];
-                for(var i = lb; i < ub; i += skip ) {
-                    temp.push(i);
+            var _v5 = (function (lb, ub, skip) {
+                var buffer = [];
+                for ( var i = lb; i < ub; i += skip ) {
+                    buffer.push( i );
                 }
-                return temp;
-            })( 1, 10, 3);
+                return buffer;
+            })( 1, 10, 3 );
         }());
     }());'''
 
@@ -95,7 +95,7 @@ class CompiledOutput
     '''(function () {
         (function () {
             var _v1 = "hellooo";
-            console.log( _v1 );
+            return console.log( _v1 );
         }());
     }());'''
 
@@ -105,7 +105,7 @@ class CompiledOutput
             var _v1 = function () {
                 return console.log( 'testing' );
             };
-            _v1();
+            return _v1();
         }());
     }());'''
 
@@ -115,10 +115,10 @@ class CompiledOutput
             var _v1 = function () {
                 return (function () {
                     console.log( "hello" );
-                    console.log( "goodbye" );
+                    return console.log( "goodbye" );
                 }());
             };
-            _v1();
+            return _v1();
         }());
     }());'''
 
@@ -127,18 +127,18 @@ class CompiledOutput
         (function () {
             var _v1 = false;
             var _v2 = true;
-            (function () {
-                if ( ( _v1 === true )) {
+            return (function () {
+                if ( ( _v1 === true ) ) {
                     return (function () {
-                        console.log( "A is TRUE" );
+                        return console.log( "A is TRUE" );
                     }());
-                } else if ( ( _v2 === true )) {
+                } else if ( ( _v2 === true ) ) {
                     return (function () {
-                        console.log( "B is TRUE" );
+                        return console.log( "B is TRUE" );
                     }());
                 } else {
                     return (function () {
-                        console.log( "NEITHER is TRUE" );
+                        return console.log( "NEITHER is TRUE" );
                     }());
                 }
             }());
@@ -150,11 +150,11 @@ class CompiledOutput
         (function () {
             var _v1 = function (_v2) {
                 return (function () {
-                    ( _v2 * 2 )
+                    return ( _v2 * 2 );
                 }());
             };
             _v1 (_v1 (_v1 ( 2 ) ) );
-            _v1 (_v1 (_v1 (_v1 (_v1 ( 3 ) ) ) ) );
+            return _v1 (_v1 (_v1 (_v1 (_v1 ( 3 ) ) ) ) );
         }());
     }());'''
 
@@ -163,7 +163,7 @@ class CompiledOutput
         (function () {
             var _v1 = function (_v2) {
                 return (function () {
-                    ( _v2 * 2 )
+                    return ( _v2 * 2 );
                 }());
             };
         }());
@@ -174,7 +174,7 @@ class CompiledOutput
         (function () {
             var _v1 = function (_v2, _v3) {
                 return (function () {
-                    ( _v2 * _v3 )
+                    return ( _v2 * _v3 );
                 }());
             };
         }());
@@ -186,34 +186,35 @@ class CompiledOutput
                 Math.sqrt( 100 );
                 Math.sqrt( 9 );
                 Math.sqrt( 1 );
-                Math.sqrt( 0 );
+                return Math.sqrt( 0 );
             }());
         }());
     '''
+
   @program14 =
     '''(function () {
           (function () {
-              ( (function(lb, ub, skip) {
-                  var temp = [];
-                  for(var i = lb; i < ub; i += skip ) {
-                      temp.push(i);
+              ( (function (lb, ub, skip) {
+                  var buffer = [];
+                  for ( var i = lb; i < ub; i += skip ) {
+                      buffer.push( i );
                   }
-                  return temp;
-              })( 1, 10 - 1, 1)).forEach( function (_v1) {
-                              (function () {
-                      ( (function(lb, ub, skip) {
-                          var temp = [];
-                          for(var i = lb; i < ub; i += skip ) {
-                              temp.push(i);
+                  return buffer;
+              })( 1, 10 - 1, 1 )).forEach( function (_v1) {
+                  (function () {
+                      ( (function (lb, ub, skip) {
+                          var buffer = [];
+                          for ( var i = lb; i < ub; i += skip ) {
+                              buffer.push( i );
                           }
-                          return temp;
-                      })(_v1, 10 - 1, 1)).forEach( function (_v2) {
-                                              (function () {
-                              console.log( ( _v1 + _v2 ) );
+                          return buffer;
+                      })( _v1, 10 - 1, 1 )).forEach( function (_v2) {
+                          (function () {
+                              return console.log( ( _v1 + _v2 ) );
                           }());
-                      })
+                      });
                   }());
-              })
+              });
               var _v3 = [
                   1,
                   2,
@@ -222,27 +223,47 @@ class CompiledOutput
                   5
               ];
               (_v3).forEach( function (_v4) {
-                              (function () {
+                  (function () {
                       console.log( "My number is " );
-                      console.log( _v4 );
+                      return console.log( _v4 );
                   }());
-              })
+              });
               var _v5 = 0;
               ( [
                   5,
                   4,
                   3
               ]).forEach( function (_v6) {
-                              (function () {
-                      ( _v5 += 1 )
+                  (function () {
+                      return ( _v5 += 1 );
                   }());
-              })
+              });
               (["x","y","l","o","p","h","o","n","e"]).forEach( function (_v7) {
-                              (function () {
-                      console.log( _v7 );
+                  (function () {
+                      return console.log( _v7 );
                   }());
-              })
+              });
           }());
       }());'''
+
+  @program15 =
+    '''(function () {
+        (function () {
+            var _v1 = (function () {
+                if ( true ) {
+                    return (function () {
+                        return 5;
+                    }());
+                } else {
+                    return (function () {
+                        return 6;
+                    }());
+                }
+            }());
+            console.log( _v1 );
+            return console.log( null );
+        }());
+    }());'''
+
 
 module.exports = CompiledOutput

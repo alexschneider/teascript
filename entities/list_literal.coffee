@@ -14,4 +14,6 @@ class ListLiteral
   optimize: ->
     #TODO
 
+  expression: true
+
 module.exports = ListLiteral
