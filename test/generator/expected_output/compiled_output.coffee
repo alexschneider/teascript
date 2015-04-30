@@ -260,7 +260,8 @@ class CompiledOutput
                     }());
                 }
             }());
-            return console.log( _v1 );
+            console.log( _v1 );
+            return console.log( null );
         }());
     }());'''
 
