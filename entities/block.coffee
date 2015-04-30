@@ -12,6 +12,6 @@ class Block
     @statements = @statements.map((s) -> s.optimize()).filter((s) -> s?)
     this
 
-  expression: true
+  
 
 module.exports = Block

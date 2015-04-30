@@ -3,6 +3,7 @@ HashMap = require('hashmap').HashMap
 BuiltIn = require '../entities/built_in_entities'
 ReturnStatement = require '../entities/return_statement'
 Type = require '../entities/type'
+expressionSet = require './expressions'
 
 map = null
 lastId = null
@@ -44,7 +45,7 @@ stringToCharArray = (str) ->
   arrStr = '[' + (str.split('').map (arg) -> "\"#{arg}\"") + ']'
 
 returnIfNeeded = (entity) ->
-  if entity.expression
+  if expressionSet.has entity.constructor
     gen new ReturnStatement entity
   else
     gen entity

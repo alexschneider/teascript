@@ -17,6 +17,6 @@ class MapLiteral
   optimize: ->
     #TODO
 
-  expression: true
+  
 
 module.exports = MapLiteral

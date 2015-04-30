@@ -22,6 +22,6 @@ class Function
   optimize: ->
     #TODO
 
-  expression: true
+  
 
 module.exports = Function

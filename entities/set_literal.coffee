@@ -14,6 +14,6 @@ class SetLiteral
   optimize: ->
     #TODO
 
-  expression: true
+  
 
 module.exports = SetLiteral

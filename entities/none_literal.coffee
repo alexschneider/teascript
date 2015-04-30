@@ -11,6 +11,6 @@ class NoneLiteral
   optimize: ->
     #TODO
 
-  expression: true
+  
 
 module.exports = NoneLiteral

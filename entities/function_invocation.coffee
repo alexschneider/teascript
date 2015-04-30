@@ -38,6 +38,6 @@ class FunctionInvocation
 
   optimize: -> this
 
-  expression: true
+  
 
 module.exports = FunctionInvocation

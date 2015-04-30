@@ -10,6 +10,6 @@ class BooleanLiteral
 
   optimize: -> this
 
-  expression: true
+  
 
 module.exports = BooleanLiteral

@@ -22,6 +22,6 @@ class Range
   optimize: ->
     #TODO
 
-  expression: true
+  
 
 module.exports = Range

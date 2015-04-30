@@ -47,7 +47,7 @@ class IterableItem
   optimize: ->
     #TODO
 
-  expression: true
+  
 
 
 module.exports = IterableItem
