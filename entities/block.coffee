@@ -10,7 +10,7 @@ class Block
 
   optimize: ->
     @statements = @statements.map((s) -> s.optimize()).filter((s) -> s?)
-    if statements.length is 0
+    if @statements.length is 0
       return null
     this
 
