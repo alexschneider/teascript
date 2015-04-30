@@ -24,8 +24,6 @@ class Range
     lb = +generate @num1
     ub = if @op.lexeme is '...' then +generate @num2 else +(generate(@num2) - 1)
     skip = if @skip then +generate @skip else 1
-    console.log 'ub is ' + ub + ' and lb is ' + lb
-    console.log Math.floor (ub - lb + 1) / skip
     Math.floor (ub - lb + 1) / skip
 
   optimize: ->

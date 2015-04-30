@@ -12,7 +12,6 @@ describe 'optimizing constant folding for arithmetic integer operations', ->
     scan "#{validTeascriptProgramsPath}/program01.tea", (err, tokens) ->
       program = parse tokens
       program.analyze()
-      console.log JSON.stringify program
       program = program.optimize()
       program = generate program
       expect(program).to.eql expectedOutput.program01

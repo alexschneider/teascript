@@ -11,7 +11,6 @@ class StringLiteral
     @type = Type.STR
 
   length: ->
-    console.log @.value.lexeme.length - 2
     @.value.lexeme.length - 2
     
   optimize: ->

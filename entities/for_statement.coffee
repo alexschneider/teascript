@@ -33,15 +33,18 @@ class ForStatement
 
   optimize: ->
     iterations = @iterable.length()
-    if iterations < 1
-      return null 
+    newId = new VariableReference @id
+    iterableReference = new VariableReference {'lexeme':'dummy', 'kind':'ID'}
+    newId.referent = @id
     newBody = []
-    for i in [0...iterations - 1]
-      newIterable = new IterableItem @iterable, new IntegerLiteral {'lexeme': "#{i}", 'kind': 'INTLIT'}
-      newId = new VariableReference @id
-      newStatement = new VariableAssignment newId, newIterable
+    newBody.push new VariableAssignment iterableReference, @iterable
+    console.log @body
+    for i in [0...iterations]
+      newIntLit = new IntegerLiteral {'lexeme': "#{i}", 'kind': 'INTLIT'}
+      newIterableItem = new IterableItem iterableReference, newIntLit
+      newStatement = new VariableAssignment newId, newIterableItem
       newBody.push newStatement
-      newBody.concat @body.statements
+      newBody = newBody.concat @body.statements.map((s) -> s.optimize()).filter((s) -> s?)
     new Block newBody
 
 module.exports = ForStatement
