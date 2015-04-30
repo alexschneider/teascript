@@ -36,8 +36,7 @@ class FunctionInvocation
              (#{@args.length} given)"
     throw new CustomError error, location unless (@args.length is params.length)
 
-  optimize: ->
-    #TODO
+  optimize: -> this
 
   expression: true
 

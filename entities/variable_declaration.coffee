@@ -21,8 +21,7 @@ class VariableDeclaration
     @value.analyze context, @id.lexeme
     context.symbolTable[@id.lexeme].type = @value.type
 
-  optimize: ->
-    #TODO
+  optimize: -> this
 
   checkForNestedDeclarations: ->
     if @value instanceof VariableDeclaration

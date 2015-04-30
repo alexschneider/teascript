@@ -10,8 +10,7 @@ class IntegerLiteral
   analyze: (context) ->
     @type = Type.INT
 
-  optimize: ->
-    #TODO
+  optimize: -> this
 
   expression: true
 

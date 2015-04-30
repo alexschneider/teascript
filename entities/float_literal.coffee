@@ -9,8 +9,7 @@ class FloatLiteral
   analyze: (context) ->
     @type = Type.FLOAT
 
-  optimize: ->
-    # TODO
+  optimize: -> this
 
   expression: -> true
 

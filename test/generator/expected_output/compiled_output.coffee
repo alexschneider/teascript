@@ -12,6 +12,13 @@ class CompiledOutput
             var _v2 = ( ( 5 * 6 ) - _v1 );
             var _v3 = 5.5;
             var _v4 = ( ! true );
+            var _v5 = (function(lb, ub, skip) {
+                var buffer = [];
+                for ( var i = lb; i < ub; i+= skip ) {
+                    buffer.push( i );
+                }
+                return buffer;
+            })( 1, 10, 3 );
         }());
     }());'''
 
@@ -185,6 +192,61 @@ class CompiledOutput
     '''
 
   @program14 =
+    '''(function () {
+          (function () {
+              ( (function(lb, ub, skip) {
+                  var buffer = [];
+                  for( var i = lb; i < ub; i += skip ) {
+                      buffer.push( i );
+                  }
+                  return buffer;
+              })( 1, 10 - 1, 1)).forEach( function (_v1) {
+                              (function () {
+                      ( (function(lb, ub, skip) {
+                          var buffer = [];
+                          for( var i = lb; i < ub; i += skip ) {
+                              buffer.push( i );
+                          }
+                          return buffer;
+                      })(_v1, 10 - 1, 1)).forEach( function (_v2) {
+                                              (function () {
+                              return console.log( ( _v1 + _v2 ) );
+                          }());
+                      })
+                  }());
+              })
+              var _v3 = [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+              ];
+              (_v3).forEach( function (_v4) {
+                              (function () {
+                      console.log( "My number is " );
+                      return console.log( _v4 );
+                  }());
+              })
+              var _v5 = 0;
+              ( [
+                  5,
+                  4,
+                  3
+              ]).forEach( function (_v6) {
+                              (function () {
+                      return ( _v5 += 1 )
+                  }());
+              })
+              (["x","y","l","o","p","h","o","n","e"]).forEach( function (_v7) {
+                              (function () {
+                      return console.log( _v7 );
+                  }());
+              })
+          }());
+      }());'''
+
+  @program15 =
     '''(function () {
         (function () {
             var _v1 = (function () {

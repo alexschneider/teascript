@@ -2,6 +2,7 @@ _ = require 'underscore'
 HashMap = require('hashmap').HashMap
 BuiltIn = require '../entities/built_in_entities'
 ReturnStatement = require '../entities/return_statement'
+Type = require '../entities/type'
 
 map = null
 lastId = null
@@ -32,6 +33,16 @@ makeOp = (op) ->
 makeVariable = (v) ->
   map.set v, ++lastId unless map.has(v)
   '_v' + map.get v
+
+convertToArray = (obj) ->
+  if obj.type.name is Type.STR.name
+    stringToCharArray obj.value.lexeme[1..-2]
+  else
+    gen obj
+
+stringToCharArray = (str) ->
+  arrStr = '[' + (str.split('').map (arg) -> "\"#{arg}\"") + ']'
+
 
 gen = (e) ->
   generator[e.constructor.name](e)
@@ -79,8 +90,6 @@ generator =
     whileBuffer.join '\n'
 
   ReturnStatement: (s) ->
-    console.log s.value.expression
-    console.log s.value
     if s.value.expression
       emit "return #{gen s.value};"
     else
@@ -167,6 +176,25 @@ generator =
 
   TupleLiteral: (l) -> generator['ListLiteral'](l)
 
+  Range: (l) ->
+    rBuffer = []
+    lb = gen l.num1
+    ub = if l.op.lexeme is '...' then gen l.num2 else (gen l.num2).concat(' - 1')
+    skip = if l.skip then gen l.skip else 1
+
+    emit '(function(lb, ub, skip) {', rBuffer
+    indentLevel++
+    emit 'var buffer = [];', rBuffer
+    emit 'for ( var i = lb; i < ub; i += skip ) {', rBuffer
+    indentLevel++
+    emit 'buffer.push( i );', rBuffer
+    indentLevel--
+    emit '}', rBuffer
+    emit 'return buffer;', rBuffer
+    indentLevel--
+    emit "})( #{lb}, #{ub}, #{skip} )", rBuffer
+    rBuffer.join '\n'
+
   VariableReference: (v) -> makeVariable v.referent
 
   PreUnaryExpression: (e) ->
@@ -174,3 +202,14 @@ generator =
 
   BinaryExpression: (e) ->
     emit "( #{gen e.left} #{makeOp e.op.lexeme} #{gen e.right} )"
+
+  ForStatement: (s) ->
+    fsBuffer = []
+    iterable = convertToArray s.iterable
+    emit "(#{iterable}).forEach( function (#{makeVariable s.id}) {" , fsBuffer
+    indentLevel++
+    emit "#{gen s.body}", fsBuffer
+    indentLevel--
+    emit '})', fsBuffer
+    fsBuffer.join '\n'
+

@@ -1,3 +1,5 @@
+Type = require './type'
+
 class Range
   constructor: (@op, @num1, @num2, @skip) ->
 
@@ -8,6 +10,7 @@ class Range
     @num1.analyze context
     @num2.analyze context
     @skip.analyze context if @skip?
+    @type = Type.LIST
     @mustHaveIntegerOperands()
 
   mustHaveIntegerOperands: ->
