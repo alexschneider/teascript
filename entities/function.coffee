@@ -20,7 +20,10 @@ class Function
     @body.analyze localContext
 
   optimize: ->
-    #TODO
+    # We can't return null on an empty body because we might want a function
+    # to be a noop
+    @body = @body.optimize()
+
 
   expression: true
 

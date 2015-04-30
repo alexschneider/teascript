@@ -17,6 +17,10 @@ class WhileStatement
     @body.analyze context
 
   optimize: ->
-    # TODO
+    @condition = @condition.optimize()
+    @body = @body.optimize()
+    if not @body?
+      return null
+    this
 
 module.exports = WhileStatement

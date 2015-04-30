@@ -27,6 +27,9 @@ class ForStatement
                                                  EntityUtils.findLocation @iterable
 
   optimize: ->
-    # TODO
+    @body = @body.optimize()
+    if not @body?
+      return null
+    this
 
 module.exports = ForStatement

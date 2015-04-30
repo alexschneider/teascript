@@ -16,11 +16,26 @@ class ConditionalExpression
   analyze: (context) ->
     for [condition, body] in _.zip @conditions, @bodies
       localContext = context.createChildContext()
-      condition.analyze localContext if condition?
+      condition?.analyze localContext
       body.analyze localContext
 
   optimize: ->
-    # TODO
+    newConditions = []
+    newBodies = []
+    for [condition, body] in _.zip @conditions, @bodies
+      if not condition?
+        newBodies.push body
+        continue
+      condition = condition.optimize()
+      continue unless condition
+      body = body.optimize()
+      continue unless body?
+      newConditions.push condition
+      newBodies.push body
+
+    @conditions = newConditions
+    @bodies = newBodies
+    this
 
   expression: true
 
