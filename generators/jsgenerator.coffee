@@ -66,10 +66,7 @@ generator =
     indentLevel++
     blockBuffer.push gen statement for statement in block.statements[..-2]
     lastStatement = _.last block.statements
-    if lastStatement.expression?
-      blockBuffer.push gen new ReturnStatement lastStatement
-    else
-      blockBuffer.push gen lastStatement
+    blockBuffer.push gen new ReturnStatement lastStatement
     indentLevel--
     emit '}());', blockBuffer
     blockBuffer.join '\n'
@@ -182,7 +179,7 @@ generator =
     ub = if l.op.lexeme is '...' then gen l.num2 else (gen l.num2).concat(' - 1')
     skip = if l.skip then gen l.skip else 1
 
-    emit '(function(lb, ub, skip) {', rBuffer
+    emit '(function (lb, ub, skip) {', rBuffer
     indentLevel++
     emit 'var buffer = [];', rBuffer
     emit 'for ( var i = lb; i < ub; i += skip ) {', rBuffer
@@ -208,8 +205,8 @@ generator =
     iterable = convertToArray s.iterable
     emit "(#{iterable}).forEach( function (#{makeVariable s.id}) {" , fsBuffer
     indentLevel++
-    emit "#{gen s.body}", fsBuffer
+    fsBuffer.push gen s.body
     indentLevel--
-    emit '})', fsBuffer
+    emit '});', fsBuffer
     fsBuffer.join '\n'
 
