@@ -33,11 +33,15 @@ class ForStatement
 
   optimize: ->
     iterations = @iterable.length()
+
     newId = new VariableReference @id
-    iterableReference = new VariableReference {'lexeme':'dummy', 'kind':'ID'}
     newId.referent = @id
+
+    iterableReference = new VariableReference {'lexeme':'dummy', 'kind':'ID'}
+
     newBody = []
     newBody.push new VariableAssignment iterableReference, @iterable
+    
     console.log @body
     for i in [0...iterations]
       newIntLit = new IntegerLiteral {'lexeme': "#{i}", 'kind': 'INTLIT'}
