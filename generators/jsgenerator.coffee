@@ -43,6 +43,11 @@ convertToArray = (obj) ->
 stringToCharArray = (str) ->
   arrStr = '[' + (str.split('').map (arg) -> "\"#{arg}\"") + ']'
 
+returnIfNeeded = (entity) ->
+  if entity.expression
+    gen new ReturnStatement entity
+  else
+    gen entity
 
 gen = (e) ->
   generator[e.constructor.name](e)
@@ -66,7 +71,7 @@ generator =
     indentLevel++
     blockBuffer.push gen statement for statement in block.statements[..-2]
     lastStatement = _.last block.statements
-    blockBuffer.push gen new ReturnStatement lastStatement
+    blockBuffer.push returnIfNeeded lastStatement
     indentLevel--
     emit '}());', blockBuffer
     blockBuffer.join '\n'
@@ -98,7 +103,7 @@ generator =
     indentLevel++
     emit "if ( #{gen e.conditions[0]} ) {", conditionalBuffer
     indentLevel++
-    conditionalBuffer.push gen new ReturnStatement e.bodies[0]
+    conditionalBuffer.push returnIfNeeded e.bodies[0]
     indentLevel--
     for [condition, body] in _.zip e.conditions[1..], e.bodies[1..]
       if condition?
@@ -106,7 +111,7 @@ generator =
       else
         emit '} else {', conditionalBuffer
       indentLevel++
-      conditionalBuffer.push gen new ReturnStatement body
+      conditionalBuffer.push returnIfNeeded body
       indentLevel--
     emit '}', conditionalBuffer
     indentLevel--
@@ -117,7 +122,7 @@ generator =
     fc = []
     emit "function (#{(makeVariable param for param in func.params).join ', '}) {", fc
     indentLevel++
-    fc.push gen new ReturnStatement func.body
+    fc.push returnIfNeeded func.body
     indentLevel--
     emit '};', fc
     fc.join '\n'
@@ -209,4 +214,6 @@ generator =
     indentLevel--
     emit '});', fsBuffer
     fsBuffer.join '\n'
+
+
 
