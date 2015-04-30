@@ -6,8 +6,6 @@ Block = require '../entities/block'
 IntegerLiteral = require '../entities/integer_literal'
 VariableReference = require '../entities/variable_reference'
 
-
-
 class ForStatement
   constructor: (@id, @iterable, @body) ->
 
@@ -35,15 +33,15 @@ class ForStatement
 
   optimize: ->
     iterations = @iterable.length()
+    if iterations < 1
+      return null 
     newBody = []
     for i in [0...iterations - 1]
-      newIterable = new IterableItem @iterable, new IntegerLiteral i
-      console.log new IntegerLiteral i
+      newIterable = new IterableItem @iterable, new IntegerLiteral {'lexeme': "#{i}", 'kind': 'INTLIT'}
       newId = new VariableReference @id
       newStatement = new VariableAssignment newId, newIterable
       newBody.push newStatement
       newBody.concat @body.statements
-    #console.log JSON.stringify newBody
     new Block newBody
 
 module.exports = ForStatement
