@@ -9,7 +9,6 @@ class VariableReference
     @referent = context.lookupVariable @token
     @type = @referent.type
 
-  optimize: ->
-    #TODO
+  optimize: -> this
 
 module.exports = VariableReference

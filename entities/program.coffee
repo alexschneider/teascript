@@ -10,7 +10,8 @@ class Program
     @block.analyze initialContext()
 
   optimize: ->
-    # TODO
+    @block = @block.optimize()
+    this
 
   showSemanticGraph: ->
     # TODO

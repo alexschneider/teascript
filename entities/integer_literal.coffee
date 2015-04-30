@@ -10,7 +10,6 @@ class IntegerLiteral
   analyze: (context) ->
     @type = Type.INT
 
-  optimize: ->
-    #TODO
+  optimize: -> this
 
 module.exports = IntegerLiteral

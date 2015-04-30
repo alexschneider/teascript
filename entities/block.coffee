@@ -9,6 +9,6 @@ class Block
     statement.analyze(localContext) for statement in @statements
 
   optimize: ->
-    # TODO
-
+    @statements = @statements.map((s) -> s.optimize()).filter((s) -> s?)
+    this
 module.exports = Block

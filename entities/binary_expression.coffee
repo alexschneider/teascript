@@ -1,4 +1,6 @@
 Type = require './type'
+IntegerLiteral = require './integer_literal'
+BooleanLiteral = require './boolean_literal'
 
 class BinaryExpression
 
@@ -51,6 +53,32 @@ class BinaryExpression
     @left.type.mustBeMutuallyCompatibleWith @right.type, error, @op.lineNumber
 
   optimize: ->
-    #TODO
+    @left = @left.optimize()
+    @right = @right.optimize()
+    if @left instanceof IntegerLiteral and @right instanceof IntegerLiteral
+      return foldIntegerConstants @op.lexeme, +@left, +@right
+    else if @left instanceof BooleanLiteral and @right instanceof BooleanLiteral
+      return foldBooleanConstants @op.lexeme, @left, @right
+    this
+
+foldIntegerConstants = (op, x, y) ->
+  switch op
+    when '+' then new IntegerLiteral({lexeme: x + y})
+    when '-' then new IntegerLiteral({lexeme: x - y})
+    when '*' then new IntegerLiteral({lexeme: x * y})
+    when '/' then new IntegerLiteral({lexeme: x / y})
+    when '<' then new BooleanLiteral({lexeme: x < y})
+    when '<=' then new BooleanLiteral({lexeme: x <= y})
+    when 'is' then new BooleanLiteral({lexeme: x is y})
+    when 'isnt' then new BooleanLiteral({lexeme: x isnt y})
+    when '>=' then new BooleanLiteral({lexeme: x >= y})
+    when '>' then new BooleanLiteral({lexeme: x > y})
+
+foldBooleanConstants = (op, x, y) ->
+  switch op
+    when 'is' then new BooleanLiteral({lexeme:x is y})
+    when 'isnt' then new BooleanLiteral({lexeme:x isnt y})
+    when 'and' then new BooleanLiteral({lexeme:x and y})
+    when 'or' then new BooleanLiteral({lexeme:x or y})
 
 module.exports = BinaryExpression

@@ -29,6 +29,7 @@ scan argv._[0], (err, tokens) ->
       console.log "#{p}"
       return
     p.analyze()
+    p = p.optimize()
     if argv.a
       console.log JSON.stringify p, null, 2
       return
