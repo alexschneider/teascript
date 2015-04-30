@@ -14,6 +14,10 @@ class MapLiteral
     value.analyze(context) for value in @values
     @type = Type.MAP
 
+  length: ->
+    console.log @keys.length
+    @keys.length
+
   optimize: ->
     #TODO
 

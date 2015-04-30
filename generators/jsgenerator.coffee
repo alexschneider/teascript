@@ -115,6 +115,9 @@ generator =
     emit '};', fc
     fc.join '\n'
 
+  IterableItem: (item) ->
+    emit "#{gen item.iterable}[#{gen item.itemFinder}]"
+
   FunctionInvocation: (s) ->
     args = s.args.map (arg) -> gen arg
     if s.func.referent?.builtIn
