@@ -92,10 +92,7 @@ generator =
     whileBuffer.join '\n'
 
   ReturnStatement: (s) ->
-    if s.value.expression
-      emit "return #{gen s.value};"
-    else
-      gen s.value
+    emit "return #{gen s.value};"
 
   ConditionalExpression: (e) ->
     conditionalBuffer = []
