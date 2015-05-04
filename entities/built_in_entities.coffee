@@ -23,7 +23,7 @@ class BuiltInEntities
       type: Type.FUNC
       generateCode: (args) ->
         numberOfCalls = args[2]
-        result = ""
+        result = ''
         i = 0
         while i < numberOfCalls
           result += "#{args[0]} ("
@@ -31,9 +31,9 @@ class BuiltInEntities
         result += "#{args[1]}"
         j = 0
         while j < numberOfCalls
-          result += " )"
+          result += ' )'
           j++
-        result += ";"
+        result += ';'
 
     sqrt:
       builtIn: true
