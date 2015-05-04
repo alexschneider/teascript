@@ -14,7 +14,7 @@ class CompiledOutput
             var _v4 = ( ! true );
             var _v5 = (function(lb, ub, skip) {
                 var temp = [];
-                for(var i = lb; i < ub; i += skip ) {
+                for(var i = lb; i <= ub; i += skip ) {
                     temp.push(i);
                 }
                 return temp;
@@ -195,7 +195,7 @@ class CompiledOutput
           (function () {
               ( (function(lb, ub, skip) {
                   var temp = [];
-                  for(var i = lb; i < ub; i += skip ) {
+                  for(var i = lb; i <= ub; i += skip ) {
                       temp.push(i);
                   }
                   return temp;
@@ -203,7 +203,7 @@ class CompiledOutput
                               (function () {
                       ( (function(lb, ub, skip) {
                           var temp = [];
-                          for(var i = lb; i < ub; i += skip ) {
+                          for(var i = lb; i <= ub; i += skip ) {
                               temp.push(i);
                           }
                           return temp;

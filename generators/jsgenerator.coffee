@@ -2,13 +2,21 @@ _ = require 'underscore'
 HashMap = require('hashmap').HashMap
 BuiltIn = require '../entities/built_in_entities'
 Type = require '../entities/type'
+VariableReference = require '../entities/variable_reference'
 
 map = null
 lastId = null
+fakeVarCounter = 0
+
 module.exports = (program) ->
   map = new HashMap()
   lastId = 0
   gen program
+
+module.exports.makeFakeVariable = () ->
+  fakeVar = new VariableReference {'lexeme': "#{++fakeVarCounter}", 'kind':'ID'}
+  
+
 
 indentPadding = 4
 indentLevel = 0
@@ -178,7 +186,7 @@ generator =
     emit '(function(lb, ub, skip) {', rBuffer
     indentLevel++
     emit 'var temp = [];', rBuffer
-    emit 'for(var i = lb; i < ub; i += skip ) {', rBuffer
+    emit 'for(var i = lb; i <= ub; i += skip ) {', rBuffer
     indentLevel++
     emit 'temp.push(i);', rBuffer
     indentLevel--

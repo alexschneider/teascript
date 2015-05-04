@@ -22,4 +22,12 @@ class ConditionalExpression
   optimize: ->
     # TODO
 
+  hasStatement: (statement) ->
+    statementFound = false
+    blocks = ['Block', 'ConditionalExpression', 'ForStatement', 'WhileStatement']
+    for s in @bodies
+      statementFound = s.hasStatement(statement)
+      return true if statementFound
+    return false
+
 module.exports = ConditionalExpression

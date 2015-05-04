@@ -12,7 +12,6 @@ class SetLiteral
     @type = Type.SET
 
   length: ->
-    console.log @memebers.length
     @memebers.length
 
   optimize: ->
