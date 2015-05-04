@@ -10,4 +10,6 @@ class BooleanLiteral
 
   optimize: -> this
 
+  
+
 module.exports = BooleanLiteral

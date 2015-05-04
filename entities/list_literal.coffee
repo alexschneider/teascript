@@ -18,4 +18,6 @@ class ListLiteral
   optimize: ->
     #TODO
 
+  
+
 module.exports = ListLiteral

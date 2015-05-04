@@ -31,4 +31,6 @@ class Range
   optimize: ->
     @length()
 
+  
+
 module.exports = Range

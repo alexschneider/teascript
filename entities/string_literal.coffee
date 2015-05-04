@@ -16,4 +16,6 @@ class StringLiteral
   optimize: ->
     #TODO
 
+  
+
 module.exports = StringLiteral

@@ -14,4 +14,6 @@ class Object
   optimize: (context) ->
     # TODO
 
+  
+
 module.exports = Object

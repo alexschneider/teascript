@@ -11,4 +11,6 @@ class FloatLiteral
 
   optimize: -> this
 
+  expression: -> true
+
 module.exports = FloatLiteral

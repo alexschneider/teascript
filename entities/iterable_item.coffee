@@ -47,5 +47,7 @@ class IterableItem
   optimize: ->
     this
 
+  
+
 
 module.exports = IterableItem

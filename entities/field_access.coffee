@@ -45,4 +45,6 @@ class FieldAccess
   optimize: ->
     #TODO
 
+  
+
 module.exports = FieldAccess

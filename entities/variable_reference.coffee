@@ -11,4 +11,6 @@ class VariableReference
 
   optimize: -> this
 
+  
+
 module.exports = VariableReference

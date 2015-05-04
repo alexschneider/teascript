@@ -27,4 +27,6 @@ class PreUnaryExpression
     error = "#{@op.lexeme} must have boolean operand"
     @operand.type.mustBeCompatibleWith [Type.BOOL], error, @op.lineNumber
 
+  
+
 module.exports = PreUnaryExpression

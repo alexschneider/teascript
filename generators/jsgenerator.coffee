@@ -1,8 +1,10 @@
 _ = require 'underscore'
 HashMap = require('hashmap').HashMap
 BuiltIn = require '../entities/built_in_entities'
+ReturnStatement = require '../entities/return_statement'
 Type = require '../entities/type'
 VariableReference = require '../entities/variable_reference'
+expressionSet = require './expressions'
 
 map = null
 lastId = null
@@ -15,7 +17,7 @@ module.exports = (program) ->
 
 module.exports.makeFakeVariable = () ->
   fakeVar = new VariableReference {'lexeme': "#{++fakeVarCounter}", 'kind':'ID'}
-  
+
 
 
 indentPadding = 4
@@ -50,6 +52,11 @@ convertToArray = (obj) ->
 stringToCharArray = (str) ->
   arrStr = '[' + (str.split('').map (arg) -> "\"#{arg}\"") + ']'
 
+returnIfNeeded = (entity) ->
+  if expressionSet.has entity.constructor
+    gen new ReturnStatement entity
+  else
+    gen entity
 
 gen = (e) ->
   generator[e.constructor.name](e)
@@ -71,7 +78,9 @@ generator =
     blockBuffer = []
     emit '(function () {', blockBuffer
     indentLevel++
-    blockBuffer.push gen statement for statement in block.statements
+    blockBuffer.push gen statement for statement in block.statements[..-2]
+    lastStatement = _.last block.statements
+    blockBuffer.push returnIfNeeded lastStatement
     indentLevel--
     emit '}());', blockBuffer
     blockBuffer.join '\n'
@@ -91,23 +100,24 @@ generator =
     emit '}', whileBuffer
     whileBuffer.join '\n'
 
-  ReturnStatement: (s) -> emit "return #{gen s.value};"
+  ReturnStatement: (s) ->
+    emit "return #{gen s.value};"
 
   ConditionalExpression: (e) ->
     conditionalBuffer = []
     emit '(function () {', conditionalBuffer
     indentLevel++
-    emit "if (#{gen e.conditions[0]}) {", conditionalBuffer
+    emit "if ( #{gen e.conditions[0]} ) {", conditionalBuffer
     indentLevel++
-    emit "return #{gen e.bodies[0]}", conditionalBuffer
+    conditionalBuffer.push returnIfNeeded e.bodies[0]
     indentLevel--
     for [condition, body] in _.zip e.conditions[1..], e.bodies[1..]
       if condition?
-        emit "} else if (#{gen condition}) {", conditionalBuffer
+        emit "} else if ( #{gen condition} ) {", conditionalBuffer
       else
         emit '} else {', conditionalBuffer
       indentLevel++
-      emit "return #{gen body}", conditionalBuffer
+      conditionalBuffer.push returnIfNeeded body
       indentLevel--
     emit '}', conditionalBuffer
     indentLevel--
@@ -118,7 +128,7 @@ generator =
     fc = []
     emit "function (#{(makeVariable param for param in func.params).join ', '}) {", fc
     indentLevel++
-    emit "return #{gen func.body};", fc
+    fc.push returnIfNeeded func.body
     indentLevel--
     emit '};', fc
     fc.join '\n'
@@ -183,17 +193,17 @@ generator =
     ub = if l.op.lexeme is '...' then gen l.num2 else (gen l.num2).concat(' - 1')
     skip = if l.skip then gen l.skip else 1
 
-    emit '(function(lb, ub, skip) {', rBuffer
+    emit '(function (lb, ub, skip) {', rBuffer
     indentLevel++
     emit 'var temp = [];', rBuffer
     emit 'for(var i = lb; i <= ub; i += skip ) {', rBuffer
     indentLevel++
-    emit 'temp.push(i);', rBuffer
+    emit 'buffer.push( i );', rBuffer
     indentLevel--
     emit '}', rBuffer
-    emit 'return temp;', rBuffer
+    emit 'return buffer;', rBuffer
     indentLevel--
-    emit "})(#{lb}, #{ub}, #{skip})", rBuffer
+    emit "})( #{lb}, #{ub}, #{skip} )", rBuffer
     rBuffer.join '\n'
 
   VariableReference: (v) -> makeVariable v.referent
@@ -209,8 +219,10 @@ generator =
     iterable = convertToArray s.iterable
     emit "(#{iterable}).forEach( function (#{makeVariable s.id}) {" , fsBuffer
     indentLevel++
-    emit "#{gen s.body}", fsBuffer
+    fsBuffer.push gen s.body
     indentLevel--
-    emit '})', fsBuffer
+    emit '});', fsBuffer
     fsBuffer.join '\n'
+
+
 
