@@ -10,6 +10,9 @@ class StringLiteral
   analyze: (context) ->
     @type = Type.STR
 
+  length: ->
+    @.value.lexeme.length - 2
+    
   optimize: ->
     #TODO
 

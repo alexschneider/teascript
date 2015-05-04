@@ -45,7 +45,7 @@ class IterableItem
                                   EntityUtils.findLocation key
 
   optimize: ->
-    #TODO
+    this
 
   
 

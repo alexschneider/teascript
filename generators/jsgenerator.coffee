@@ -3,14 +3,22 @@ HashMap = require('hashmap').HashMap
 BuiltIn = require '../entities/built_in_entities'
 ReturnStatement = require '../entities/return_statement'
 Type = require '../entities/type'
+VariableReference = require '../entities/variable_reference'
 expressionSet = require './expressions'
 
 map = null
 lastId = null
+fakeVarCounter = 0
+
 module.exports = (program) ->
   map = new HashMap()
   lastId = 0
   gen program
+
+module.exports.makeFakeVariable = () ->
+  fakeVar = new VariableReference {'lexeme': "#{++fakeVarCounter}", 'kind':'ID'}
+
+
 
 indentPadding = 4
 indentLevel = 0
@@ -125,6 +133,9 @@ generator =
     emit '};', fc
     fc.join '\n'
 
+  IterableItem: (item) ->
+    emit "#{gen item.iterable}[#{gen item.itemFinder}]"
+
   FunctionInvocation: (s) ->
     args = s.args.map (arg) -> gen arg
     if s.func.referent?.builtIn
@@ -182,17 +193,17 @@ generator =
     ub = if l.op.lexeme is '...' then gen l.num2 else (gen l.num2).concat(' - 1')
     skip = if l.skip then gen l.skip else 1
 
-    emit '(function (lb, ub, skip) {', rBuffer
+    emit '(function(lb, ub, skip) {', rBuffer
     indentLevel++
     emit 'var buffer = [];', rBuffer
-    emit 'for ( var i = lb; i < ub; i += skip ) {', rBuffer
+    emit 'for(var i = lb; i <= ub; i += skip ) {', rBuffer
     indentLevel++
-    emit 'buffer.push( i );', rBuffer
+    emit 'buffer.push(i);', rBuffer
     indentLevel--
     emit '}', rBuffer
     emit 'return buffer;', rBuffer
     indentLevel--
-    emit "})( #{lb}, #{ub}, #{skip} )", rBuffer
+    emit "})( #{lb}, #{ub}, #{skip})", rBuffer
     rBuffer.join '\n'
 
   VariableReference: (v) -> makeVariable v.referent

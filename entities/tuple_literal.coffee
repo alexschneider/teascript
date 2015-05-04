@@ -11,6 +11,9 @@ class TupleLiteral
     element.analyze(context) for element in @elements
     @type = Type.TUPLE
 
+  length: ->
+    @elements.length
+
   optimize: ->
     #TODO
 

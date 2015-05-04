@@ -12,13 +12,13 @@ class CompiledOutput
             var _v2 = ( ( 5 * 6 ) - _v1 );
             var _v3 = 5.5;
             var _v4 = ( ! true );
-            var _v5 = (function (lb, ub, skip) {
+            var _v5 = (function(lb, ub, skip) {
                 var buffer = [];
-                for ( var i = lb; i < ub; i += skip ) {
-                    buffer.push( i );
+                for(var i = lb; i <= ub; i += skip ) {
+                    buffer.push(i);
                 }
                 return buffer;
-            })( 1, 10, 3 );
+            })( 1, 10, 3);
         }());
     }());'''
 
@@ -194,21 +194,21 @@ class CompiledOutput
   @program14 =
     '''(function () {
           (function () {
-              ( (function (lb, ub, skip) {
+              ( (function(lb, ub, skip) {
                   var buffer = [];
-                  for ( var i = lb; i < ub; i += skip ) {
-                      buffer.push( i );
+                  for(var i = lb; i <= ub; i += skip ) {
+                      buffer.push(i);
                   }
                   return buffer;
-              })( 1, 10 - 1, 1 )).forEach( function (_v1) {
+              })( 1, 10 - 1, 1)).forEach( function (_v1) {
                   (function () {
-                      ( (function (lb, ub, skip) {
+                      ( (function(lb, ub, skip) {
                           var buffer = [];
-                          for ( var i = lb; i < ub; i += skip ) {
-                              buffer.push( i );
+                          for(var i = lb; i <= ub; i += skip ) {
+                              buffer.push(i);
                           }
                           return buffer;
-                      })( _v1, 10 - 1, 1 )).forEach( function (_v2) {
+                      })( _v1, 10 - 1, 1)).forEach( function (_v2) {
                           (function () {
                               return console.log( ( _v1 + _v2 ) );
                           }());

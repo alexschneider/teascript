@@ -36,3 +36,13 @@ describe 'optimizing constant folding for boolean constants', ->
       program = generate program
       expect(program).to.eql expectedOutput.program03
       done()
+
+describe 'optimizing constant folding for boolean constants', ->
+  it 'outputs the correct javascript', (done) ->
+    scan "#{validTeascriptProgramsPath}/program04.tea", (err, tokens) ->
+      program = parse tokens
+      program.analyze()
+      program = program.optimize()
+      program = generate program
+      expect(program).to.eql expectedOutput.program04
+      done()

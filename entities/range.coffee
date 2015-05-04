@@ -1,4 +1,5 @@
 Type = require './type'
+generate = require '../generators/jsgenerator'
 
 class Range
   constructor: (@op, @num1, @num2, @skip) ->
@@ -19,8 +20,16 @@ class Range
     @num2.type.mustBeInteger(error, @op.lineNumber)
     @skip.type.mustBeInteger(error, @op.lineNumber) if @skip?
 
+  length: ->
+    lb = +@num1.lexeme.value
+    ub = if @op.lexeme is '...' then +@num2.lexeme.value else +@num2.lexeme.value - 1
+    skip = if @skip then +@skip else 1
+    console.log 'lb is ' + lb + ' and ub is ' + ub + ' and skip is ' + skip
+    console.log Math.floor (ub - lb + 1) / skip
+    Math.floor (ub - lb + 1) / skip
+
   optimize: ->
-    #TODO
+    @length()
 
   
 
