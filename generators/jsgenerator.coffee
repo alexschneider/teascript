@@ -193,17 +193,17 @@ generator =
     ub = if l.op.lexeme is '...' then gen l.num2 else (gen l.num2).concat(' - 1')
     skip = if l.skip then gen l.skip else 1
 
-    emit '(function (lb, ub, skip) {', rBuffer
+    emit '(function(lb, ub, skip) {', rBuffer
     indentLevel++
-    emit 'var temp = [];', rBuffer
+    emit 'var buffer = [];', rBuffer
     emit 'for(var i = lb; i <= ub; i += skip ) {', rBuffer
     indentLevel++
-    emit 'buffer.push( i );', rBuffer
+    emit 'buffer.push(i);', rBuffer
     indentLevel--
     emit '}', rBuffer
     emit 'return buffer;', rBuffer
     indentLevel--
-    emit "})( #{lb}, #{ub}, #{skip} )", rBuffer
+    emit "})( #{lb}, #{ub}, #{skip})", rBuffer
     rBuffer.join '\n'
 
   VariableReference: (v) -> makeVariable v.referent

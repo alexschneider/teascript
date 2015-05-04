@@ -42,16 +42,16 @@ class OptimizedOutput
     '''(function () {
         (function () {
             ( (function(lb, ub, skip) {
-                var temp = [];
+                var buffer = [];
                 for(var i = lb; i <= ub; i += skip ) {
-                    temp.push(i);
+                    buffer.push(i);
                 }
-                return temp;
+                return buffer;
             })( 1, 5, 1)).forEach( function (_v1) {
-                            (function () {
+                (function () {
                     (["a","b","c"]).forEach( function (_v2) {
-                                            (function () {
-                            (function () {
+                        (function () {
+                            return (function () {
                                 _v3 = "dog";
                                 _v4 = _v3[ 0];
                                 console.log( _v1 );
@@ -61,12 +61,12 @@ class OptimizedOutput
                                 console.log( _v2 );
                                 _v4 = _v3[ 2];
                                 console.log( _v1 );
-                                console.log( _v2 );
+                                return console.log( _v2 );
                             }());
                         }());
-                    })
+                    });
                 }());
-            })
+            });
         }());
     }());'''
 module.exports = OptimizedOutput
