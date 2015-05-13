@@ -2,7 +2,7 @@
 
 argv = require 'yargs'
   .usage '$0 [-t] [-a] [-u] filename'
-  .boolean ['t', 'a']
+  .boolean ['t', 's,', 'a', 'g', 'u']
   .describe 't', 'show tokens after scanning then stop'
   .describe 's', 'show abstract syntax tree after parsing then stop'
   .describe 'a', 'show analyzed program after parsing and then stop'
